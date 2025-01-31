@@ -1,20 +1,16 @@
-import React from "react";
-import { useSelector } from "react-redux";
-import { useGetQuestionsQuery } from "./redux/api";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Pages/Home/Home';
+import Login from './Pages/Login/Login';
 
 const App = () => {
-  const selectedLanguage = useSelector((state) => state.quiz.selectedLanguage);
-  const { data: questions, error, isLoading } = useGetQuestionsQuery(selectedLanguage);
-
-  if (isLoading) return <p>Загрузка...</p>;
-  if (error) return <p>Ошибка загрузки</p>;
-
   return (
-    <ul>
-      {questions.map((q) => (
-        <li key={q.id}>{q.text}</li>
-      ))}
-    </ul>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 };
 
