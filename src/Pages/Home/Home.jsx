@@ -1,6 +1,7 @@
 import React from 'react'
 import HeroBlock from './HeroBlock/HeroBlock'
 import Header from '../../UI/Header/Header'
+import HeroGreenting from "./HeroGreenting/HeroGreenting";
 
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
      <div>
      <Header/>
      <HeroBlock/>
+     <HeroGreenting/>
      </div>
   )
 }
