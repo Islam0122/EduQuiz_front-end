@@ -1,10 +1,11 @@
 import React from 'react'
-import Section1 from './'
+import './AboutUs.scss'
 
 const AboutUs = () => {
   return (
-    <Section1/>
-    
+    <section className='about-us'>
+      <h1 className='test'>test</h1>
+    </section>
   )
 }
 
