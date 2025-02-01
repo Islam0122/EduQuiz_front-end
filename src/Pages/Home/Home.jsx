@@ -1,5 +1,5 @@
 import React from 'react'
-import HeroBlock from './HeroBlock'
+import HeroBlock from './HeroBlock/HeroBlock'
 
 const Home = () => {
   return (

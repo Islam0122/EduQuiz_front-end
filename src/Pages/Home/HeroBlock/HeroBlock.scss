@@ -1,0 +1,57 @@
+
+.nusoiba {
+  background-color: #00FF66B2;
+  width: 816px;
+  height: 482px;
+  border-radius: 30px;
+  .HeroBlock1 {
+    width: 696px;
+
+  .HeroBlock2 {
+    width: 696px;
+    height: 110px;
+    padding-left: 60px;
+    margin-bottom: 27px;
+    padding-top: 54px;
+    color: rgba(86, 20, 147, 1);
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 55px;
+  }
+  .p {
+    color: rgba(13, 17, 23, 1);
+    padding-left: 60px;
+    margin-bottom: 27px ;
+    font-size: 21px;
+    font-weight: 600;
+    width: 600px;
+    height: 140px;
+    line-height: 35px;
+
+  }
+  .HeroButton {
+    display: flex;
+    gap: 27px;
+
+
+    .HeroBtn1 {
+      border: 1px solid rgba(86, 115, 227, 1);
+      border-radius: 12px;
+      margin-left: 60px ;
+      color: rgba(255, 255, 255, 1);
+      background-color: rgba(86, 20, 147, 1);
+      width: 250px;
+      height: 60px;
+    }
+    .HeroBtn2 {
+      border: 2px solid rgba(86, 20, 147, 1);
+      border-radius: 12px ;
+      color: rgba(86, 20, 147, 1);
+      background-color: #00FF66B2;
+      width: 250px;
+      height: 60px;
+
+    }
+  }
+  }
+}
