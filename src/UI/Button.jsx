@@ -1,10 +1,15 @@
 import React from 'react'
+import './Button.scss'
 
 const Button = () => {
   return (
-    <button>
+    <div>
 
+    <button>
+    
     </button>
+
+    </div>
   )
 }
 

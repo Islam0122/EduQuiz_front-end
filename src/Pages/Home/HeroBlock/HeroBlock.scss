@@ -1,6 +1,8 @@
 
 .nusoiba {
-  background-color: #00FF66B2;
+  margin-top: 77px;
+  margin-left: 100px;
+  background-color: #00FF66;
   width: 816px;
   height: 482px;
   border-radius: 30px;
@@ -24,7 +26,7 @@
     margin-bottom: 27px ;
     font-size: 21px;
     font-weight: 600;
-    width: 600px;
+    width: 696px;
     height: 140px;
     line-height: 35px;
 
@@ -35,21 +37,25 @@
 
 
     .HeroBtn1 {
+      font-size: 22px;
+      font-weight: 500;
       border: 1px solid rgba(86, 115, 227, 1);
       border-radius: 12px;
       margin-left: 60px ;
       color: rgba(255, 255, 255, 1);
       background-color: rgba(86, 20, 147, 1);
-      width: 250px;
-      height: 60px;
+      width: 294px;
+      height: 70px;
     }
     .HeroBtn2 {
+      font-size: 22px;
+      font-weight: 500;
       border: 2px solid rgba(86, 20, 147, 1);
       border-radius: 12px ;
       color: rgba(86, 20, 147, 1);
-      background-color: #00FF66B2;
-      width: 250px;
-      height: 60px;
+      background-color: #00FF66;
+      width: 294px;
+      height: 70px;
 
     }
   }
