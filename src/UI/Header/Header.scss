@@ -1,0 +1,23 @@
+.Header-container{
+    width: 1400px;
+    margin: auto;
+    padding: 20px;
+
+    p{
+        font-family: Open Sans;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 29.96px;
+    }
+    .Header-Botton{
+        width: 260px;
+        height: 46px;
+        border-radius: 10px;
+        background-color: #561493;
+        color: white;
+        font-family: Open Sans;
+        font-size: 22px;
+       font-weight: 400;
+       text-underline-position: from-font;
+    }
+}

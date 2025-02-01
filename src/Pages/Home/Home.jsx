@@ -1,9 +1,13 @@
 import React from 'react'
 import HeroBlock from './HeroBlock'
+import Header from '../../UI/Header/Header'
 
 const Home = () => {
   return (
-    <HeroBlock/>
+     <div>
+     <HeroBlock/>
+     <Header/>
+     </div>
   )
 }
 
