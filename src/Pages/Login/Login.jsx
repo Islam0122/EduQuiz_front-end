@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLoginMutation } from "../../redux/api";
-
+import './Login.scss'
 const Login = () => {
     const [password, setPassword] = useState(false);
     const [login, { isLoading, error }] = useLoginMutation();
@@ -30,12 +30,13 @@ const Login = () => {
         <div>
             <div className="container">
                 <form onSubmit={register}>
+                  <h4>Авторизация</h4>
                     <input type="text" name="username" placeholder="Email" required />
                     <input type={password ? "text" : "password"} name="password" placeholder="Password" required />
                     <p onClick={handlePassword} style={{ cursor: "pointer" }}>
                         {password ? "Скрыть пароль" : "Показать пароль"}
                     </p>
-                    <button type="submit" disabled={isLoading}>Авторизация</button>
+                    <button type="submit" disabled={isLoading}>Войти</button>
                 </form>
                 {error && <p style={{ color: "red" }}>Ошибка авторизации: {error?.data?.message || error?.message}</p>}
             </div>

@@ -6,11 +6,11 @@ import HeroGreenting from "./HeroGreenting/HeroGreenting";
 
 const Home = () => {
   return (
-     <div>
+     <>
      <Header/>
      <HeroBlock/>
      <HeroGreenting/>
-     </div>
+     </>
   )
 }
 
