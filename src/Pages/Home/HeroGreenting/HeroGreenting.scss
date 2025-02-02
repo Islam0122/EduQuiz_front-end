@@ -1,0 +1,45 @@
+.Greenting-container {
+    width: 1240px;
+    height: 456px;
+    margin: 70px auto;
+    .Greenting-flex {
+        display: flex;
+        gap: 16px;
+        .Greenting-images {
+            .Greenting-img {
+                width: 610px;
+                height: 460px;
+                object-fit: cover;
+            }
+        }
+        .Greenting-text {
+            margin-top: 15px;
+            width: 612px;
+            .text1 {
+                color: #00FF66CC;
+                margin-bottom: 20px;
+                font-size: 40px;
+                font-weight: 700;
+                line-height: 50px;
+            }
+            .text2 {
+                color: #FFFFFF;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 30px;
+            }
+            .text3 {
+                color: #FFFFFF;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 30px;
+                .highlight {
+                    color: #00ff99;
+                    font-weight: 500;
+                    font-size: 20px;
+                }
+            }
+        }
+
+    }
+}
