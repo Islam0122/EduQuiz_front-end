@@ -1,0 +1,52 @@
+.containerBlock3{
+    width: 1240px;
+    height: 800px;
+    margin: 0 auto;
+    h1{
+        font-size: 40px;
+        font-weight: 700;
+        text-align: center;
+        color: #00FF66CC;
+    }
+}
+.content{
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+.cards{
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.card {
+    width: 612px;
+    height: 140px;
+    border-radius: 20px;
+    border: 4px solid #561493;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-left: 20px;
+    margin-top: 16px;
+    color: white;
+    .text {
+        display: flex;
+        flex-direction: column;
+        gap: 4px; 
+    }
+}
+.card h3 {
+    font-family: Open Sans;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 40px;
+    letter-spacing: -0.40799999237060547px;
+    margin-bottom: 0;
+}
+.card p {
+    font-family: Open Sans;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;  
+    margin-top: 0; 
+}
