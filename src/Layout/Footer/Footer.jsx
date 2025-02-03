@@ -5,6 +5,7 @@ import { FaTelegram } from 'react-icons/fa';
 import { FiYoutube } from "react-icons/fi";
 import { AiFillTikTok } from "react-icons/ai";
 import './Footer.scss';
+import '../../App.scss'
 
 const Footer = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const Footer = () => {
 
   return (
     <footer>
+      <div className="container">
       <div className="Footerin">
         <div className="Footer-top">
           <div className="FooterTopIn">
@@ -66,6 +68,7 @@ const Footer = () => {
         <p>
           © 2025 ClubOfProgg. Система управления викторинами. Все права защищены.
         </p>
+      </div>
       </div>
     </footer>
   );

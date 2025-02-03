@@ -10,17 +10,21 @@ footer {
   position: relative;
   padding: 20px 0;
 
-  .Footerin {
+  .container {
+    width: 100%;
     max-width: 1240px;
+  }
+
+  .Footerin {
     width: 100%;
     display: flex;
     padding: 70px 0;
-}
+  }
 
   .Footer-top {
     width: 100%;
     display: flex;
-    justify-content: space-between ;
+    justify-content: space-between;
   }
 
   .icon-foot {
@@ -43,18 +47,44 @@ footer {
     }
   }
 
+  .Footer-nav {
+    display: flex;
+    flex-direction: column;
+    
+    h2 {
+      color: rgb(86, 20, 147);
+      font-size: 24px;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    p {
+      margin: 5px 0;
+
+      a {
+        text-decoration: none;
+        color: white;
+        font-family: 'Open Sans', sans-serif;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: rgb(86, 20, 147);
+        }
+      }
+    }
+
+    .active a {
+      color: rgb(86, 20, 147);
+      font-weight: bold;
+      text-decoration: underline;
+    }
+  }
+
   .contact {
     width: 373px;
     height: 154px;
     display: flex;
     flex-direction: column;
-
-    p {
-      color: white;
-      font-family: 'Open Sans', sans-serif;
-      font-size: 16px;
-      line-height: 24px;
-    }
 
     h1 {
       font-family: 'Poppins', sans-serif;
@@ -64,44 +94,31 @@ footer {
       font-weight: 600;
     }
 
-    .ic {
-      font-size: 30px;
+    p {
       color: white;
-      transition: color 0.3s ease-in-out;
-
-      &:hover {
-        color: rgb(86, 20, 147);
-      }
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      line-height: 24px;
     }
 
     .Lil-text {
       display: flex;
       gap: 10px;
-      width: 200px;
-
       align-items: center;
-    }
-  }
 
-  .Footer-nav{
-    h2{
-      color: rgb(86, 20, 147);
-        font-size: 24px;
-        margin: 0;
-      font-family: 'Poppins', sans-serif;
+      .ic {
+        font-size: 30px;
+        color: white;
+        transition: color 0.3s ease-in-out;
 
-    }
-    p{
-        a{
-            text-decoration: none;
-            color: white;
-            font-family: 'Open Sans', sans-serif;
+        &:hover {
+          color: rgb(86, 20, 147);
         }
+      }
     }
   }
 
   .Footer-bottom {
-    max-width: 1240px;
     width: 100%;
     border-top: 2px solid rgb(86, 20, 147);
     padding: 10px 0;

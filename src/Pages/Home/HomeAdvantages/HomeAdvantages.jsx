@@ -1,4 +1,5 @@
 import "./HomeAdvantages.scss";
+import '../../../App.scss'
 
 const cardsData = [
   {
@@ -25,8 +26,8 @@ const cardsData = [
 
 function HomeAdvantages() {
   return (
-    <section>
-      <div className="containerBlock3">
+    <section className="home__advantages">
+      <div className="container">
         <h1>Наше преимущество</h1>
         <div className="content">
           <img src="/images/Block3.png" alt="Преимущества" />
