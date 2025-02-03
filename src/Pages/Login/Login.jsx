@@ -3,28 +3,28 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../redux/api";
-import { setAuthData } from "../../redux/slices/authSlice"; // Импортируем Redux actions
+import { setAuthData } from "../../redux/slices/authSlice"; 
+
 import "./Login.scss";
 
 const Login = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { token } = useSelector((state) => state.auth); // Получаем токен из Redux
+    const { token } = useSelector((state) => state.auth); 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [login, { isLoading, error: apiError }] = useLoginMutation();
 
     useEffect(() => {
         if (token) {
-            navigate("/"); // Если токен есть, отправляем на главную
+            navigate("/"); 
         }
     }, [token, navigate]);
 
     const onSubmit = async (data) => {
         try {
             const response = await login(data).unwrap();
-            console.log("Успешная авторизация:", response);
 
-            dispatch(setAuthData({ token: response.access, user: response.user })); // Сохраняем в Redux
+            dispatch(setAuthData({ token: response.access, user: response.user })); 
         } catch (err) {
             console.error("Ошибка авторизации:", err?.data?.message || "Неизвестная ошибка");
         }
