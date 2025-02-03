@@ -1,15 +1,15 @@
 
-.nusoiba {
+.Greeting {
   margin-top: 77px;
   margin-left: 100px;
-  background-color: #00FF66;
+  background-color: #00FF66B1;
   width: 816px;
   height: 482px;
   border-radius: 30px;
-  .HeroBlock1 {
+  .greeting-description {
     width: 696px;
 
-  .HeroBlock2 {
+  .text-box {
     width: 696px;
     height: 110px;
     padding-left: 60px;
@@ -31,12 +31,12 @@
     line-height: 35px;
 
   }
-  .HeroButton {
+  .Button {
     display: flex;
     gap: 27px;
 
 
-    .HeroBtn1 {
+    .start-test {
       font-size: 22px;
       font-weight: 500;
       border: 1px solid rgba(86, 115, 227, 1);
@@ -47,13 +47,13 @@
       width: 294px;
       height: 70px;
     }
-    .HeroBtn2 {
+    .read-more  {
       font-size: 22px;
       font-weight: 500;
       border: 2px solid rgba(86, 20, 147, 1);
       border-radius: 12px ;
       color: rgba(86, 20, 147, 1);
-      background-color: #00FF66;
+      background-color: inherit;
       width: 294px;
       height: 70px;
 
