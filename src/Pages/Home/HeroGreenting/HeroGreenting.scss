@@ -1,10 +1,10 @@
-.Greenting-container {
-    width: 1240px;
-    height: 456px;
-    margin: 70px auto;
+.home__greenting {
+    padding: 80px 0 0 0;
+    
     .Greenting-flex {
         display: flex;
         gap: 16px;
+
         .Greenting-images {
             .Greenting-img {
                 width: 610px;
@@ -12,9 +12,12 @@
                 object-fit: cover;
             }
         }
+
         .Greenting-text {
             margin-top: 15px;
             width: 612px;
+            font-family: "Open Sans", sans-serif;
+
             .text1 {
                 color: #00FF66CC;
                 margin-bottom: 20px;
@@ -22,17 +25,16 @@
                 font-weight: 700;
                 line-height: 50px;
             }
-            .text2 {
-                color: #FFFFFF;
-                font-size: 20px;
-                font-weight: 500;
-                line-height: 30px;
-            }
+
+            .text2,
             .text3 {
                 color: #FFFFFF;
                 font-size: 20px;
                 font-weight: 500;
                 line-height: 30px;
+            }
+
+            .text3 {
                 .highlight {
                     color: #00ff99;
                     font-weight: 500;
@@ -40,6 +42,5 @@
                 }
             }
         }
-
     }
 }
