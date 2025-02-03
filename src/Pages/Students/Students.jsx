@@ -1,5 +1,5 @@
 import React from 'react'
-import Header from '../../UI/Header/Header'
+import Header from '../../Layout/Header/Header'
 
 const Students = () => {
   return (

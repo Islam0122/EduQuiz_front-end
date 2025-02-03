@@ -1,17 +1,24 @@
 import HeroBlock from './HeroBlock/HeroBlock'
-import Header from '../../UI/Header/Header'
 import Login from "../Login/Login";
 import HeroGreenting from "./HeroGreenting/HeroGreenting";
-import Footer from '../../UI/Footer/Footer'
+import Section3 from './HomeAdvantages/HomeAdvantages';
 
 const Home = () => {
   return (
+<<<<<<< HEAD
      <>
      <Header/>
      <HeroBlock/>
      <HeroGreenting/>
      <Footer/>
      </>
+=======
+     <div>
+     <HeroBlock/>
+     <HeroGreenting/>
+     <Section3/>
+     </div>
+>>>>>>> master
   )
 }
 
