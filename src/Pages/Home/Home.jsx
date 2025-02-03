@@ -5,11 +5,20 @@ import Section3 from './HomeAdvantages/HomeAdvantages';
 
 const Home = () => {
   return (
+<<<<<<< HEAD
+     <>
+     <Header/>
+     <HeroBlock/>
+     <HeroGreenting/>
+     <Footer/>
+     </>
+=======
      <div>
      <HeroBlock/>
      <HeroGreenting/>
      <Section3/>
      </div>
+>>>>>>> master
   )
 }
 

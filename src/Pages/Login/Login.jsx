@@ -1,43 +1,73 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoginMutation } from "../../redux/api";
+import { setAuthData } from "../../redux/slices/authSlice"; // Импортируем Redux actions
+import "./Login.scss";
 
 const Login = () => {
-    const [password, setPassword] = useState(false);
-    const [login, { isLoading, error }] = useLoginMutation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { token } = useSelector((state) => state.auth); // Получаем токен из Redux
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [login, { isLoading, error: apiError }] = useLoginMutation();
 
-    const handlePassword = () => {
-        setPassword(!password);
-    };
+    useEffect(() => {
+        if (token) {
+            navigate("/"); // Если токен есть, отправляем на главную
+        }
+    }, [token, navigate]);
 
-    const register = async (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const user = {
-            username: formData.get("username"),
-            password: formData.get("password"),
-        };
-        console.log(user)
-
+    const onSubmit = async (data) => {
         try {
-            const response = await login(user).unwrap();
+            const response = await login(data).unwrap();
             console.log("Успешная авторизация:", response);
+
+            dispatch(setAuthData({ token: response.access, user: response.user })); // Сохраняем в Redux
         } catch (err) {
-            console.error("Ошибка авторизации:", err?.data?.message || err?.message || "Неизвестная ошибка");
+            console.error("Ошибка авторизации:", err?.data?.message || "Неизвестная ошибка");
         }
     };
 
     return (
-        <div>
+        <div className="auth">
             <div className="container">
-                <form onSubmit={register}>
-                    <input type="text" name="username" placeholder="Email" required />
-                    <input type={password ? "text" : "password"} name="password" placeholder="Password" required />
-                    <p onClick={handlePassword} style={{ cursor: "pointer" }}>
-                        {password ? "Скрыть пароль" : "Показать пароль"}
-                    </p>
-                    <button type="submit" disabled={isLoading}>Авторизация</button>
+                <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+                    <h4>Войти в систему</h4>
+                    <div className="form-group">
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            className={errors.username ? "input-error" : ""}
+                            {...register("username", {
+                                required: "Поле Username обязательно.",
+                                minLength: { value: 5, message: "Минимум 5 символов." }
+                            })}
+                        />
+                        {errors.username && (
+                            <p className="error-message">{errors.username.message}</p>
+                        )}
+                    </div>
+                    <div className="form-group">
+                        <input
+                            type="password"
+                            placeholder="Password"
+                            className={errors.password ? "input-error" : ""}
+                            {...register("password", {
+                                required: "Поле Пароль обязательно.",
+                                minLength: { value: 5, message: "Минимум 5 символов." }
+                            })}
+                        />
+                        {errors.password && (
+                            <p className="error-message">{errors.password.message}</p>
+                        )}
+                    </div>
+                    <button type="submit" disabled={isLoading}>Войти</button>
+                    {apiError && (
+                        <p className="error-message">{apiError?.data?.message || "Ошибка. Попробуйте снова."}</p>
+                    )}
                 </form>
-                {error && <p style={{ color: "red" }}>Ошибка авторизации: {error?.data?.message || error?.message}</p>}
             </div>
         </div>
     );
