@@ -1,12 +1,90 @@
-form {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-left: 500px;
-    color: white;
-    input {
-        width: 200px;
-        height: 30px;
+.auth {
+  width: 100%;
+  max-width: 420px;
+  margin: 18vh auto;
+  padding: 40px;
+  background: #1b2330;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  border: 1px solid #2e3a4e;
+
+  h4 {
+    font-size: 26px;
+    margin-bottom: 22px;
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  .form-group {
+    height: 100px;
+    padding-bottom: 30px;
+  }
+
+  input {
+    width: 100%;
+    height: 34px;
+    font-size: 16px;
+    border: 2px solid #37475a;
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 18px;
+    background: #263245;
+    color: #ffffff;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+
+    &:focus {
+      border-color: #5078a0;
     }
+
+    &.input-error {
+      border-color: #e74c3c; /* Красная рамка при ошибке */
+    }
+  }
+
+  .error-message {
+    color: #e74c3c;  /* Красный цвет для текста ошибки */
+    font-size: 14px;
+    margin-top: 5px;
+    text-align: left;
+  }
+
+  .toggle-password {
+    font-size: 14px;
+    color: #5078a0;
+    cursor: pointer;
+    margin-top: 10px;
+    margin-bottom: 15px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  button {
+    width: 100%;
+    height: 46px;
+    font-size: 17px;
+    background: linear-gradient(135deg, #4169e1, #243b55);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+
+    &:hover {
+      background: linear-gradient(135deg, #3658c7, #1d2e45);
+    }
+
+    &:disabled {
+      background: #4a5e72;
+      cursor: not-allowed;
+    }
+  }
+}
+
+body {
+  background-color: #0d1117;
 }

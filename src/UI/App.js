@@ -1,13 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './Pages/Home/Home';
-import Login from './Pages/Login/Login';
-import AboutUs from './Pages/AboutUs/AboutUs'; 
-import "./index.css"
-import Quizzes from './Pages/Quizzes/Quizzes';
-import Students from './Pages/Students/Students';
-import Createaquiz from './Pages/Createaquiz/Createaquiz';
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';  
+import Home from '../Pages/Home/Home';
+import Login from '../Pages/Login/Login';
+import AboutUs from '../Pages/AboutUs/AboutUs';
+import Quizzes from '../Pages/Quizzes/Quizzes';
+import Students from '../Pages/Students/Students';
+import Createaquiz from '../Pages/Createaquiz/Createaquiz';
+import '../App.scss'
 
 const App = () => {
   return (
