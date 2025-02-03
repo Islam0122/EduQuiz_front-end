@@ -1,14 +1,16 @@
-import React from 'react'
 import HeroBlock from './HeroBlock/HeroBlock'
-import Header from '../../UI/Header/Header'
-
+import Login from "../Login/Login";
+import HeroGreenting from "./HeroGreenting/HeroGreenting";
+import Section3 from './HomeAdvantages/HomeAdvantages';
+import HomeAdvantages from './HomeAdvantages/HomeAdvantages';
 
 const Home = () => {
   return (
-     <div>
-     <Header/>
+     <>
      <HeroBlock/>
-     </div>
+     <HeroGreenting/>
+     <HomeAdvantages/>
+     </>
   )
 }
 

@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&family=Poppins:wght@400;600;700&display=swap');
+
+.Footer {
+    width: 1440px;
+    height: 401px;
+    margin: 0 auto;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border-top: 2px solid rgb(86, 20, 147);
+    background: rgb(13, 17, 23);
+    position: relative;
+
+    .Footerin {
+        width: 1240px;
+        height: 321px;
+        display: flex;
+
+        .Footer-top {
+            width: 1240px;
+            height: 214px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            .icon-foot {
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 300px;
+                height: 200px;
+                top: 50px;
+
+                img {
+                    width: 100%;
+                    height: 224.52px;
+                    position: absolute;
+                    left: 50px;
+                    object-fit: contain;
+                }
+
+                h1 {
+                    font-family: 'Poppins', sans-serif;
+                    color: rgba(0, 255, 102, 0.8);
+                    font-size: 50px;
+                    font-weight: 700;
+                    line-height: 60px;
+                    letter-spacing: 1%;
+                    text-align: left;
+                    position: absolute;
+                    bottom: 30px;
+                }
+            }
+
+            .contact {
+                width: 373px;
+                height: 154px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    color: white;
+                    text-align: center;
+                    font-family: 'Open Sans', sans-serif;
+                    font-size: 16px;
+                    line-height: 24px;
+                }
+
+                h1 {
+                    font-family: 'Poppins', sans-serif;
+                    color: rgb(86, 20, 147);
+                    font-size: 24px;
+                    font-weight: 600;
+                    text-align: center;
+                }
+
+                .ic {
+                    font-size: 30px;
+                    color: white;
+                    transition: color 0.3s ease-in-out;
+
+                    &:hover {
+                        color: rgb(86, 20, 147);
+                    }
+                }
+
+                .Lil-text {
+                    display: flex;
+                    gap: 10px;
+                    width: 200px;
+                    justify-content: center;
+                    align-items: center;
+                }
+            }
+
+            .Us {
+                max-width: 600px;
+                height: 214px;
+                position: absolute;
+                right: 30px;
+                h2 {
+                    font-family: 'Open Sans', sans-serif;
+                    color: white;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 0;
+                }
+
+                p {
+                    font-family: 'Roboto', sans-serif;
+                    color: rgba(0, 255, 102, 0.8);
+                    font-size: 14px;
+                    font-weight: 400;
+                }
+
+                .company {
+                    display: flex;
+                    gap: 20px;
+                    height: 40px;
+                    align-items: center;
+
+                    h1 {
+                        font-family: 'Poppins', sans-serif;
+                        font-size: 28px;
+                        color: rgba(0, 255, 102, 0.8);
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
+    }
+    .Footer-bottom {
+        width: 1240px;
+        height: 2px;
+        border-top: 2px solid rgb(86, 20, 147); 
+        padding: 10px 0; 
+        text-align: center;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    
+}
