@@ -70,7 +70,8 @@
     }
 
     input, button {
-      width: 100%;
+      width: 100%; /* Обеспечиваем одинаковую ширину для обоих элементов */
+      height: 50px; /* Фиксированная высота для обоих элементов */
       padding: 12px; /* Увеличиваем padding для улучшенной видимости */
       border: 1px solid #ddd;
       border-radius: 5px;
@@ -80,6 +81,7 @@
       outline: none;
       transition: all 0.3s;
       margin-bottom: 15px; /* Для отступа между элементами */
+      box-sizing: border-box; /* Чтобы padding и border учитывались в общем размере */
     }
 
     /* Кнопка */
