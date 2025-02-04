@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Header.scss'
+import '../../App.scss'
 
 
 const Header = () => {
@@ -13,10 +14,11 @@ const Header = () => {
   };
 
   return (
-    <div className='Header-container'>
+    <div className='container'>
      <div className='Header-block'>
         <div className='Header-logo'>
-            <img src="/icons/Logo (1).svg" alt="" />
+        <img src="/icons/Union.svg" alt="Logo" />
+        <h1>EDUQUIZ</h1>
         </div>
         <div className='Header-div-button-text'>
        <div className='Header-text'>
@@ -28,10 +30,10 @@ const Header = () => {
         <Link to="/home">Главная</Link>
       </p>
       <p
-        className={activeLink === '/Quizzes' ? 'active' : ''}
-        onClick={() => handleClick('/Quizzes')}
+        className={activeLink === '/Questions' ? 'active' : ''}
+        onClick={() => handleClick('/Questions')}
       >
-        <Link to="/Quizzes">Викторины</Link>
+        <Link to="/questions">Вопросы</Link>
       </p>
       <p
         className={activeLink === '/students' ? 'active' : ''}
