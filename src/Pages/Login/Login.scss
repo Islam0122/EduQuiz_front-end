@@ -1,10 +1,3 @@
-/* Общие стили для всех элементов */
-* {
-  box-sizing: border-box; /* Учитывает padding и border в общем размере */
-  margin: 0;
-  padding: 0;
-}
-
 /* Общие стили для фона */
 .auth {
   position: relative;
@@ -16,136 +9,132 @@
 
   /* Анимация появления формы */
   animation: fadeIn 1s ease-out;
-}
 
-/* Анимация для появления */
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-
-/* Размещение иконок технологий на фоне */
-.auth::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: contain;
-  filter: blur(10px);
-  opacity: 0.1;
-  z-index: -1;
-}
-
-/* Контейнер формы */
-.container {
-  max-width: 500px;
-  width: 100%;
-  background-color: #2e2e2e; /* Тёмный блок для формы */
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  animation: fadeInForm 0.8s ease-out;
-}
-
-/* Анимация для формы */
-@keyframes fadeInForm {
-  0% { transform: translateY(-50px); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
-}
-
-/* Заголовок */
-h4 {
-  font-family: 'Poppins', sans-serif;
-  text-align: center;
-  font-size: 16px;
-  color: #fff;
-  margin-bottom: 25px;
-  position: relative;
-  letter-spacing: 1px;
-  font-weight: 600;
-
-  /* Стили для первой строки */
-  & > :first-child {
-    font-size: 36px;
-    margin-bottom: 10px;
+  /* Размещение иконок технологий на фоне */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain;
+    filter: blur(10px);
+    opacity: 0.1;
+    z-index: -1;
   }
 
-  /* Стили для второй строки */
-  & > :last-child {
-    font-size: 24px;
-    color: #ff6347;
+  /* Контейнер формы */
+  .container {
+    max-width: 500px;
+    width: 100%;
+    background-color: #2e2e2e; /* Тёмный блок для формы */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeInForm 0.8s ease-out;
+
+    /* Анимация для формы */
+    @keyframes fadeInForm {
+      0% { transform: translateY(-50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Заголовок */
+    h4 {
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 25px;
+      position: relative;
+      letter-spacing: 1px;
+      font-weight: 600;
+
+      /* Стили для первой строки */
+      & > :first-child {
+        font-size: 36px;
+        margin-bottom: 10px;
+      }
+
+      /* Стили для второй строки */
+      & > :last-child {
+        font-size: 24px;
+        color: #ff6347;
+      }
+    }
+
+    /* Формы и поля ввода */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input, button {
+      width: 100%;
+      padding: 12px; /* Увеличиваем padding для улучшенной видимости */
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s;
+      margin-bottom: 15px; /* Для отступа между элементами */
+    }
+
+    /* Кнопка */
+    button {
+      background-color: #00ff00; /* Зелёный */
+      color: #0D1117;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #00cc00; /* Тёмно-зелёный при наведении */
+        color: white;
+      }
+
+      &:disabled {
+        background-color: #aaa;
+        cursor: not-allowed;
+      }
+    }
+
+    /* Входное поле (input) */
+    input:focus {
+      border-color: #00ff00; /* Зелёный при фокусе */
+      background-color: #444;
+    }
+
+    .input-error {
+      border-color: #ff4444; /* Красная рамка для ошибок */
+    }
+
+    .error-message {
+      color: #ff4444;
+      font-size: 15px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+    }
+
+    /* Кнопка регистрации */
+    .register-button {
+      display: block;
+      width: 100%;
+      text-align: center;
+      margin-top: 10px;
+      color: #00ff00;
+      text-decoration: none;
+      font-size: 14px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
-}
 
-/* Формы и поля ввода */
-.form-group {
-  margin-bottom: 20px;
-}
-
-input {
-  width: 100%;
-  padding: 12px; /* Увеличиваем padding для улучшенной видимости */
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #333;
-  color: white;
-  font-size: 16px;
-  outline: none;
-  transition: all 0.3s;
-}
-
-input:focus {
-  border-color: #00ff00; /* Зелёный при фокусе */
-  background-color: #444;
-}
-
-.input-error {
-  border-color: #ff4444; /* Красная рамка для ошибок */
-}
-
-.error-message {
-  color: #ff4444;
-  font-size: 15px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-}
-
-/* Кнопка */
-button {
-  width: 100%;
-  padding: 12px; /* Увеличиваем padding для кнопки */
-  background-color: #00ff00; /* Зелёный */
-  color: #0D1117;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #00cc00; /* Тёмно-зелёный при наведении */
-  color: white;
-}
-
-button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
-}
-
-/* Кнопка регистрации */
-.register-button {
-  display: block;
-  width: 100%;
-  text-align: center;
-  margin-top: 10px;
-  color: #00ff00;
-  text-decoration: none;
-  font-size: 14px;
-
-  &:hover {
-    text-decoration: underline;
+  /* Анимация для появления */
+  @keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
   }
 }
