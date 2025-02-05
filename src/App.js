@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { use } from 'react';
 import { Routes, Route } from 'react-router-dom';  
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
@@ -7,13 +7,19 @@ import Quizzes from './Pages/Quizzes/Quizzes';
 import Students from './Pages/Students/Students';
 import Createaquiz from './Pages/Createaquiz/Createaquiz';
 import Layout from './Layout/Layout';
+import { useLocation } from 'react-router-dom';
 
 const App = () => {
+
+  const location = useLocation();
+  const hideLayout = location.pathname === '/login'
+
   return (
       <Routes>
+        <Route path="login" element={<Login />} />
+        
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Home />} />
-          <Route path="login" element={<Login />} />
           <Route path="aboutUs" element={<AboutUs />} />
           <Route path="home" element={<Home />} />
           <Route path="quizzes" element={<Quizzes />} />

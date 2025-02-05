@@ -3,23 +3,19 @@ $border-color: #561493;
 $card-width: 612px;
 $card-height: 140px;
 
-.containerBlock3 {
-    width: 1240px;
-    height: 800px;
-    margin: 0 auto;
-
+.home__advantages {
+    padding: 80px 0;
     h1 {
         font-size: 40px;
         font-weight: 700;
         text-align: center;
         color: $primary-color;
+        font-family: "Open Sans", sans-serif;
     }
 
     .content {
         display: flex;
-        gap: 16px;
-        align-items: center;
-
+        justify-content: space-between;
         .cards {
             flex-wrap: wrap;
             gap: 16px;
