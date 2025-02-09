@@ -39,7 +39,7 @@ const Header = () => {
         className={activeLink === '/students' ? 'active' : ''}
         onClick={() => handleClick('/students')}
 >
-        <Link to="/students">Студенты</Link></p>
+        <Link to="/students">Группы</Link></p>
     </div>
        </div>
        <div>
