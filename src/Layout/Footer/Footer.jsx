@@ -66,7 +66,7 @@ const Footer = () => {
       </div>
       <div className="Footer-bottom">
         <p>
-          © 2025 ClubOfProgg. Система управления викторинами. Все права защищены.
+          © 2025 EduQuiz. Система управления викторинами. Все права защищены.
         </p>
       </div>
       </div>

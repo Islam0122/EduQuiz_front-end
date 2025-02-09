@@ -5,10 +5,8 @@
   }
 
   .Header-logo {
-    margin-left: 100px;
     align-items: center;
     img{
-
       width: 75px;
       margin-top: 20px;
       align-items: center;
@@ -46,6 +44,7 @@
   .Header-Botton {
       width: 260px;
       height: 46px;
+      border: none;
       border-radius: 10px;
       background-color: #561493;
       color: white;

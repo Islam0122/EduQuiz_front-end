@@ -1,63 +1,77 @@
+$primary-color: rgba(86, 20, 147, 1);
+$secondary-color: rgba(86, 115, 227, 1);
+$white-color: rgba(255, 255, 255, 1);
+$button-width: 294px;
+$button-height: 70px;
+$button-font-size: 22px;
+$button-font-weight: 500;
+$button-border-radius: 12px;
 
 .Greeting {
-  margin-top: 77px;
-  margin-left: 100px;
-  background-color: #00FF66B1;
-  width: 816px;
-  height: 482px;
-  border-radius: 30px;
+  display: flex;
+
   .greeting-description {
-    width: 696px;
+    margin-top: 100px;
+    border-radius: 30px;
+    background-color: rgba(0, 255, 102, 0.7);
+    width: 816px;
+    max-height: 462px;
+    padding: 60px ;
+    z-index: 1;
 
-  .text-box {
-    width: 696px;
-    height: 110px;
-    padding-left: 60px;
-    margin-bottom: 27px;
-    padding-top: 54px;
-    color: rgba(86, 20, 147, 1);
-    font-size: 45px;
-    font-weight: 700;
-    line-height: 55px;
-  }
-  .p {
-    color: rgba(13, 17, 23, 1);
-    padding-left: 60px;
-    margin-bottom: 27px ;
-    font-size: 21px;
-    font-weight: 600;
-    width: 696px;
-    height: 140px;
-    line-height: 35px;
-
-  }
-  .Button {
-    display: flex;
-    gap: 27px;
-
-
-    .start-test {
-      font-size: 22px;
-      font-weight: 500;
-      border: 1px solid rgba(86, 115, 227, 1);
-      border-radius: 12px;
-      margin-left: 60px ;
-      color: rgba(255, 255, 255, 1);
-      background-color: rgba(86, 20, 147, 1);
-      width: 294px;
-      height: 70px;
-    }
-    .read-more  {
-      font-size: 22px;
-      font-weight: 500;
-      border: 2px solid rgba(86, 20, 147, 1);
-      border-radius: 12px ;
+    .text-box {
+      width: 696px;
+      height: 110px;
+      font-family: Open Sans;
+      font-weight: 700;
+      font-size: 45px;
+      line-height: 55px;
+      letter-spacing: 0px;
       color: rgba(86, 20, 147, 1);
-      background-color: inherit;
-      width: 294px;
-      height: 70px;
-
     }
-  }
+
+    .p {
+      color: rgba(13, 17, 23, 1);
+      font-family: Open Sans;
+      font-weight: 600;
+      font-size: 21px;
+      line-height: 35px;
+      letter-spacing: 0px;
+    }
+
+    .Button {
+      display: flex;
+      margin-top: 20px;
+
+      .read-more {
+        font-size: $button-font-size;
+        font-weight: $button-font-weight;
+        border-radius: $button-border-radius;
+        width: $button-width;
+        height: $button-height;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+        border: 2px solid $primary-color;
+        color: $primary-color;
+        background-color: inherit;
+        margin-right: 27px;
+
+        &:hover {
+          background-color: $primary-color;
+          color: $white-color;
+          transform: scale(1.05);
+        }
+
+        &:active {
+          background-color: darken($primary-color, 10%);
+          transform: scale(0.95);
+        }
+
+        &.active {
+          background-color: $primary-color;
+          color: $white-color;
+        }
+      }
+    }
   }
 }

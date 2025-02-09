@@ -1,36 +1,41 @@
-
-/* Carousel.scss */
 .carousel {
-  position: relative;
-  width: 400px; /* Размер карусели */
-  height: 400px;
-  margin: 0 auto;
-  overflow: hidden;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 .carousel-container {
+  margin-top: 50px;
+  right: 50%;
   position: relative;
-  width: 100%;
-  height: 100%;
-  transform-origin: center; /* Вращение вокруг центра */
-  transition: transform 0.1s linear;
+  height: 800px;
+  transform-style: preserve-3d;
 }
 
 .carousel-item {
   position: absolute;
-  width: 40px;
-  height: 50px;
+  width: 194px;
+  height: 194px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.5s ease, box-shadow 0.3s ease;
+
+}
+
+.carousel-item:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  transform: scale(1.1);
 }
 
 .carousel-img {
-  width: 116px;
-  height: auto;
-  object-fit: contain;
-  margin-left: -120px;
+  width: 184px;
+  height: 184px;
+  transition: transform 0.3s ease;
+}
+
+.carousel-item:hover .carousel-img {
+  transform: rotate(15deg);
 }

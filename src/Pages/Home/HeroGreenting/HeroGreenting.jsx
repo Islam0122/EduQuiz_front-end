@@ -20,7 +20,7 @@ const HeroGreenting = () => {
                             времени на проверки и больше — на развитие своих учеников.
                         </p>
                         <p className="text3">
-                            С <span className="highlight">DevTrivia</span> тестирование становится
+                            С <span className="highlight">EduQuiz</span> тестирование становится
                             инструментом для прогресса, а не стрессом для учеников и
                             преподавателей.
                         </p>
