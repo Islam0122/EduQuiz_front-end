@@ -36,7 +36,7 @@ const Footer = () => {
               <Link to="/Quizzes">Викторины</Link>
             </p>
             <p className={activeLink === '/students' ? 'active' : ''} onClick={() => handleClick('/students')}>
-              <Link to="/students">Группы</Link>
+              <Link to="/groups">Группы</Link>
             </p>
             <p className={activeLink === '/createaquiz' ? 'active' : ''} onClick={() => handleClick('/createaquiz')}>
               <Link to="/createaquiz">Создать викторину</Link>

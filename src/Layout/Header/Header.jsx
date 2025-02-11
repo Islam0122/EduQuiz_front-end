@@ -24,10 +24,10 @@ const Header = () => {
        <div className='Header-text'>
        <div className='Header-text'>
       <p
-        className={activeLink === '/home' ? 'active' : ''}
-        onClick={() => handleClick('/home')}
+        className={activeLink === '/' ? 'active' : ''}
+        onClick={() => handleClick('/')}
       >
-        <Link to="/home">Главная</Link>
+        <Link to="/">Главная</Link>
       </p>
       <p
         className={activeLink === '/Questions' ? 'active' : ''}
@@ -36,10 +36,10 @@ const Header = () => {
         <Link to="/questions">Вопросы</Link>
       </p>
       <p
-        className={activeLink === '/students' ? 'active' : ''}
-        onClick={() => handleClick('/students')}
+        className={activeLink === '/groups' ? 'active' : ''}
+        onClick={() => handleClick('/groups')}
 >
-        <Link to="/students">Группы</Link></p>
+        <Link to="/groups">Группы</Link></p>
     </div>
        </div>
        <div>

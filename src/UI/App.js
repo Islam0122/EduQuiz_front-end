@@ -4,7 +4,7 @@ import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
 import AboutUs from '../Pages/AboutUs/AboutUs';
 import Quizzes from '../Pages/Quizzes/Quizzes';
-import Students from '../Pages/Students/Students';
+import Students from '../Pages/Groups/Students';
 import Createaquiz from '../Pages/Createaquiz/Createaquiz';
 import '../App.scss'
 
