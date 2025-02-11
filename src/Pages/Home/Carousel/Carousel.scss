@@ -5,17 +5,22 @@
 }
 
 .carousel-container {
-  margin-top: 50px;
-  right: 50%;
+  margin-top: 90px;
+  //left: 10%;;
+  margin-left: -390px;
+  border-radius: 50%;
   position: relative;
-  height: 800px;
+  width: 580px;
+  height: 580px;
   transform-style: preserve-3d;
+  border: red 1px solid;
+
 }
 
 .carousel-item {
   position: absolute;
-  width: 194px;
-  height: 194px;
+  //width: 174px;
+  //height: 174px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,8 +36,8 @@
 }
 
 .carousel-img {
-  width: 184px;
-  height: 184px;
+  width: 174px;
+  height: 174px;
   transition: transform 0.3s ease;
 }
 

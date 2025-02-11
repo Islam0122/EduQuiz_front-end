@@ -24,7 +24,7 @@ const Carousel = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setAngle((prev) => prev + 0.3);
-        }, 50); // Частота вращения
+        }, 20); // Частота вращения
         return () => clearInterval(interval);
     }, []);
 
