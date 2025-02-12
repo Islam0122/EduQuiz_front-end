@@ -1,16 +1,13 @@
-/* Общие стили для фона */
 .auth {
+  /* Общие стили для фона */
   position: relative;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-
-  /* Анимация появления формы */
   animation: fadeIn 1s ease-out;
 
-  /* Размещение иконок технологий на фоне */
   &::before {
     content: '';
     position: absolute;
@@ -18,7 +15,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: contain;
+    background-size: cover;
     filter: blur(10px);
     opacity: 0.1;
     z-index: -1;
@@ -26,96 +23,149 @@
 
   /* Контейнер формы */
   .container {
-    max-width: 500px;
-    width: 100%;
-    background-color: #2e2e2e; /* Тёмный блок для формы */
-    padding: 40px;
+    width: 413px;
+    padding: 90px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     animation: fadeInForm 0.8s ease-out;
 
-    /* Анимация для формы */
     @keyframes fadeInForm {
       0% { transform: translateY(-50px); opacity: 0; }
       100% { transform: translateY(0); opacity: 1; }
     }
 
-    /* Заголовок */
-    h4 {
-      font-family: 'Poppins', sans-serif;
+    /* Заголовки */
+    h2 {
+      font-family: Open Sans, serif;
+      font-weight: 700;
+      font-size: 36px;
+      line-height: 49.03px;
       text-align: center;
-      font-size: 16px;
-      color: #fff;
-      margin-bottom: 25px;
-      position: relative;
-      letter-spacing: 1px;
-      font-weight: 600;
-
-      /* Стили для первой строки */
-      & > :first-child {
-        font-size: 36px;
-        margin-bottom: 10px;
-      }
-
-      /* Стили для второй строки */
-      & > :last-child {
-        font-size: 24px;
-        color: #ff6347;
-      }
+      color: #00ff00;
+      margin-bottom: 16px;
+    }
+    h5 {
+      font-family: Open Sans, serif;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 24.51px;
+      text-align: center;
+      color: #FFFFFF;
     }
 
     /* Формы и поля ввода */
     .form-group {
-      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Центрируем элементы по горизонтали */
+      gap: 16px; /* Отступ между элементами */
     }
 
-    input, button {
-      width: 100%; /* Обеспечиваем одинаковую ширину для обоих элементов */
-      height: 50px; /* Фиксированная высота для обоих элементов */
-      padding: 12px; /* Увеличиваем padding для улучшенной видимости */
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: #333;
-      color: white;
+    input {
+      display: block;
+      width: 100%; /* Ширина 100% для поля ввода */
+      height: 46px; /* Одинаковая высота с кнопкой */
+      border-radius: 10px;
+      padding: 10px 20px;
+      border: 1px solid #FFFFFF;
+      background: #0D1117;
+      font-family: Open Sans, serif;
+      font-weight: 400;
       font-size: 16px;
-      outline: none;
-      transition: all 0.3s;
-      margin-bottom: 15px; /* Для отступа между элементами */
-      box-sizing: border-box; /* Чтобы padding и border учитывались в общем размере */
-    }
+      line-height: 18px;
+      color: #909090;
+      box-sizing: border-box; /* Добавляем box-sizing */
 
-    /* Кнопка */
-    button {
-      background-color: #00ff00; /* Зелёный */
-      color: #0D1117;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #00cc00; /* Тёмно-зелёный при наведении */
-        color: white;
-      }
-
-      &:disabled {
-        background-color: #aaa;
-        cursor: not-allowed;
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus,
+      &:-webkit-autofill:active {
+        -webkit-box-shadow: 0 0 0 1000px #0D1117 inset !important; /* Фон */
+        -webkit-text-fill-color: #909090 !important; /* Цвет текста */
+        transition: background-color 5000s ease-in-out 0s; /* Отключаем анимацию */
       }
     }
 
-    /* Входное поле (input) */
-    input:focus {
-      border-color: #00ff00; /* Зелёный при фокусе */
-      background-color: #444;
+    .password-input-container {
+      position: relative;
+      width: 100%;
+      height: 46px; /* Одинаковая высота с кнопкой */
+      padding: 10px;
+
+      input {
+        padding-right: 50px; /* Оставляем место для иконки */
+      }
+
+      .password-toggle-icon {
+        position: absolute;
+        top: 35px;
+        right: 30px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        font-size: 24px;
+        align-items: center;
+        color: #00ff00; /* Изменение цвета при наведении */
+        &:hover {
+          color: #00ff00; /* Изменение цвета при наведении */
+        }
+      }
     }
 
-    .input-error {
-      border-color: #ff4444; /* Красная рамка для ошибок */
-    }
-
+    /* Стили для ошибок */
     .error-message {
-      color: #ff4444;
-      font-size: 15px;
-      margin-top: 5px;
-      margin-bottom: 15px;
+      color: #ff4d4d;
+      font-family: Open Sans, serif;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 18px;
+      text-align: center;
+      margin-bottom: 20px;
+      background-color: rgba(255, 77, 77, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .forgot-password {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      p {
+        font-family: Open Sans;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16.34px;
+        text-align: center;
+        color: #AAAAAA;
+      }
+      a {
+        font-family: Open Sans;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16.34px;
+        text-align: center;
+        color: #00FF66CC;
+        text-decoration: none;
+      }
+    }
+
+    button {
+      width: 100%; /* Ширина 100% для поля ввода */
+      height: 46px; /* Одинаковая высота с полями ввода */
+      border-radius: 10px;
+      padding: 6px 30px;
+      background: #561493;
+      font-family: Open Sans, serif;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 34px;
+      color: #FFFFFF;
+      border: none;
+      text-align: center;
+      box-sizing: border-box; /* Добавляем box-sizing */
+      cursor: pointer; /* Добавляем курсор для интерактивности */
+      margin: 0 auto; /* Центрируем кнопку по горизонтали */
     }
   }
 
