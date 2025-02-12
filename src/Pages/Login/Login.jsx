@@ -37,10 +37,6 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="login-form">
             <h2>Войти в систему</h2>
             <h5>Введите логин и пароль выданный администрацией</h5>
-
-            {/* Глобальная ошибка */}
-            {errorMessage && <p className="error-message" role="alert">{errorMessage}</p>}
-
             <div className="form-group">
               <input
                   type="text"
@@ -75,9 +71,10 @@ const Login = () => {
                   <p className="error-message">
                     {errors.username?.message || errors.password?.message}
                   </p>
-              )}
+              )}{errorMessage && <p className="error-message" role="alert">{errorMessage}</p>}
 
-              <div className="forgot-password">
+
+                <div className="forgot-password">
                 <p className="text">Забыли логин/пароль?</p>
                 <a href="https://t.me/duishobaevislam01" className="admin-url">
                   написать администратору
