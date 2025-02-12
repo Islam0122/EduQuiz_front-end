@@ -5,7 +5,7 @@ const Groups = () => {
     return (
         <section className="Groups">
             <div className="container">
-                <h3 className='group-page-title'>Список групп</h3>
+                <h2 className='group-page-title'>Группы</h2>
                 <div className='groups'>
 
                 </div>

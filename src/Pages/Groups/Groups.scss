@@ -1,5 +1,13 @@
-.group-page-title {
-  font-size: 22px;
-  color: #b3ffb3; /* Светло-зеленый */
-  text-shadow: 1px 1px 4px rgba(0, 255, 0, 0.5);
+.Groups{
+  margin-top: 50px;
+
+  .group-page-title {
+    font-family: Open Sans, serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 50px;
+    letter-spacing: -0.41px;
+    color: #00FF66CC;
+  }
 }
+
