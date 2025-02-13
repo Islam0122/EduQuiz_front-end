@@ -9,12 +9,15 @@ $button-border-radius: 12px;
 
 .Greeting {
   display: flex;
+  margin-bottom: 50px;
+  height: 600px;
 
   .greeting-description {
+    position: absolute;
     margin-top: 100px;
     border-radius: 30px;
     background-color: rgba(0, 255, 102, 0.7);
-    width: 716px;
+    width: 650px;
     max-height: 422px;
     padding: 60px ;
     z-index: 1;

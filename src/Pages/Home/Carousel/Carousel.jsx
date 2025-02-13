@@ -24,7 +24,7 @@ const Carousel = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setAngle((prev) => prev + 0.3);
-        }, 20); // Частота вращения
+        }, 20);
         return () => clearInterval(interval);
     }, []);
 
@@ -39,7 +39,7 @@ const Carousel = () => {
                 {languages.map((lang, index) => {
                     const theta = (index / languages.length) * 2 * Math.PI;
                     const x = Math.cos(theta) * 300; // Радиус вращения
-                    const y = Math.sin(theta) * 300;
+                    const y = Math.sin(theta) *300;
 
                     return (
                         <div
