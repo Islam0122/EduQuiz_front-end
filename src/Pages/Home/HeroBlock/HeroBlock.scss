@@ -7,9 +7,14 @@ $button-font-size: 22px;
 $button-font-weight: 500;
 $button-border-radius: 12px;
 
+.hero-block{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: -150px;
+}
+
 .Greeting {
   display: flex;
-  margin-bottom: 50px;
   height: 600px;
 
   .greeting-description {
@@ -66,7 +71,7 @@ $button-border-radius: 12px;
         }
 
         &:active {
-          background-color: darken($primary-color, 10%);
+          background-color: $primary-color;
           transform: scale(0.95);
         }
 

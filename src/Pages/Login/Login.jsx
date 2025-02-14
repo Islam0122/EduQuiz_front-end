@@ -20,12 +20,18 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false); // Состояние для видимости пароля
 
   const onSubmit = async (data) => {
-    setErrorMessage("");
+    setErrorMessage(""); // Очистка ошибок перед отправкой
     try {
+      // Запрос на логин
       const response = await login(data).unwrap();
+
+      // Сохраняем полученные данные (токен) в глобальном состоянии
       dispatch(setAuthData({ token: response.access, user: data.username }));
+
+      // Перенаправление на главную страницу или другую страницу
       navigate("/");
     } catch (err) {
+      // Обработка ошибок
       const errorMsg = err?.data?.non_field_errors?.join(", ") || "Ошибка входа.";
       setErrorMessage(errorMsg);
     }

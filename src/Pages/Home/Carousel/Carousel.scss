@@ -1,24 +1,21 @@
 .carousel {
-  //position: absolute;
-  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  height: 800px;
+  overflow: hidden;
 }
 
 .carousel-container {
-  margin-top: -80px;
-  margin-left: 640px;
-  border-radius: 50%;
-  position: absolute;
-  //width: 600px;
-  height: 800px;
-  transform-style: preserve-3d;
+  width: 100%;
+  transform-style: preserve-3d; /* 3D-преобразования */
 }
 
 .carousel-item {
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.5s ease, box-shadow 0.3s ease;
-
+  box-sizing: border-box;
 }
+
 
 .carousel-item:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
@@ -26,8 +23,7 @@
 }
 
 .carousel-img {
-  width: 180px;
-  height: 180px;
+  width: 194px;
   transition: transform 0.3s ease;
 }
 
