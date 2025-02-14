@@ -1,16 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { quizApi } from "./api";
-import quizReducer from "./slices/quizSlice";
+import { groupApi } from "./groupApi";
 import authReducer from "./slices/authSlice";
+import {quizApi} from "./api";
 
 const store = configureStore({
   reducer: {
-    quiz: quizReducer,
-    auth: authReducer, // Добавляем в стор
+    auth: authReducer,
     [quizApi.reducerPath]: quizApi.reducer,
+    [groupApi.reducerPath]: groupApi.reducer, // Добавляем groupApi
   },
   middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(quizApi.middleware),
+      getDefaultMiddleware().concat(quizApi.middleware, groupApi.middleware),
 });
 
 export default store;
