@@ -1,6 +1,7 @@
 .container{
     margin: 0 auto;
-    width: 1240px;
+    max-width: 1240px;
+    overflow: hidden;
 }
 
 body {
