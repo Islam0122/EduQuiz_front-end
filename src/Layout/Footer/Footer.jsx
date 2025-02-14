@@ -29,13 +29,13 @@ const Footer = () => {
 
           <div className="Footer-nav">
             <h2>Навигация</h2>
-            <p className={activeLink === '/home' ? 'active' : ''} onClick={() => handleClick('/home')}>
-              <Link to="/home">Главная</Link>
+            <p className={activeLink === '/' ? 'active' : ''} onClick={() => handleClick('/')}>
+              <Link to="/">Главная</Link>
             </p>
             <p className={activeLink === '/Quizzes' ? 'active' : ''} onClick={() => handleClick('/Quizzes')}>
               <Link to="/Quizzes">Викторины</Link>
             </p>
-            <p className={activeLink === '/students' ? 'active' : ''} onClick={() => handleClick('/students')}>
+            <p className={activeLink === '/groups' ? 'active' : ''} onClick={() => handleClick('/groups')}>
               <Link to="/groups">Группы</Link>
             </p>
             <p className={activeLink === '/createaquiz' ? 'active' : ''} onClick={() => handleClick('/createaquiz')}>
