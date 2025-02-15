@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// Создание асинхронного экшена для выхода из системы
+// Асинхронный экшен для выхода из системы
 export const logoutUser = () => async (dispatch) => {
     try {
         const refreshToken = localStorage.getItem("refresh_token");
@@ -18,9 +18,15 @@ export const logoutUser = () => async (dispatch) => {
                 }
             );
         }
+
+        // Очистка токенов и состояния
         dispatch(logout());
     } catch (error) {
         console.error("Ошибка при выходе:", error);
+        // В случае ошибки очищаем токены
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        dispatch(logout());
     }
 };
 
@@ -35,7 +41,7 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             state.user = action.payload.user;
             localStorage.setItem("access_token", action.payload.token);
-            localStorage.setItem("refresh_token", action.payload.refreshToken); // Сохраняем refresh_token
+            localStorage.setItem("refresh_token", action.payload.refreshToken);
         },
         logout: (state) => {
             state.token = null;

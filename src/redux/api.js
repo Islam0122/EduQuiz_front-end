@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+// Базовый запрос с авторизацией
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_BASE_URL,
   prepareHeaders: (headers) => {
@@ -21,13 +22,13 @@ const refreshToken = async () => {
   try {
     const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}token/refresh/`, {
       method: "POST",
-      body: JSON.stringify({ refresh: refreshToken }), // ❗ Исправлено на 'refresh'
+      body: JSON.stringify({ refresh: refreshToken }),
       headers: { "Content-Type": "application/json" },
     });
 
     const data = await response.json();
-    localStorage.setItem("access_token", data.access);
-    return data.access; // возвращаем новый access_token
+    localStorage.setItem("access_token", data.access);  // Сохраняем новый access_token
+    return data.access;  // Возвращаем новый токен
   } catch (error) {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
@@ -35,7 +36,7 @@ const refreshToken = async () => {
   }
 };
 
-// Кастомный fetchBaseQuery с обработкой 401 ошибки
+// Кастомный базовый запрос с обработкой ошибки 401
 const customBaseQuery = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
@@ -43,12 +44,13 @@ const customBaseQuery = async (args, api, extraOptions) => {
     try {
       const newAccessToken = await refreshToken();
 
+      // Перезапрос с новым токеном
       result = await baseQuery(
           {
             ...args,
             headers: {
               ...args.headers,
-              Authorization: `Bearer ${newAccessToken}`, // Используем новый токен
+              Authorization: `Bearer ${newAccessToken}`,
             },
           },
           api,
@@ -62,6 +64,7 @@ const customBaseQuery = async (args, api, extraOptions) => {
   return result;
 };
 
+// Создание API с Redux Toolkit
 export const quizApi = createApi({
   reducerPath: "quizApi",
   baseQuery: customBaseQuery,
@@ -74,13 +77,26 @@ export const quizApi = createApi({
       }),
     }),
     logout: builder.mutation({
-      query: (refreshToken) => ({
-        url: "logout/",
-        method: "POST",
-        body: { refresh: refreshToken },
-      }),
+      query: () => {
+        const refreshToken = localStorage.getItem("refresh_token");
+        if (refreshToken) {
+          return {
+            url: "logout/",
+            method: "POST",
+            body: { refresh: refreshToken },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          };
+        }
+        return {
+          url: "logout/",
+          method: "POST",
+        };
+      },
     }),
   }),
 });
 
+// Экспорт хуков для работы с мутациями
 export const { useLoginMutation, useLogoutMutation } = quizApi;
