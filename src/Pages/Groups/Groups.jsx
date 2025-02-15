@@ -9,6 +9,7 @@ import {
 import logo from './group-icons/number1.svg';
 import logo2 from './group-icons/number2.svg';
 import { FaEdit, FaTimes, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ closeModal, createGroup }) => {
     const [groupName, setGroupName] = useState("");
@@ -102,14 +103,19 @@ const EditModal = ({ closeModal, updateGroup, group,refetch }) => {
     );
 };
 
-const GroupItem = ({ name, id, logoSrc, onDelete, onEdit }) => (
-    <div className="group-item">
-        <img src={logoSrc} alt="Логотип группы" />
-        <h1>{name}</h1>
-        <FaTrash className="delete-icon" onClick={() => onDelete(id, name)} />
-        <FaEdit className="edit-icon" onClick={() => onEdit({ id, name })} />
-    </div>
-);
+const GroupItem = ({ name, id, logoSrc, onDelete, onEdit }) => {
+    const navigate = useNavigate();
+
+    return (
+        <div onClick={() => navigate(`/groups/${id}`)} className="group-item">
+            <img src={logoSrc} alt="Логотип группы" />
+            <h1>{name}</h1>
+            <FaTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); onDelete(id, name); }} />
+            <FaEdit className="edit-icon" onClick={(e) => { e.stopPropagation(); onEdit({ id, name }); }} />
+        </div>
+    );
+};
+
 
 const Groups = () => {
     const { data: groups, error, isLoading, refetch } = useGetGroupsQuery();
