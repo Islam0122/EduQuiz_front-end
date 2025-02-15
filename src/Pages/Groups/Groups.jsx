@@ -159,17 +159,30 @@ const Groups = () => {
         setIsEditModalOpen(true);
     };
 
-    if (isLoading) return <p>Загрузка...</p>;
-    if (error) return <p>Ошибка загрузки групп</p>;
 
     return (
         <section className="Groups">
             <div className="container">
                 <h2 className="group-page-title">Группы</h2>
                 <div className="groups">
-                    {groups?.length ? (
+                    {isLoading ? (
+                        <div className="status-message loading">
+                            <p>⏳ Загрузка групп...</p>
+                        </div>
+                    ) : error ? (
+                        <div className="status-message error">
+                            <p>❌ Ошибка загрузки групп. Попробуйте еще раз.</p>
+                        </div>
+                    ) : groups?.length ? (
                         groups.map((group) => (
-                            <GroupItem key={group.id} name={group.name} id={group.id} logoSrc={logo} onDelete={handleDeleteClick} onEdit={handleEditClick} />
+                            <GroupItem
+                                key={group.id}
+                                name={group.name}
+                                id={group.id}
+                                logoSrc={logo}
+                                onDelete={handleDeleteClick}
+                                onEdit={handleEditClick}
+                            />
                         ))
                     ) : (
                         <div className="group-item add-group" onClick={() => setIsModalOpen(true)} style={isCreating ? { pointerEvents: "none", opacity: 0.5 } : {}}>

@@ -264,3 +264,21 @@
     }
   }
 }
+.status-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.status-message.loading {
+  color: white;
+}
+
+.status-message.error {
+  color: #d00;
+}
