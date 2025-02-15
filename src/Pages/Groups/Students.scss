@@ -1,3 +1,63 @@
-.group-detail-page{
-  color: white;
+.group-detail-page {
+  margin: 45px 0 30px 0;
+  color: #FFFFFF;
+  .container {
+    .group-detail-page-title {
+      .students-h1 {
+        color: #00FF66CC;
+        font-weight: 700;
+        font-size: 40px;
+        line-height: 50px;
+      }
+    }
+    .info-group-students {
+      .info-group {
+        margin-top: 20px;
+        width: 100%;
+        .students-h5 {
+          margin-bottom: 17px;
+          border-bottom: 2px solid #561493;
+          padding-bottom: 10px;
+          font-weight: 400;
+          font-size: 24px;
+          line-height: 32.68px;
+          .students-span {
+            font-weight: 700;
+            font-size: 28px;
+            line-height: 38.13px;
+            color: #00FF66CC;
+          }
+      }
+      }
+      .info-group-students-list {
+        .student-item {
+          width: 100%;
+          .students-h4 {
+            display: flex;
+            gap: 5px;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 24.51px;
+            border-bottom: 2px solid #909090;
+            p {
+              color: #909090CC;
+              height: 10px;
+            }
+            .students-span {
+              font-weight: 400;
+              font-size: 18px;
+              line-height: 24.51px;
+              &.active {
+                color: #008000;
+              }
+
+              &.inactive {
+                color: #909090;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
