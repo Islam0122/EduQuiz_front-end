@@ -1,19 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi} from "@reduxjs/toolkit/query/react";
+import {customBaseQuery} from "./api";
 
-const baseQuery = fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_API_BASE_URL, // Базовый URL из .env
-    prepareHeaders: (headers, { getState }) => {
-        const token = getState().auth.token; // Получаем токен из store
-        if (token) {
-            headers.set("Authorization", `Bearer ${token}`);
-        }
-        return headers;
-    },
-});
+
+
 
 export const groupApi = createApi({
     reducerPath: "groupApi",
-    baseQuery,
+    baseQuery: customBaseQuery,  // Используем кастомный базовый запрос
     endpoints: (builder) => ({
         getGroups: builder.query({
             query: () => "groups/",

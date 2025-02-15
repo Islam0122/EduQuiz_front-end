@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// Базовый запрос с авторизацией
-const baseQuery = fetchBaseQuery({
+// Базовый запрос с добавлением заголовков авторизации
+export const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_API_BASE_URL,
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("access_token");
@@ -13,7 +13,7 @@ const baseQuery = fetchBaseQuery({
 });
 
 // Функция для обновления токена
-const refreshToken = async () => {
+export const refreshToken = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
   if (!refreshToken) {
     throw new Error("Refresh token отсутствует");
@@ -27,17 +27,24 @@ const refreshToken = async () => {
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error("Ошибка обновления токена");
+    }
+
     localStorage.setItem("access_token", data.access);  // Сохраняем новый access_token
     return data.access;  // Возвращаем новый токен
   } catch (error) {
+    // Удаляем токены и перенаправляем на страницу входа
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
+    window.location.href = "/login";  // Перенаправляем на страницу логина
     throw new Error("Ошибка обновления токена");
   }
 };
 
 // Кастомный базовый запрос с обработкой ошибки 401
-const customBaseQuery = async (args, api, extraOptions) => {
+export const customBaseQuery = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
@@ -50,13 +57,14 @@ const customBaseQuery = async (args, api, extraOptions) => {
             ...args,
             headers: {
               ...args.headers,
-              Authorization: `Bearer ${newAccessToken}`,
+              Authorization: `Bearer ${newAccessToken}`,  // Добавляем новый токен
             },
           },
           api,
           extraOptions
       );
     } catch (error) {
+      // Если обновление токена не удалось, возвращаем ошибку
       return { error: { status: 401, message: "Ошибка обновления токена" } };
     }
   }
@@ -67,7 +75,7 @@ const customBaseQuery = async (args, api, extraOptions) => {
 // Создание API с Redux Toolkit
 export const quizApi = createApi({
   reducerPath: "quizApi",
-  baseQuery: customBaseQuery,
+  baseQuery: customBaseQuery,  // Используем кастомный базовый запрос
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (credentials) => ({
@@ -85,7 +93,7 @@ export const quizApi = createApi({
             method: "POST",
             body: { refresh: refreshToken },
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`, // Добавляем токен
             },
           };
         }
