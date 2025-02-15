@@ -8,30 +8,32 @@ const Students = () => {
     const { id } = useParams();
     const { data: group, error, isLoading, refetch } = useGetGroupByIdQuery(id);
 
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+
     return (
-        <div className="container">
-            <h1 className="students-h1">Студенты</h1>
+        <section className="group-detail-page">
+            <div className="container">
+                <div className="group-detail-page-title">
+                    <h1 className="students-h1">Студенты</h1>
+                </div>
+                <div className="info-group">
+                    <h5>Группа: {group.name}</h5>
+                </div>
+                <div className="info-group-students-list">
+                    <ul>
+                        {group.students.map((student) => (
+                            <li key={student.id} className="student-item">
+                                <span>{student.full_name}</span>
+                                <div className="student-actions">
 
-            {isLoading && <p className="loading">Загрузка...</p>}
-            {error && <p className="error">Ошибка загрузки данных</p>}
-
-            <div className="group-info">
-                {group && (
-                    <>
-                        <h2>{group.name}</h2>
-                        <img src={group.logoSrc} alt="Логотип группы" className="group-logo" />
-                    </>
-                )}
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
-
-            <div className="students-list">
-                {group?.students?.map(({ id, name }) => (
-                    <div key={id} className="student-item">
-                        <h3>{name}</h3>
-                    </div>
-                ))}
-            </div>
-        </div>
+        </section>
     );
 };
 
