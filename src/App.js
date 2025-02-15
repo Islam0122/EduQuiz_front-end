@@ -29,11 +29,11 @@ const App = () => {
                     <Route path="createaquiz" element={<Createaquiz />} />
                     <Route path="questions" element={<Questions />} />
                     <Route path="groups/:id" element={<Students />} />
-
                     {/* 404: редирект на главную или login */}
                     <Route path="*" element={<NotFound />} />
                 </Route>
             </Route>
+
         </Routes>
     );
 };

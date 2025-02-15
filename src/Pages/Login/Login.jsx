@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useLoginMutation } from "../../redux/api";
 import { setAuthData } from "../../redux/slices/authSlice";
-import { FaEye, FaEyeSlash } from "react-icons/fa"; // Импортируем иконки глаза
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Импортируем иконки
 import "./Login.scss";
 
 const Login = () => {
@@ -17,22 +17,28 @@ const Login = () => {
   } = useForm();
   const [login, { isLoading }] = useLoginMutation();
   const [errorMessage, setErrorMessage] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // Состояние для видимости пароля
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubmit = async (data) => {
-    setErrorMessage(""); // Очистка ошибок перед отправкой
+    setErrorMessage("");
+
     try {
-      // Запрос на логин
       const response = await login(data).unwrap();
+      dispatch(setAuthData({
+        token: response.access,
+        user: data.username,
+        refreshToken: response.refresh
+      }));
+      localStorage.setItem("username", data.username);
 
-      // Сохраняем полученные данные (токен) в глобальном состоянии
-      dispatch(setAuthData({ token: response.access, user: data.username }));
-
-      // Перенаправление на главную страницу или другую страницу
       navigate("/");
     } catch (err) {
-      // Обработка ошибок
-      const errorMsg = err?.data?.non_field_errors?.join(", ") || "Ошибка входа.";
+      let errorMsg = "Ошибка входа.";
+      if (err?.data) {
+        errorMsg = err.data.non_field_errors?.join(", ") ||
+            err.data.detail ||
+            "Неправильный логин или пароль.";
+      }
       setErrorMessage(errorMsg);
     }
   };
@@ -42,7 +48,8 @@ const Login = () => {
         <div className="container">
           <form onSubmit={handleSubmit(onSubmit)} className="login-form">
             <h2>Войти в систему</h2>
-            <h5>Введите логин и пароль выданный администрацией</h5>
+            <h5>Введите логин и пароль, выданные администрацией</h5>
+
             <div className="form-group">
               <input
                   type="text"
@@ -56,7 +63,7 @@ const Login = () => {
 
               <div className="password-input-container">
                 <input
-                    type={showPassword ? "text" : "password"} // Переключаем тип поля
+                    type={showPassword ? "text" : "password"}
                     placeholder="Пароль"
                     className={errors.password ? "input-error" : ""}
                     {...register("password", {
@@ -66,27 +73,28 @@ const Login = () => {
                 />
                 <span
                     className="password-toggle-icon"
-                    onClick={() => setShowPassword(!showPassword)} // Переключаем видимость пароля
+                    onClick={() => setShowPassword(!showPassword)}
                 >
-    {showPassword ? <FaEyeSlash /> : <FaEye />} {/* Иконка глаза */}
-  </span>
+                {showPassword ? <FaEyeSlash /> : <FaEye />}
+              </span>
               </div>
 
-              {/* Ошибки поля */}
+              {/* Ошибки ввода */}
               {(errors.username || errors.password) && !errorMessage && (
                   <p className="error-message">
                     {errors.username?.message || errors.password?.message}
                   </p>
-              )}{errorMessage && <p className="error-message" role="alert">{errorMessage}</p>}
+              )}
+              {errorMessage && <p className="error-message" role="alert">{errorMessage}</p>}
 
-
-                <div className="forgot-password">
+              <div className="forgot-password">
                 <p className="text">Забыли логин/пароль?</p>
                 <a href="https://t.me/duishobaevislam01" className="admin-url">
-                  написать администратору
+                  Написать администратору
                 </a>
               </div>
-              <button type="submit" disabled={isLoading}>
+
+              <button type="submit" disabled={isLoading} className={isLoading ? "loading" : ""}>
                 {isLoading ? "Загрузка..." : "Войти"}
               </button>
             </div>
