@@ -2,7 +2,7 @@ import React from "react";
 import "./Students.scss";
 import { useGetGroupByIdQuery } from "../../redux/groupApi";
 import { useParams } from "react-router-dom";
-import { FaTrash, FaEdit } from "react-icons/fa";
+// import { FaTrash, FaEdit } from "react-icons/fa";
 
 const Students = () => {
     const { id } = useParams();
@@ -17,20 +17,22 @@ const Students = () => {
                 <div className="group-detail-page-title">
                     <h1 className="students-h1">Студенты</h1>
                 </div>
-                <div className="info-group">
-                    <h5>Группа: {group.name}</h5>
-                </div>
-                <div className="info-group-students-list">
-                    <ul>
-                        {group.students.map((student) => (
-                            <li key={student.id} className="student-item">
-                                <span>{student.full_name}</span>
-                                <div className="student-actions">
-
-                                </div>
-                            </li>
+                <div className="info-group-students">
+                    <div className="info-group">
+                        <h5 className={"students-h5"}>Группа: <span className={"students-span"}>{group.name}</span> </h5>
+                    </div>
+                    <div className="info-group-students-list">
+                        {group?.students?.map((student) => (
+                            <div key={student.id} className="student-item">
+                                <h4 className={"students-h4"}>
+                                    {student.full_name}<p>|</p>{" "}
+                                    <span className={`students-span ${student.is_active ? "active" : "inactive"}`}>
+                                        {student.is_active ? "Активен" : "Неактивен"}
+                                    </span>
+                                </h4>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </section>
