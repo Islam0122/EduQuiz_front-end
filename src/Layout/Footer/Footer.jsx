@@ -32,8 +32,8 @@ const Footer = () => {
             <p className={activeLink === '/' ? 'active' : ''} onClick={() => handleClick('/')}>
               <Link to="/">Главная</Link>
             </p>
-            <p className={activeLink === '/Quizzes' ? 'active' : ''} onClick={() => handleClick('/Quizzes')}>
-              <Link to="/Quizzes">Викторины</Link>
+            <p className={activeLink === '/questions' ? 'active' : ''} onClick={() => handleClick('/questions')}>
+              <Link to="/questions">Вопросы</Link>
             </p>
             <p className={activeLink === '/groups' ? 'active' : ''} onClick={() => handleClick('/groups')}>
               <Link to="/groups">Группы</Link>
