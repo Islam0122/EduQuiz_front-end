@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './Questions.scss';
 import { useGetQuestionsQuery, useCreateQuestionMutation, useDeleteQuestionMutation, useUpdateQuestionMutation } from '../../redux/questionsApi';
 import { FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
@@ -85,19 +85,35 @@ const ConfirmDeleteModal = ({ closeModal, deleteQuestion, questionText }) => (
 
 
 const EditModal = ({ closeModal, updateQuestion, question, refetch }) => {
-  const [newText, setNewText] = useState(question.text);
-  const [error, setError] = useState('');
+  const [name, setName] = useState(question.name);
+  const [description, setDescription] = useState(question.description);
+  const [difficulty, setDifficulty] = useState(question.difficulty);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    setName(question.name);
+    setDescription(question.description);
+    setDifficulty(question.difficulty);
+  }, [question]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (newText.trim()) {
-      try {
-        await updateQuestion({ id: question.id, text: newText }).unwrap();
-        closeModal();
-        refetch();
-      } catch (err) {
-        setError('Ошибка при изменении вопроса. Попробуйте снова.');
-      }
+    if (!name.trim() || !description.trim()) {
+      setError("Все поля должны быть заполнены.");
+      return;
+    }
+
+    try {
+      await updateQuestion({
+        id: question.id,
+        name,
+        description,
+        difficulty
+      }).unwrap();
+      closeModal();
+      refetch();
+    } catch (err) {
+      setError("Ошибка при изменении вопроса. Попробуйте снова.");
     }
   };
 
@@ -109,10 +125,24 @@ const EditModal = ({ closeModal, updateQuestion, question, refetch }) => {
           </button>
           <h2>Редактировать вопрос</h2>
           <form onSubmit={handleSubmit}>
-                    <textarea
-                        value={newText}
-                        onChange={(e) => setNewText(e.target.value)}
-                    />
+            <input
+                type="text"
+                placeholder="Название вопроса"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+            />
+            <textarea
+                placeholder="Введите описание вопроса"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                required
+            />
+            <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)}>
+              <option value="easy">Легкий</option>
+              <option value="medium">Средний</option>
+              <option value="hard">Сложный</option>
+            </select>
             {error && <p className="error-message">{error}</p>}
             <button type="submit" className="add-button">Сохранить</button>
           </form>
@@ -121,16 +151,27 @@ const EditModal = ({ closeModal, updateQuestion, question, refetch }) => {
   );
 };
 
-
-const QuestionItem = ({ name, id, onDelete, onEdit }) => {
+const QuestionItem = ({ id, name, description, difficulty, onDelete, onEdit }) => {
   const navigate = useNavigate();
 
   return (
       <div onClick={() => navigate(`/questions/${id}`)} className="group-item">
         <img src={logo} alt="Логотип группы" />
         <h1>{name}</h1>
-        <FaTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); onDelete(id, name); }} />
-        <FaEdit className="edit-icon" onClick={(e) => { e.stopPropagation(); onEdit({ id, name }); }} />
+        <FaTrash
+            className="delete-icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(id, name);
+            }}
+        />
+        <FaEdit
+            className="edit-icon"
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit({ id, name, description, difficulty });
+            }}
+        />
       </div>
   );
 };
@@ -196,6 +237,8 @@ const Questions = () => {
                     <QuestionItem
                         key={question.id}
                         name={question.name}
+                        description={question.description}
+                        difficulty={question.difficulty}
                         id={question.id}
                         onDelete={handleDeleteClick}
                         onEdit={handleEditClick}
