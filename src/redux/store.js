@@ -3,6 +3,7 @@ import { groupApi } from "./groupApi";
 import authReducer from "./slices/authSlice";
 import {quizApi} from "./api";
 import {studentApi} from "./studentApi";
+import {questionsApi} from "./questionsApi";
 
 const store = configureStore({
   reducer: {
@@ -10,9 +11,11 @@ const store = configureStore({
     [quizApi.reducerPath]: quizApi.reducer,
     [groupApi.reducerPath]: groupApi.reducer,
     [studentApi.reducerPath]: studentApi.reducer,
+    [questionsApi.reducerPath]: questionsApi.reducer,
+
   },
   middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(quizApi.middleware, groupApi.middleware,studentApi.middleware,),
+      getDefaultMiddleware().concat(quizApi.middleware, groupApi.middleware,studentApi.middleware, questionsApi.middleware,),
 });
 
 export default store;
