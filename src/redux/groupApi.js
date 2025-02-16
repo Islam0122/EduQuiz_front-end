@@ -44,5 +44,3 @@ export const {
     useUpdateGroupMutation,
     useDeleteGroupMutation,
 } = groupApi;
-
-// export const studentApi = createApi({})
