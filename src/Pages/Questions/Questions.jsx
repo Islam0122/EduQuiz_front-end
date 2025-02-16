@@ -157,7 +157,7 @@ const QuestionItem = ({ id, name, description, difficulty, onDelete, onEdit }) =
   return (
       <div onClick={() => navigate(`/questions/${id}`)} className="group-item">
         <img src={logo} alt="Логотип группы" />
-        <h1>{name}</h1>
+        <h1>{name[0].toUpperCase() + name.slice(1)}</h1>
         <FaTrash
             className="delete-icon"
             onClick={(e) => {

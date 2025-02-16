@@ -1,0 +1,111 @@
+.questions_detail{
+  margin-top: 20px;
+  margin-bottom: 30px;
+  color: #FFFFFF;
+  .question_detail-info {
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    h2 {
+      font-size: 40px;
+      line-height: 50px;
+      margin-bottom: 10px;
+    }
+
+    .question-name {
+      color: #00FF66CC;
+    }
+
+    h4 {
+      margin: 0;
+      font-size: 24px;
+      line-height: 32.68px;
+      display: flex;
+      align-items: center; /* Выравнивание иконок и текста по вертикали */
+    }
+
+    h4 > svg {
+      margin-right: 8px; /* Отступ между иконкой и текстом */
+    }
+  }
+  .questions_detail-list {
+    .title {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      width: 100%;
+      border-bottom: 2px solid #561493;
+      font-size: 24px;
+      h5{
+        margin-bottom: 17px;
+        font-weight: 400;
+        line-height: 32.68px;
+        color: #00FF66CC;
+      }
+      h5:last-child{
+        color: #909090;
+        &:hover {
+          transform: scale(1.05);
+          cursor: pointer;
+        }      }
+    }
+    .list {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      .question_card{
+        border: 2px solid #909090;
+        border-radius: 10px;
+        padding: 20px;
+        padding-right: 50px;
+        margin-bottom: 20px;
+
+        p{
+          font-size: 18px;
+          line-height: 24.51px;
+          margin-bottom: 10px;
+          span{
+            margin-left: 10px;
+            color: #00FF66CC;
+          }
+        }
+        .question_content{
+          display: flex;
+          justify-content: start;
+          gap: 20px;
+          align-items: center;
+
+          img {
+            width: 157px;
+            height: 157px;
+            border-radius: 6px;
+            object-fit: cover;
+            margin: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border:none;
+                     }
+          .options{
+            width: 100%;
+            p:first-child{
+              font-size: 18px;
+              line-height: 24.51px;
+              border:none;
+            }
+            p{
+              font-size: 14px;
+              font-weight: 900;
+              border-bottom: 2px solid #561493;
+            }
+          }
+
+
+        }
+      }
+    }
+  }
+
+
+
+
+}
