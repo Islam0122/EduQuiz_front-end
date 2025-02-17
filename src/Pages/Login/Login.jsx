@@ -89,9 +89,9 @@ const Login = () => {
 
               <div className="forgot-password">
                 <p className="text">Забыли логин/пароль?</p>
-                <a href="https://t.me/duishobaevislam01" className="admin-url">
+                <p><a href="https://t.me/duishobaevislam01" className="admin-url">
                   Написать администратору
-                </a>
+                </a></p>
               </div>
 
               <button type="submit" disabled={isLoading} className={isLoading ? "loading" : ""}>

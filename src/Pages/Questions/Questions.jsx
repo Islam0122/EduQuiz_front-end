@@ -3,8 +3,10 @@ import './Questions.scss';
 import { useGetQuestionsQuery, useCreateQuestionMutation, useDeleteQuestionMutation, useUpdateQuestionMutation } from '../../redux/questionsApi';
 import { FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import logo from './questions-icons/number1.svg'; // Логотип вопроса
-import logo2 from './questions-icons/number2.svg'; // Логотип вопроса
+import logo from './questions-icons/number1.svg';
+import logo2 from './questions-icons/number2.svg';
+import {useSelector} from "react-redux";
+
 
 const Modal = ({ closeModal, createQuestion }) => {
   const [name, setName] = useState('');  // Для названия вопроса
@@ -151,27 +153,33 @@ const EditModal = ({ closeModal, updateQuestion, question, refetch }) => {
   );
 };
 
-const QuestionItem = ({ id, name, description, difficulty, onDelete, onEdit }) => {
+
+const QuestionItem = ({ id, name, description, difficulty, onDelete, onEdit, isAuthenticated }) => {
   const navigate = useNavigate();
 
   return (
       <div onClick={() => navigate(`/questions/${id}`)} className="group-item">
         <img src={logo} alt="Логотип группы" />
         <h1>{name[0].toUpperCase() + name.slice(1)}</h1>
-        <FaTrash
-            className="delete-icon"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete(id, name);
-            }}
-        />
-        <FaEdit
-            className="edit-icon"
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit({ id, name, description, difficulty });
-            }}
-        />
+
+        {isAuthenticated && (
+            <>
+              <FaTrash
+                  className="delete-icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(id, name);
+                  }}
+              />
+              <FaEdit
+                  className="edit-icon"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onEdit({ id, name, description, difficulty });
+                  }}
+              />
+            </>
+        )}
       </div>
   );
 };
@@ -187,6 +195,7 @@ const Questions = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [questionToEdit, setQuestionToEdit] = useState(null);
   const [updateQuestion] = useUpdateQuestionMutation();
+  const isAuthenticated = useSelector((state) => !!state.auth.token);
 
   const handleCreateQuestion = async (newQuestion) => {
     try {
@@ -242,6 +251,7 @@ const Questions = () => {
                         id={question.id}
                         onDelete={handleDeleteClick}
                         onEdit={handleEditClick}
+                        isAuthenticated={isAuthenticated}
                     />
                 ))
             ) : (
@@ -250,10 +260,12 @@ const Questions = () => {
                   <h1>Вопросы отсутствуют</h1>
                 </div>
             )}
-            <div className="group-item add-group" onClick={() => setIsModalOpen(true)}>
-              <img src={logo2} alt="Логотип добавления" />
-              <h1>Добавить вопрос</h1>
-            </div>
+            {isAuthenticated && (
+                <div className="group-item add-group" onClick={() => setIsModalOpen(true)}>
+                  <img src={logo2} alt="Логотип добавления" />
+                  <h1>Добавить вопрос</h1>
+                </div>
+            )}
           </div>
         </div>
 
