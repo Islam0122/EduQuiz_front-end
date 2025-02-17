@@ -28,6 +28,9 @@ const Header = () => {
                         <p className={location.pathname === '/' ? 'active' : ''}>
                             <Link to="/">Главная</Link>
                         </p>
+                        <p className={location.pathname === '/video' ? 'active' : ''}>
+                            <Link to="/">Видео-уроки</Link>
+                        </p>
                         <p className={location.pathname === '/questions' ? 'active' : ''}>
                             <Link to="/questions">Вопросы</Link>
                         </p>
