@@ -1,0 +1,49 @@
+.Video{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  .container{
+    .header{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      div:first-child{
+        h2{
+          font-weight: 700;
+          font-size: 46px;
+          line-height: 50px;
+          color: #00FF66CC;
+          margin-bottom: 20px;
+        }
+        p{
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 24.51px;
+          color: #FFFFFF;
+        }
+      }
+      img{
+        width: 400px;
+        height: 341px;
+      }
+
+    }
+  }
+}
+.status-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 150px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.status-message.loading {
+  color: white;
+}
+
+.status-message.error {
+  color: #d00;
+}

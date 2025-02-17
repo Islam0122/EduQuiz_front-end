@@ -29,7 +29,7 @@ const Header = () => {
                             <Link to="/">Главная</Link>
                         </p>
                         <p className={location.pathname === '/video' ? 'active' : ''}>
-                            <Link to="/">Видео-уроки</Link>
+                            <Link to="/video">Видео-уроки</Link>
                         </p>
                         <p className={location.pathname === '/questions' ? 'active' : ''}>
                             <Link to="/questions">Вопросы</Link>

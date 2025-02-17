@@ -9,6 +9,7 @@ import Groups from './Pages/Groups/Groups';
 import NotFound from "./Pages/NotFound/NotFound";
 import Students from "./Pages/Groups/Students";
 import QuestionsDetail from "./Pages/Questions/Questions_detail";
+import Video from "./Pages/Video/Video";
 
 const App = () => {
     return (
@@ -25,6 +26,7 @@ const App = () => {
                 <Route path="groups" element={<Groups />} />
                 <Route path="groups/:id" element={<Students />} />
 
+                <Route path="video" element={<Video />} />
                 {/* 404: редирект на главную или login */}
                 <Route path="*" element={<NotFound />} />
             </Route>
