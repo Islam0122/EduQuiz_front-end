@@ -117,29 +117,33 @@ const Students = () => {
                         <h4 className="students-h4" onClick={() => setAddModalOpen(true)}>+ Добавить студента</h4>
                     </div>
                     <div className="info-group-students-list">
-                        {studentsList.map((student) => (
-                            <div key={student.id} className="student-item">
-                                <div className="Student-info">
-                                    <h4 className="students-h4">{student.full_name}</h4>
-                                    <p>|</p>
-                                    <span
-                                        className={`students-span ${student.is_active ? "active" : "inactive"}`}
-                                        onClick={() => toggleActiveStatus(student)}
-                                        style={{cursor: "pointer"}}
-                                    >
-                                        {student.is_active ? "Активен" : "Неактивен"}
-                                    </span>
+                        {studentsList.length === 0 ? (
+                            <p onClick={() => setAddModalOpen(true)} className="no-students">Пока нет студентов</p>
+                        ) : (
+                            studentsList.map((student) => (
+                                <div key={student.id} className="student-item">
+                                    <div className="Student-info">
+                                        <h4 className="students-h4">{student.full_name}</h4>
+                                        <p>|</p>
+                                        <span
+                                            className={`students-span ${student.is_active ? "active" : "inactive"}`}
+                                            onClick={() => toggleActiveStatus(student)}
+                                            style={{ cursor: "pointer" }}
+                                        >
+                                            {student.is_active ? "Активен" : "Неактивен"}
+                                        </span>
+                                    </div>
+                                    <div className="Modalka">
+                                        <button className="Edit-button" onClick={() => handleEdit(student)}>
+                                            <FaEdit className="Edit-icon" />
+                                        </button>
+                                        <button className="Delete-button" onClick={() => handleDeleteConfirm(student)}>
+                                            <MdOutlineDelete className="Delete-icon" />
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="Modalka">
-                                    <button className="Edit-button" onClick={() => handleEdit(student)}>
-                                        <FaEdit className="Edit-icon"/>
-                                    </button>
-                                    <button className="Delete-button" onClick={() => handleDeleteConfirm(student)}>
-                                        <MdOutlineDelete className="Delete-icon"/>
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
+                            ))
+                        )}
                     </div>
                 </div>
                 {addModalOpen && (
