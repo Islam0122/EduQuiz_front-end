@@ -10,6 +10,8 @@ import logo from './group-icons/number1.svg';
 import logo2 from './group-icons/number2.svg';
 import { FaEdit, FaTimes, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import {useSelector} from "react-redux";
+
 
 const Modal = ({ closeModal, createGroup }) => {
     const [groupName, setGroupName] = useState("");
@@ -49,6 +51,7 @@ const Modal = ({ closeModal, createGroup }) => {
     );
 };
 
+
 const ConfirmDeleteModal = ({ closeModal, deleteGroup, groupName }) => (
     <div className="modal-overlay">
         <div className="modal">
@@ -64,6 +67,7 @@ const ConfirmDeleteModal = ({ closeModal, deleteGroup, groupName }) => (
         </div>
     </div>
 );
+
 
 const EditModal = ({ closeModal, updateGroup, group,refetch }) => {
     const [newName, setNewName] = useState(group.name);
@@ -103,15 +107,20 @@ const EditModal = ({ closeModal, updateGroup, group,refetch }) => {
     );
 };
 
-const GroupItem = ({ name, id, logoSrc, onDelete, onEdit }) => {
+
+const GroupItem = ({ name, id, logoSrc, onDelete, onEdit,isAuthenticated }) => {
     const navigate = useNavigate();
 
     return (
         <div onClick={() => navigate(`/groups/${id}`)} className="group-item">
             <img src={logoSrc} alt="Логотип группы" />
             <h1>{name}</h1>
-            <FaTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); onDelete(id, name); }} />
-            <FaEdit className="edit-icon" onClick={(e) => { e.stopPropagation(); onEdit({ id, name }); }} />
+            {isAuthenticated && (
+                <>
+                <FaTrash className="delete-icon" onClick={(e) => { e.stopPropagation(); onDelete(id, name); }} />
+                <FaEdit className="edit-icon" onClick={(e) => { e.stopPropagation(); onEdit({ id, name }); }} />
+                </>
+            )}
         </div>
     );
 };
@@ -127,6 +136,8 @@ const Groups = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [groupToEdit, setGroupToEdit] = useState(null);
     const [updateGroup] = useUpdateGroupMutation();
+    const isAuthenticated = useSelector((state) => !!state.auth.token);
+
 
     const handleCreateGroup = async (newGroup) => {
         try {
@@ -182,6 +193,7 @@ const Groups = () => {
                                 logoSrc={logo}
                                 onDelete={handleDeleteClick}
                                 onEdit={handleEditClick}
+                                isAuthenticated={isAuthenticated}
                             />
                         ))
                     ) : (
@@ -190,10 +202,13 @@ const Groups = () => {
                             <h1>Группы отсутствуют</h1>
                         </div>
                     )}
-                    <div className="group-item add-group" onClick={() => setIsModalOpen(true)} style={isCreating ? { pointerEvents: "none", opacity: 0.5 } : {}}>
-                        <img src={logo2} alt="Логотип добавления" />
-                        <h1>Добавить группу</h1>
-                    </div>
+                    {isAuthenticated && (
+                        <div className="group-item add-group" onClick={() => setIsModalOpen(true)} style={isCreating ? { pointerEvents: "none", opacity: 0.5 } : {}}>
+                            <img src={logo2} alt="Логотип добавления" />
+                            <h1>Добавить группу</h1>
+                        </div>
+
+                    )}
                 </div>
             </div>
 
