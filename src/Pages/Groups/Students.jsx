@@ -5,6 +5,7 @@ import { useCreateStudentMutation, useDeleteStudentMutation, useUpdateStudentMut
 import { useParams } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Students = () => {
     const { id } = useParams();
@@ -47,7 +48,7 @@ const Students = () => {
         try {
             const newStudent = await addStudent({ group: id, full_name: newStudentName }).unwrap();
             setStudentsList((prev) => [...prev, newStudent]);
-            handleAddModalClose();
+            handleAddModalClose(true);
         } catch {
             setErrorMessage("Ошибка при добавлении студента. Попробуйте снова.");
         }
@@ -87,7 +88,7 @@ const Students = () => {
     };
 
     const handleAddModalClose = () => {
-        setAddModalOpen(true);
+        setAddModalOpen(false);
         setNewStudentName("");
         setErrorMessage("");
     };
@@ -141,9 +142,10 @@ const Students = () => {
                         ))}
                     </div>
                 </div>
-                {setAddModalOpen && (
+                {addModalOpen && (
                     <div className="modal-overlay3">
                         <div className="modal">
+                            <button className="close-button" onClick={handleAddModalClose}><AiOutlineClose /></button>
                             <div className="modal-content">
                                 <h2>Добавить студента</h2>
                                 <form onSubmit={handleAddStudentSubmit}>
@@ -155,7 +157,6 @@ const Students = () => {
                                     />
                                     {errorMessage && <p className="error-message">{errorMessage}</p>}
                                     <div className="modal-buttons">
-                                        <button className="btn1" type="button" onClick={handleAddModalClose}>Отмена</button>
                                         <button type="submit" className="btn2">Добавить</button>
                                     </div>
                                 </form>
@@ -167,6 +168,7 @@ const Students = () => {
                 {editModalOpen && (
                     <div className="modal-overlay2">
                         <div className="modal">
+                            <button className="close-button" onClick={handleEditModalClose}><AiOutlineClose /></button>
                             <div className="modal-content">
                                 <h2>Редактировать студента</h2>
                                 <input
@@ -185,11 +187,12 @@ const Students = () => {
                 {deleteModalOpen && (
                     <div className="modal-overlay1">
                         <div className="modal">
+                            <button className="close-button" onClick={handleDeleteModalClose}><AiOutlineClose /></button>
                             <div className="modal-content">
                                 <p>Вы уверены, что хотите удалить {currentStudent?.full_name}?</p>
                                 <div className="modal-buttons">
-                                    <button className="cancel-button" onClick={handleDeleteModalClose}>Отмена</button>
                                     <button className="delete-button" onClick={handleDeleteStudent}>Удалить</button>
+                                    <button className="cancel-button" onClick={handleDeleteModalClose}>Отмена</button>
                                 </div>
                             </div>
                         </div>
