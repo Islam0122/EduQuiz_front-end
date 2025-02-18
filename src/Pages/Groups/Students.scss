@@ -381,3 +381,157 @@
     }
   }
 }
+.modal-overlay5 {
+  position: fixed;
+  inset: 0; /* Эквивалент top: 0; left: 0; width: 100%; height: 100%; */
+  background: rgba(0, 0, 0, 0.8); /* Полупрозрачный черный фон */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  .modal {
+    background: #0D1117;
+    width: 500px;
+    border-radius: 19px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    position: relative;
+    transform: scale(0.9);
+    color: white;
+
+    h2 {
+      font-weight: 600;
+      font-size: 37px;
+      line-height: 49px;
+      text-align: center;
+      color: #00ff00;
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: rgba(144, 144, 144, 1);
+      font-size: 19px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    select {
+      display: block;
+      width: 100%;
+      height: 46px;
+      border-radius: 10px;
+      padding: 10px 20px;
+      border: 1px solid #FFFFFF;
+      background: #0D1117;
+      font-family: "Open Sans", sans-serif;
+      font-size: 16px;
+      line-height: 18px;
+      color: #909090;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      transition: border-color 0.3s ease;
+    }
+    select:focus {
+      border-color: #00ff99;
+      outline: none;
+    }
+    select option {
+      background: #0D1117;
+      color: #909090;
+      font-size: 16px;
+      margin-bottom: 125px;
+    }
+    select option:hover {
+      background: #6D7F94; /* Цвет фона при наведении */
+      color: red; /* Цвет текста при наведении */
+    }
+  }
+  .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    color: #fff;
+    border: none;
+    width: 35px;
+    height: 35px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .close-button:hover {
+    transform: scale(1.1);
+  }
+
+  .add-button {
+    width: 100%;
+    height: 46px;
+    border-radius: 10px;
+    padding: 6px 30px;
+    background: #561493;
+    font-family: "Open Sans", sans-serif;
+    font-size: 22px;
+    line-height: 34px;
+    color: #FFFFFF;
+    border: none;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.3s ease;
+  }
+  .add-button:hover {
+    opacity: 0.9;
+    transform: translateY(-3px);
+    background-color: blueviolet;
+  }
+  .modal-buttons{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    button{
+      width: 164.5px;
+      height: 46px;
+      border-radius: 10px;
+      gap: 10px;
+      border-width: 2px;
+      padding-top: 6px;
+      padding-right: 30px;
+      padding-bottom: 6px;
+      padding-left: 30px;
+      border: none;
+      color: white;
+    }
+    .delete-button {
+      background: #FF0000;
+      color: white;
+      transition: 0.3s;
+
+      &:hover {
+        background: darkred;
+      }
+    }
+
+    .cancel-button {
+      background: transparent;
+      border: 2px solid #561493;
+      color: #561493;
+      transition: 0.3s;
+
+      &:hover {
+        background: #561493;
+        color: white;
+      }
+    }
+
+  }
+
+}
+
+
+
+
+
+

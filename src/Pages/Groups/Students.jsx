@@ -3,7 +3,7 @@ import "./Students.scss";
 import { useGetGroupByIdQuery } from "../../redux/groupApi";
 import { useCreateStudentMutation, useDeleteStudentMutation, useUpdateStudentMutation } from "../../redux/studentApi";
 import { useParams } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
+import {FaEdit, FaTimes} from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -189,17 +189,17 @@ const Students = () => {
                 )}
 
                 {deleteModalOpen && (
-                    <div className="modal-overlay1">
-                        <div className="modal">
-                            <button className="close-button" onClick={handleDeleteModalClose}><AiOutlineClose /></button>
-                            <div className="modal-content">
-                                <p>Вы уверены, что хотите удалить {currentStudent?.full_name}?</p>
+                    <div className="modal-overlay5">
+                            <div className="modal">
+                                <button className="close-button" onClick={handleDeleteModalClose}><AiOutlineClose /></button>
+
+                                <h2>Удалить  студенту ?</h2>
+                                <p style={{color:"white"}}>Вы уверены, что хотите удалить {currentStudent?.full_name}?</p>
                                 <div className="modal-buttons">
                                     <button className="delete-button" onClick={handleDeleteStudent}>Удалить</button>
                                     <button className="cancel-button" onClick={handleDeleteModalClose}>Отмена</button>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 )}
             </div>

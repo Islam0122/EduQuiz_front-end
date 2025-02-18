@@ -42,7 +42,7 @@ const Modal = ({ isOpen, onClose }) => {
                 <button className="close-button" onClick={onClose}>
                     <FaTimes size={20} color="#fff" />
                 </button>
-                <h2>Готовы начать тестирование?</h2>
+                <h2>Начать тестирование?</h2>
 
                 {groupLoading ? (
                     <p>Загрузка групп...</p>
@@ -50,7 +50,6 @@ const Modal = ({ isOpen, onClose }) => {
                     <p>Ошибка загрузки групп: {groupError.message}</p>
                 ) : (
                     <div>
-                        <p>Выберите группу:</p>
                         <select value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)}>
                             <option value="">Выберите группу</option>
                             {groups?.map(group => (
@@ -66,7 +65,6 @@ const Modal = ({ isOpen, onClose }) => {
                     <p>Ошибка загрузки вопросов: {questionError.message}</p>
                 ) : (
                     <div>
-                        <p>Выберите вопрос:</p>
                         <select value={selectedQuestion} onChange={(e) => setSelectedQuestion(e.target.value)}>
                             <option value="">Выберите вопрос</option>
                             {questions?.map(question => (
@@ -77,7 +75,6 @@ const Modal = ({ isOpen, onClose }) => {
                 )}
 
                 <div>
-                    <p>Выберите режим:</p>
                     <select value={selectedMode} onChange={(e) => setSelectedMode(e.target.value)}>
                         <option value="random">Рандомный студент</option>
                         <option value="choose">Выбрать студента</option>
@@ -91,7 +88,6 @@ const Modal = ({ isOpen, onClose }) => {
                         <p>Ошибка загрузки студентов: {groupByIdError.message}</p>
                     ) : (
                         <div>
-                            <p>Выберите студента:</p>
                             <select value={selectedStudent} onChange={(e) => setSelectedStudent(e.target.value)}>
                                 <option value="">Выберите студента</option>
                                 {studentsInGroup.map(student => (

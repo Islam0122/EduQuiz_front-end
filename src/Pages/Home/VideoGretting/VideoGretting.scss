@@ -4,10 +4,11 @@ $card-width: 600px;
 $card-height: 140px;
 
 .VideoGretting {
-    padding: 40px 0;
-
-
     .content {
+        border-top: 2px solid #561493;
+        border-radius: 30%;
+        border-bottom: 2px solid #561493;
+        padding: 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
