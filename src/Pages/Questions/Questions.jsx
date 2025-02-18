@@ -76,7 +76,7 @@ const ConfirmDeleteModal = ({ closeModal, deleteQuestion, questionText }) => (
           <FaTimes size={20} color="#fff" />
         </button>
         <h2>Удалить вопрос?</h2>
-        <p>Вы уверены, что хотите удалить вопрос: <b>{questionText}</b>?</p>
+        <p  style={{color:"white"}}>Вы уверены, что хотите удалить вопрос: <b>{questionText}</b>?</p>
         <div className="modal-buttons">
           <button className="delete-button" onClick={deleteQuestion}>Удалить</button>
           <button className="cancel-button" onClick={closeModal}>Отмена</button>

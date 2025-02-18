@@ -47,6 +47,20 @@
         
       }
       .info-group-students-list {
+        .no-students {
+          margin-top: 20px;
+          font-weight: 400;
+          font-size: 24px;
+          line-height: 32.68px;
+          color: white;
+        }
+        .no-students:hover {
+          color: #00FF66CC;
+          &:hover {
+            transform: scale(0.99);
+            cursor: pointer;
+          }
+        }
         .student-item {
           width: 100%;
           display: flex;
@@ -129,7 +143,7 @@
     padding-bottom: 20px;
     .close-button {
       position: absolute;
-      top: 25px;
+      top: 10px;
       right: 10px;
       width: 30px;
       height: 30px;
@@ -137,7 +151,7 @@
       border: none;
       cursor: pointer;
       color: #fff;
-      font-size: 24px;
+      font-size: 30px;
       line-height: 30px;
       text-align: center;
       transition: color 0.3s ease;
@@ -238,7 +252,7 @@
         color: #00FF66CC;
       }
       input {
-        width: 460px;
+        width: 420px;
         border-radius: 10px;
         padding: 10px 20px;
         background-color: #0D1117;
@@ -283,93 +297,87 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-/* Контейнер модального окна */
-.modal {
-  background: #0D1117;
-  padding: 30px;
-  border-radius: 10px;
-  text-align: center;
-  width: 450px;
-  position: relative;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-  color: #fff;
-  animation: slideUp 0.4s ease-out;
-}
-
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 30px;
-  height: 30px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #fff;
-  font-size: 24px;
-  line-height: 30px;
-  text-align: center;
-  transition: color 0.3s ease;
-}
-.close-button:hover {
-  transform: scale(1.1);
-}
-
-/* ========== Контент внутри модального окна ========== */
-
-/* Заголовок */
-.modal h2 {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 400;
-  font-size: 26px;
-  line-height: 49px;
-  text-align: center;
-  color: #00ff00;
-  margin-bottom: 16px;
-}
-
-/* Поле ввода */
-.modal input {
-  display: block;
-  width: 100%;
-  height: 46px;
-  border-radius: 10px;
-  padding: 10px 20px;
-  border: 1px solid #FFFFFF;
-  background: #0D1117;
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-  line-height: 18px;
-  color: #909090;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  transition: border-color 0.3s ease;
-}
-.btn2 {
-  width: 100%;
-  height: 46px;
-  border-radius: 10px;
-  padding: 6px 30px;
-  background: #561493;
-  font-family: "Open Sans", sans-serif;
-  font-size: 22px;
-  line-height: 34px;
-  color: #FFFFFF;
-  border: none;
-  text-align: center;
-  box-sizing: border-box;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.3s ease;
-}
-.btn2:hover {
-  opacity: 0.9;
-  transform: translateY(-2px);
-}
-
-.model-buttons {
-  display: flex;
-  gap: 10px;
+  .modal {
+    background: #0D1117;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 450px;
+    position: relative;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    color: #fff;
+    .close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
+      transition: color 0.3s ease;
+    }
+    .close-button:hover {
+      transform: scale(1.1);
+    }
+    .modal-content {
+      h2 {
+        font-family: "Open Sans", sans-serif;
+        font-weight: 400;
+        font-size: 26px;
+        line-height: 49px;
+        text-align: center;
+        color: #00ff00;
+        margin-bottom: 16px;
+      }
+      form {
+        input {
+          display: block;
+          width: 100%;
+          height: 46px;
+          border-radius: 10px;
+          padding: 10px 20px;
+          border: 1px solid #FFFFFF;
+          background: #0D1117;
+          font-family: "Open Sans", sans-serif;
+          font-size: 16px;
+          line-height: 18px;
+          color: #909090;
+          box-sizing: border-box;
+          margin-bottom: 20px;
+          transition: border-color 0.3s ease;
+        }
+        .error-message {
+          color: red;
+          font-size: 14px;
+        }
+        .modal-buttons {
+          .btn2 {
+            width: 100%;
+            height: 46px;
+            border-radius: 10px;
+            padding: 6px 30px;
+            background: #561493;
+            font-family: "Open Sans", sans-serif;
+            font-size: 22px;
+            line-height: 34px;
+            color: #FFFFFF;
+            border: none;
+            text-align: center;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.3s ease;
+          }
+          .btn2:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+          }
+        }
+      }
+    }
+  }
 }

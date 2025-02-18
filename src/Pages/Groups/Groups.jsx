@@ -59,7 +59,7 @@ const ConfirmDeleteModal = ({ closeModal, deleteGroup, groupName }) => (
                 <FaTimes size={20} color="#fff" />
             </button>
             <h2>Удалить группу?</h2>
-            <p>Вы уверены, что хотите удалить группу <b>{groupName}</b>?</p>
+            <p style={{color:"white"}}>Вы уверены, что хотите удалить группу <b>{groupName}</b>?</p>
             <div className="modal-buttons">
                 <button className="delete-button" onClick={deleteGroup}>Удалить</button>
                 <button className="cancel-button" onClick={closeModal}>Отмена</button>

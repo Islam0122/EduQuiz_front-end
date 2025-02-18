@@ -16,8 +16,8 @@
         }
         p{
           font-weight: 400;
-          font-size: 18px;
-          line-height: 24.51px;
+          font-size: 20px;
+          line-height: 25.51px;
           color: #FFFFFF;
         }
       }
@@ -27,6 +27,31 @@
       }
 
     }
+    .video_list{
+      margin-top: 80px;
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 15px;
+      .video_item{
+        width: 403px;
+        iframe{
+          width: 100%;
+          height: 220px;
+          border-radius: 10px;
+        }
+        h5{
+          margin-top: 10px;
+          font-size: 18px;
+          line-height: 24.51px;
+          color: white;
+          width: 314px;
+          height: 25px
+        }
+
+      }
+
+      }
   }
 }
 .status-message {
