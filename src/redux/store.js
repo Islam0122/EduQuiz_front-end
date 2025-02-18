@@ -15,7 +15,7 @@ const store = configureStore({
     [studentApi.reducerPath]: studentApi.reducer,
     [questionsApi.reducerPath]: questionsApi.reducer,
     [questionsDetailApi.reducerPath]: questionsDetailApi.reducer,
-    [videoApi.reducerPath]: questionsDetailApi.reducer,
+    [videoApi.reducerPath]: videoApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(quizApi.middleware, groupApi.middleware,studentApi.middleware,

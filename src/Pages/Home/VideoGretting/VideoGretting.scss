@@ -1,0 +1,55 @@
+$primary-color: #00FF66CC;
+$border-color: #561493;
+$card-width: 600px;
+$card-height: 140px;
+
+.VideoGretting {
+    padding: 40px 0;
+
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #ffffff;
+        gap: 16px;
+        img{
+            width: 400px;
+            height: 341px;
+            object-fit: cover;
+        }
+        .text {
+            color: #ffffff;
+            h1 {
+                font-size: 40px;
+                font-weight: 700;
+                text-align: left;
+                color: $primary-color;
+                font-family: "Open Sans", sans-serif;
+            }
+            p{
+                margin-top: 40px;
+                font-weight: 400;
+                font-size: 22px;
+                line-height: 29.96px;
+            }
+            button{
+                margin-top: 10px;
+                color: #ffffff;
+                height: 46px;
+                gap: 10px;
+                border-radius: 10px;
+                padding: 6px 30px;
+                border: none;
+                background: #561493;
+                font-weight: 400;
+                font-size: 22px;
+                line-height: 34px;
+                &:hover {
+                    transform: scale(1.05);
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
