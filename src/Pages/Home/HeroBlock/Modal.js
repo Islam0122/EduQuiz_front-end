@@ -3,7 +3,7 @@ import { FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import {useGetGroupByIdQuery, useGetGroupsQuery} from "../../../redux/groupApi";
 import {useGetQuestionsQuery} from "../../../redux/questionsApi";
-;
+
 
 const Modal = ({ isOpen, onClose }) => {
     const { data: groups, error: groupError, isLoading: groupLoading } = useGetGroupsQuery();
