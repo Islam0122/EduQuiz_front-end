@@ -1,0 +1,48 @@
+.home__Typing {
+  margin-top: 100px;
+  padding: 15px 0 0 0;
+  .Typing-flex {
+    display: flex;
+    gap: 16px;
+    .Typing-images {
+      padding: 25px 0 0 0;
+      .typing-img {
+        width: 403px;
+        height: 355px;
+      }
+    }
+  }
+  .text1 {
+    font-size: 46px;
+    font-weight: 700;
+    color: #00FF66;
+    margin-bottom: 15px;
+  }
+
+  .text2 {
+    width: 816px;
+    font-size: 22px;
+    font-weight: 400;
+    color: white;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    //display: inline-block;
+    background-color: #561493;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #785a91;
+    transform: translateY(-3px);
+  }
+}
