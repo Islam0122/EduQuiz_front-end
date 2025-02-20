@@ -123,7 +123,7 @@ const Students = () => {
                             studentsList.map((student) => (
                                 <div key={student.id} className="student-item">
                                     <div className="Student-info">
-                                        <h4 className="students-h4">{student.full_name}</h4>
+                                        <h4 className="students-h4">{student.full_name[0].toUpperCase() + student.full_name.slice(1)}</h4>
                                         <p>|</p>
                                         <span
                                             className={`students-span ${student.is_active ? "active" : "inactive"}`}
