@@ -1,48 +1,49 @@
 .home__Typing {
-  margin-top: 100px;
-  padding: 15px 0 0 0;
+  margin-top: 60px;
+  margin-bottom: 60px;
+
   .Typing-flex {
     display: flex;
-    gap: 16px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+
     .Typing-images {
-      padding: 25px 0 0 0;
       .typing-img {
         width: 403px;
         height: 355px;
       }
     }
   }
+  button{
+    margin-top: 10px;
+    color: #ffffff;
+    height: 46px;
+    gap: 10px;
+    border-radius: 10px;
+    padding: 6px 50px;
+    border: none;
+    background: #561493;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 34px;
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+  }
+
   .text1 {
-    font-size: 46px;
-    font-weight: 700;
+    font-size: 38px;
     color: #00FF66;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   .text2 {
-    width: 816px;
-    font-size: 22px;
-    font-weight: 400;
+    font-size: 20px;
     color: white;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 
-  .btn {
-    //display: inline-block;
-    background-color: #561493;
-    color: #fff;
-    font-size: 16px;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-
-  .btn:hover {
-    background-color: #785a91;
-    transform: translateY(-3px);
-  }
 }
