@@ -54,7 +54,7 @@ const QuestionsDetail = () => {
                                     </div>
                                     <p><strong>Правильный ответ:</strong><span>
                                                             {q.correct_answer} - {q[`option_${q.correct_answer.toLowerCase()}`]}
-  </span></p>
+                                    </span></p>
                                 </div>
                                 ))
                             ) : (
