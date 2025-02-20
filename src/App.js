@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, } from 'react-router-dom';
 import Home from './Pages/Home/Home';
 import Login from './Pages/Login/Login';
-import Createaquiz from './Pages/Createaquiz/Createaquiz';
+import Quiz from './Pages/Quiz/Quiz';
 import Layout from './Layout/Layout';
 import Questions from './Pages/Questions/Questions';
 import Groups from './Pages/Groups/Groups';
@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/" element={<Layout />}>
 
                 <Route path="" element={<Home />} />
-                <Route path="createaquiz" element={<Createaquiz />} />
+                <Route path="/quiz/:groupId/:questionId/:mode/:studentId?" element={<Quiz />} />  {/* Викторина */}
 
                 <Route path="questions" element={<Questions />} />
                 <Route path="questions/:id" element={<QuestionsDetail />} />
