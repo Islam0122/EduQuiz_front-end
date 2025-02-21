@@ -5,8 +5,8 @@ import { useGetGroupByIdQuery } from "../../redux/groupApi";
 import { useGetStudentByIdQuery } from "../../redux/studentApi";
 import NoImg from "../Questions/questions-icons/no-img.svg";
 import { MdOutlineQuiz } from "react-icons/md";
-import {FaUsers, FaRandom, FaUserGraduate, FaEdit, FaListUl} from "react-icons/fa";
-import "./Quiz.scss"
+import { FaUsers, FaRandom, FaUserGraduate, FaEdit, FaListUl } from "react-icons/fa";
+import "./Quiz.scss";
 
 const Quiz = () => {
   const { groupId, questionId, mode, studentId } = useParams();
@@ -15,6 +15,10 @@ const Quiz = () => {
   const { data: questionData, isLoading: isQuestionLoading } = useGetQuestionByIdQuery(questionId);
   const { data: group, isLoading: isGroupLoading } = useGetGroupByIdQuery(groupId);
   const { data: student, isLoading: isStudentLoading } = useGetStudentByIdQuery(studentId, { skip: !studentId });
+
+  const [selectedAnswer, setSelectedAnswer] = useState(null);
+  const [isAnswerChecked, setIsAnswerChecked] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   // Выбор случайного студента
   const randomStudent = useMemo(() => {
@@ -35,9 +39,32 @@ const Quiz = () => {
   }, [questionData]);
 
   const handleAnswer = (event) => {
-    const selectedAnswer = event.target.value;
-    console.log("Выбран ответ:", selectedAnswer);
-    // Можно здесь проверить правильность ответа и обработать выбор.
+    const answer = event.target.value;
+    setSelectedAnswer(answer);
+  };
+
+  const checkAnswer = () => {
+    setIsAnswerChecked(true);
+  };
+
+  const nextQuestion = () => {
+    setIsAnswerChecked(false);
+    setSelectedAnswer(null);
+    // Здесь можно обновить логическую часть для перехода к следующему вопросу
+  };
+
+  const finishQuiz = () => {
+    setShowResults(true);
+  };
+
+  const displayResults = () => {
+    // Логика для отображения результатов викторины
+    return (
+        <div className="results">
+          <h3>Результаты викторины:</h3>
+          <p>Правильных ответов: {randomQuestion.correct_answer === selectedAnswer ? 1 : 0}</p>
+        </div>
+    );
   };
 
   return (
@@ -76,6 +103,7 @@ const Quiz = () => {
                 </h4>
             )}
           </div>
+
           <div className="quiz__content">
             {isQuestionLoading ? (
                 <div className="status-message loading">
@@ -87,64 +115,75 @@ const Quiz = () => {
                   <div className="question_content">
                     <img src={randomQuestion.image || NoImg} alt="Изображение вопроса" className="question_image" />
                     <div className="options">
-                      <div>
-                        <p><strong>Варианты:</strong></p>
-
-                        <div className="option">
-                          <input
-                              type="radio"
-                              id="optionA"
-                              name="answer"
-                              value="A"
-                              onChange={handleAnswer}
-                              className="option-radio"
-                          />
-                          <span className="option-text">A: {randomQuestion.option_a}</span>
-                        </div>
-
-                        <div className="option">
-                          <input
-                              type="radio"
-                              id="optionB"
-                              name="answer"
-                              value="B"
-                              onChange={handleAnswer}
-                              className="option-radio"
-                          />
-                          <span className="option-text">B: {randomQuestion.option_b}</span>
-                        </div>
-
-                        <div className="option">
-                          <input
-                              type="radio"
-                              id="optionC"
-                              name="answer"
-                              value="C"
-                              onChange={handleAnswer}
-                              className="option-radio"
-                          />
-                          <span className="option-text">C: {randomQuestion.option_c}</span>
-                        </div>
-
-                        <div className="option">
-                          <input
-                              type="radio"
-                              id="optionD"
-                              name="answer"
-                              value="D"
-                              onChange={handleAnswer}
-                              className="option-radio"
-                          />
-                          <span className="option-text">D: {randomQuestion.option_d}</span>
-
-
-                        </div>
+                      <p><strong>Варианты:</strong></p>
+                      <div className="option">
+                        <input
+                            type="radio"
+                            id="optionA"
+                            name="answer"
+                            value="A"
+                            onChange={handleAnswer}
+                            className="option-radio"
+                            disabled={isAnswerChecked}
+                        />
+                        <span className="option-text">A: {randomQuestion.option_a}</span>
                       </div>
-                      <div>
-                        <button>number 1</button>
-                        <button>number 2</button>
-                        <button>number 3</button>
+
+                      <div className="option">
+                        <input
+                            type="radio"
+                            id="optionB"
+                            name="answer"
+                            value="B"
+                            onChange={handleAnswer}
+                            className="option-radio"
+                            disabled={isAnswerChecked}
+                        />
+                        <span className="option-text">B: {randomQuestion.option_b}</span>
                       </div>
+
+                      <div className="option">
+                        <input
+                            type="radio"
+                            id="optionC"
+                            name="answer"
+                            value="C"
+                            onChange={handleAnswer}
+                            className="option-radio"
+                            disabled={isAnswerChecked}
+                        />
+                        <span className="option-text">C: {randomQuestion.option_c}</span>
+                      </div>
+
+                      <div className="option">
+                        <input
+                            type="radio"
+                            id="optionD"
+                            name="answer"
+                            value="D"
+                            onChange={handleAnswer}
+                            className="option-radio"
+                            disabled={isAnswerChecked}
+                        />
+                        <span className="option-text">D: {randomQuestion.option_d}</span>
+                      </div>
+                    </div>
+
+                    {isAnswerChecked && (
+                        <div className="answer-feedback">
+                          <p>
+                            <strong>Правильный ответ:</strong> {randomQuestion.correct_answer}
+                          </p>
+                          <p>
+                            <strong>Ваш ответ:</strong> {selectedAnswer}
+                          </p>
+                        </div>
+                    )}
+
+                    <div className="buttons">
+                      <button onClick={checkAnswer} disabled={isAnswerChecked}>Проверить ответ</button>
+                      <button onClick={nextQuestion}>Следующий вопрос</button>
+                      <button onClick={finishQuiz}>Закончить викторину</button>
                     </div>
                   </div>
                 </div>
@@ -154,48 +193,10 @@ const Quiz = () => {
                 </div>
             )}
           </div>
+
+          {showResults && displayResults()}
         </div>
       </section>
-      // <div className="container">
-      //   <h2>Викторина</h2>
-      //   <p>Группа: {isGroupLoading ? "Загрузка..." : group?.name || "Неизвестная группа"}</p>
-      //
-      //   {mode === "random" ? (
-      //       <p>Режим: Рандомный студент - {randomStudent ? randomStudent.full_name : "Выбор..."}</p>
-      //   ) : (
-      //       <p>Студент: {isStudentLoading ? "Загрузка..." : student?.full_name || "Неизвестный студент"}</p>
-      //   )}
-      //
-      //   {isQuestionLoading ? (
-      //       <p>Загрузка вопросов...</p>
-      //   ) : randomQuestion ? (
-      //       <div className="question_card">
-      //         <p><strong>Вопрос:</strong> <span>{randomQuestion.text}</span></p>
-      //         <div className="question_content">
-      //           <img src={randomQuestion.image || NoImg} alt="Изображение вопроса" className="question_image" />
-      //           <div className="options">
-      //             <p><strong>Варианты:</strong></p>
-      //             <p>A: {randomQuestion.option_a}</p>
-      //             <p>B: {randomQuestion.option_b}</p>
-      //             <p>C: {randomQuestion.option_c}</p>
-      //             <p>D: {randomQuestion.option_d}</p>
-      //           </div>
-      //         </div>
-      //         {randomQuestion.correct_answer ? (
-      //             <p>
-      //               <strong>Правильный ответ:</strong>
-      //               <span> {randomQuestion.correct_answer} - {randomQuestion[`option_${randomQuestion.correct_answer.toLowerCase()}`] || "Неизвестно"}</span>
-      //             </p>
-      //         ) : (
-      //             <p><strong>Правильный ответ:</strong> Не указан</p>
-      //         )}
-      //       </div>
-      //   ) : (
-      //       <p>Нет доступных вопросов</p>
-      //   )}
-      //
-      //   <button className="exit-button" onClick={() => navigate("/")}>Вернуться</button>
-      // </div>
   );
 };
 
