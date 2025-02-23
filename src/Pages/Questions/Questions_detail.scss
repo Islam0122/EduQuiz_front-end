@@ -60,6 +60,7 @@
         padding: 20px;
         padding-right: 50px;
         margin-bottom: 20px;
+        position: relative;
 
         p{
           font-size: 18px;
@@ -103,6 +104,23 @@
         }
       }
     }
+    .icons {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      top: 20px;
+      right: 40px;
+      color: white;
+      font-size: 25px;
+      gap: 15px;
+      opacity: 1; /* Иконки видны по умолчанию */
+      transition: opacity 0.3s ease; /* Плавное исчезновение */
+      .delete-icon{
+        color:red;
+      }
+    }
+
   }
 
 
