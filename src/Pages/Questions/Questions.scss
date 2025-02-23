@@ -234,19 +234,13 @@
   background: #6D7F94; /* Цвет фона при наведении */
   color: red; /* Цвет текста при наведении */
 }
-
-
 /* Стилизация autofill */
 .modal input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px #0D1117 inset !important;
   -webkit-text-fill-color: #909090 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
-
-
-
 /* ========== Кнопки ========== */
-
 /* Кнопка закрытия */
 .close-button {
   position: absolute;
@@ -264,11 +258,9 @@
   cursor: pointer;
   transition: transform 0.2s ease;
 }
-
 .close-button:hover {
   transform: scale(1.1);
 }
-
 /* Кнопка подтверждения */
 .add-button {
   width: 100%;
@@ -286,7 +278,6 @@
   cursor: pointer;
   transition: transform 0.2s ease, opacity 0.3s ease;
 }
-
 .add-button:hover {
   opacity: 0.9;
   transform: translateY(-2px);

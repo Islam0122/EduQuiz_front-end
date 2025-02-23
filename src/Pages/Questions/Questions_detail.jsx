@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { useParams } from "react-router-dom";
 import { useGetQuestionByIdQuery, } from "../../redux/questionsApi";
 import "./Questions_detail.scss";
 import { FaQuestionCircle, FaEdit, FaListUl, FaTrash, FaTimes } from "react-icons/fa";
 import NoImg from "./questions-icons/no-img.svg";
-import {useDeleteQuestionMutation} from "../../redux/questionsDetailApi";
+import {useDeleteQuestionMutation, useUpdateQuestionMutation} from "../../redux/questionsDetailApi";
 import './Questions.scss';
 
+
+const Modal = ({ closeModal, createQuestion }) => {
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal">
+                <button className="close-button" onClick={closeModal}>
+                    <FaTimes size={20} color="#fff" />
+                </button>
+
+            </div>
+        </div>
+    );
+};
 const ConfirmDeleteModal = ({ closeModal, deleteQuestion, questionText }) => (
     <div className="modal-overlay">
         <div className="modal">
@@ -24,6 +38,87 @@ const ConfirmDeleteModal = ({ closeModal, deleteQuestion, questionText }) => (
         </div>
     </div>
 );
+
+const EditModal = ({ closeModal, updateQuestion, question }) => {
+    const [formData, setFormData] = useState({ ...question });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+
+        // Убираем префикс (A:, B:, C:, D:) при изменении поля
+        if (name.startsWith("option_")) {
+            setFormData({ ...formData, [name]: value.replace(/^[A-D]:\s*/, '') });
+        } else {
+            setFormData({ ...formData, [name]: value });
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await updateQuestion(formData); // Обновляем вопрос
+        closeModal(); // Закрываем модалку
+    };
+
+    return (
+        <div className="modal-overlay">
+            <div className="modal">
+                <button className="close-button" onClick={closeModal}>
+                    <FaTimes size={20} color="#fff" />
+                </button>
+                <h2>Редактирование вопроса</h2>
+                <form onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        name="text"
+                        value={formData.text}
+                        onChange={handleChange}
+                        required
+                    />
+                    <input
+                        type="text"
+                        name="option_a"
+                        value={`A: ${formData.option_a}`}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        type="text"
+                        name="option_b"
+                        value={`B: ${formData.option_b}`}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        type="text"
+                        name="option_c"
+                        value={`C: ${formData.option_c}`}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <input
+                        type="text"
+                        name="option_d"
+                        value={`D: ${formData.option_d}`}
+                        onChange={handleChange}
+                        required
+                    />
+
+                    <select name="correct_answer" value={formData.correct_answer} onChange={handleChange}>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+
+                    <button type="submit" className="add-button">Сохранить</button>
+                </form>
+            </div>
+        </div>
+    );
+};
 
 const QuestionItem = ({ question, onDelete, onEdit }) => {
     return (
@@ -63,15 +158,29 @@ const QuestionsDetail = () => {
     const { id } = useParams();
     const { data: question, error, isLoading, refetch } = useGetQuestionByIdQuery(id);
     const [deleteQuestion] = useDeleteQuestionMutation();
+    const [updateQuestion] = useUpdateQuestionMutation();  // ⚡ API для обновления
     const [modalOpen, setModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
 
     const handleDelete = async () => {
         if (selectedQuestion) {
             await deleteQuestion(selectedQuestion.id);
+            setSelectedQuestion(null);
             setModalOpen(false);
-            refetch();  // 🔥 Перезагружаем данные
+            refetch();
         }
+    };
+
+    const handleEdit = (question) => {
+        setSelectedQuestion(question);
+        setEditModalOpen(true);
+    };
+
+    const handleUpdate = async (updatedQuestion) => {
+        await updateQuestion(updatedQuestion);
+        setEditModalOpen(false);
+        refetch();
     };
 
     if (isLoading) return <p>Загрузка...</p>;
@@ -81,24 +190,10 @@ const QuestionsDetail = () => {
         <section className="questions_detail">
             <div className="container">
                 <div className="question_detail-info">
-                    <h2>
-                        Тема вопроса:{" "}
-                        <span className="question-name">
-                            {question?.name?.[0]?.toUpperCase() + question?.name?.slice(1) ?? "Без названия"}
-                        </span>
-                    </h2>
-                    <h4>
-                        <FaEdit style={{ marginRight: "8px", color: "#FFD700" }} />
-                        Сложность: {question.difficulty_label}
-                    </h4>
-                    <h4>
-                        <FaListUl style={{ marginRight: "8px", color: "#3498db" }} />
-                        Описание: {question.description || "Нет описания"}
-                    </h4>
-                    <h4>
-                        <FaListUl style={{ marginRight: "8px", color: "#3498db" }} />
-                        Всего вопросов: {question.questions?.length ?? 0}
-                    </h4>
+                    <h2>Тема вопроса: <span>{question?.name?.[0]?.toUpperCase() + question?.name?.slice(1) ?? "Без названия"}</span></h2>
+                    <h4>Сложность: {question.difficulty_label}</h4>
+                    <h4>Описание: {question.description || "Нет описания"}</h4>
+                    <h4>Всего вопросов: {question.questions?.length ?? 0}</h4>
                 </div>
                 <div className="questions_detail-list">
                     <div className="title">
@@ -115,7 +210,7 @@ const QuestionsDetail = () => {
                                         setSelectedQuestion({ id, text });
                                         setModalOpen(true);
                                     }}
-                                    onEdit={(q) => console.log("Редактирование:", q)}
+                                    onEdit={handleEdit} // 👈 Добавляем обработчик
                                 />
                             ))
                         ) : (
@@ -132,8 +227,17 @@ const QuestionsDetail = () => {
                     questionText={selectedQuestion?.text}
                 />
             )}
+
+            {editModalOpen && (
+                <EditModal
+                    closeModal={() => setEditModalOpen(false)}
+                    updateQuestion={handleUpdate}
+                    question={selectedQuestion}
+                />
+            )}
         </section>
     );
 };
 
 export default QuestionsDetail;
+
