@@ -1,9 +1,11 @@
-.quiz{
+.quiz {
   margin-top: 30px;
   margin-bottom: 30px;
-  .container{
-    .quiz__header{
+
+  .container {
+    .quiz__header {
       color: #FFFFFF;
+
       h2 {
         font-size: 40px;
         line-height: 50px;
@@ -11,54 +13,65 @@
         display: flex;
         align-items: center;
       }
+
       h4 {
         font-size: 20px;
         display: flex;
         align-items: center;
         margin-bottom: 5px;
       }
+
       h4:last-child {
         padding-bottom: 30px;
         border-bottom: 2px solid #561493;
       }
+
       .question-name {
         color: #00FF66CC;
       }
     }
-    .question_card{
+
+    .question_card {
       margin-top: 20px;
       color: #FFFFFF;
-      p:first-child{
+
+      p:first-child {
         font-size: 25px;
         line-height: 24.51px;
         margin-bottom: 10px;
-        span{
+
+        span {
           margin-left: 10px;
           color: #00FF66CC;
         }
       }
-      .question_content{
+
+      .question_content {
         margin-top: 20px;
         display: flex;
         justify-content: start;
         gap: 20px;
-        img{
+
+        img {
           width: 300px;
           height: 300px;
           border-radius: 6px;
           object-fit: cover;
           margin: 10px;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-          border:none;
+          border: none;
         }
-        .options{
+
+        .options {
           display: block;
-          p{
+
+          p {
             font-weight: 700;
             font-size: 28px;
             line-height: 38.13px;
           }
-          input{
+
+          input {
             width: 25px;
             height: 25px;
             background: transparent;
@@ -68,42 +81,124 @@
             display: flex;
             align-items: center;
           }
+
           .option {
             display: flex;
             align-items: center;
             margin: 10px 0;
           }
+
           .option-radio {
             width: 25px;
             height: 25px;
             margin-right: 10px;
+            appearance: none;
+            color: transparent;
             border: 3px solid rgba(255, 255, 255, 1);
             border-radius: 50%;
             background-color: transparent;
             cursor: pointer;
+            position: relative;
             transition: background-color 0.3s, border-color 0.3s;
           }
+
           .option-radio:checked {
-            background-color: #4CAF50; /* Зеленый цвет при выборе */
-            border-color: #4CAF50; /* Зеленая обводка при выборе */
+            border-color: #4caf50; /* Зелёный контур для правильного ответа */
           }
+
+          .option-radio:checked::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            background-color: #4caf50;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Центрируем */
+          }
+
           .option-radio:checked + .option-text {
-            font-weight: bold;
+            font-size: 14px;
             color: #4CAF50; /* Изменяет цвет текста при выборе */
           }
+
           .option-text {
-            font-size: 16px;
-            color: #fff;
+            font-size: 14px;
+
           }
+
+          /* Стили для неправильного ответа */
+          .option-radio.incorrect {
+            border-color: red;
+          }
+
+          .option-radio.incorrect::before {
+            content: "";
+            width: 14px;
+            height: 14px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          }
+
+          .option-radio.incorrect + .option-text {
+            font-size: 14px;
+            color: red; /* Изменяет цвет текста для неправильного ответа */
+          }
+
           .option-radio:focus {
             outline: none;
           }
+
+          /* Кнопка для проверки ответа */
+          .check-answer-button {
+            background-color: #561493;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+          }
+
+          .check-answer-button:hover {
+            transform: scale(1.1);
+          }
+
+          .check-answer-button:disabled {
+            background-color: white;
+            color: #0D1117;
+            cursor: not-allowed;
+          }
+
+          /* Обратная связь о правильности ответа */
+          .answer-feedback {
+            font-size: 14px;
+            font-weight: bold;
+            padding-left: 10px;
+          }
+
+          .answer-feedback.correct {
+            color: green;
+          }
+
+          .answer-feedback.incorrect {
+            color: red;
+          }
+
+
         }
       }
 
     }
   }
 }
+
 .status-message {
   display: flex;
   justify-content: center;
@@ -114,9 +209,11 @@
   font-weight: bold;
   border-radius: 10px;
 }
+
 .status-message.loading {
   color: white;
 }
+
 .status-message.error {
   color: #d00;
 }
