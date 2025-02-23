@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useMemo} from "react";
-import {useParams, useNavigate} from "react-router-dom";
+import {useParams, useNavigate, Link} from "react-router-dom";
 import {useGetQuestionByIdQuery} from "../../redux/questionsApi";
 import {useGetGroupByIdQuery} from "../../redux/groupApi";
 import {useGetStudentByIdQuery} from "../../redux/studentApi";
 import NoImg from "../Questions/questions-icons/no-img.svg";
 import {MdOutlineQuiz} from "react-icons/md";
-import {FaUsers, FaRandom, FaUserGraduate, FaEdit, FaListUl} from "react-icons/fa";
+import {FaUsers, FaRandom, FaUserGraduate, FaEdit, FaListUl, FaCheckCircle, FaArrowLeft} from "react-icons/fa";
 import "./Quiz.scss";
 
 const Quiz = () => {
@@ -13,9 +13,10 @@ const Quiz = () => {
     const {data: questionData, isLoading: isQuestionLoading} = useGetQuestionByIdQuery(questionId);
     const {data: group, isLoading: isGroupLoading} = useGetGroupByIdQuery(groupId);
     const {data: student, isLoading: isStudentLoading} = useGetStudentByIdQuery(studentId, {skip: !studentId});
-
+    const [isAnswerChecked, setIsAnswerChecked] = useState(false);  // Статус проверки ответа
+    const [isCorrectAnswer, setIsCorrectAnswer] = useState(null);   // Статус правильности ответа (true, false или null)
     const [selectedAnswer, setSelectedAnswer] = useState(null);
-    const [isAnswerChecked, setIsAnswerChecked] = useState(false);
+    const [isAnswerRevealed, setIsAnswerRevealed] = useState(false); // Состояние для отображения правильного ответа
 
     // Выбор случайного студента
     const randomStudent = useMemo(() => {
@@ -42,6 +43,15 @@ const Quiz = () => {
 
     const checkAnswer = () => {
         setIsAnswerChecked(true);
+        if (selectedAnswer === randomQuestion.correct_answer) {
+            setIsCorrectAnswer(true);
+        } else {
+            setIsCorrectAnswer(false);
+        }
+    };
+
+    const revealCorrectAnswer = () => {
+        setIsAnswerRevealed(true);
     };
 
     return (
@@ -113,15 +123,42 @@ const Quiz = () => {
                                                     {option === randomQuestion.correct_answer ? "Правильно!" : "Неправильно!"}
                                                 </div>
                                             )}
+                                            {/* Показ правильного ответа, если кнопка нажата */}
+                                            {isAnswerRevealed && option === randomQuestion.correct_answer && (
+                                                <div className="answer-feedback  aa correct">
+                                                    <FaArrowLeft className="icon" style={{ color: 'green', marginRight: '8px' }} />
+                                                    <span className="text">Правильный ответ</span>
+                                                </div>
+                                            )}
                                         </div>
                                     ))}
-                                    <button
-                                        className="check-answer-button"
-                                        onClick={checkAnswer}
-                                        disabled={isAnswerChecked || !selectedAnswer}
-                                    >
-                                        Проверить ответ
-                                    </button>
+                                    <div className="buttons">
+                                        {/* Если ответ был проверен и он неправильный, показываем кнопку "Посмотреть правильный ответ" */}
+                                        {isAnswerChecked && !isCorrectAnswer ? (
+                                            <button className="reveal-answer-button" onClick={revealCorrectAnswer}>
+                                                Посмотреть правильный ответ
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className="check-answer-button"
+                                                onClick={checkAnswer}
+                                                disabled={isAnswerChecked || !selectedAnswer}
+                                            >
+                                                Проверить ответ
+                                            </button>
+                                        )}
+                                        <button
+                                            className="next-question-button"
+                                            onClick={() => window.location.reload()}
+                                        >
+                                            Следующий вопрос
+                                        </button>
+                                        <Link to="/">
+                                            <button>
+                                                Вернуться на главную
+                                            </button>
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </div>

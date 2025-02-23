@@ -154,22 +154,6 @@
             outline: none;
           }
 
-          /* Кнопка для проверки ответа */
-          .check-answer-button {
-            background-color: #561493;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
-          }
-
-          .check-answer-button:hover {
-            transform: scale(1.1);
-          }
-
           .check-answer-button:disabled {
             background-color: white;
             color: #0D1117;
@@ -189,6 +173,65 @@
 
           .answer-feedback.incorrect {
             color: red;
+          }
+          .buttons{
+            display: flex;
+            gap: 20px;
+            button{
+              background-color: #561493;
+              color: white;
+              padding: 10px 20px;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              margin-top: 20px;
+              transition: background-color 0.3s;
+              &:hover {
+                transform: scale(1.1);
+              }
+            }
+          }
+
+          .aa{
+            display: flex;
+            align-items: center;
+            align-content: center;
+            animation: rotate-in 0.5s ease-out;
+            @keyframes slide-in {
+              0% {
+                transform: translateX(-20px);
+                opacity: 0;
+              }
+              50% {
+                transform: translateX(0);
+                opacity: 1;
+              }
+              100% {
+                transform: translateX(0);
+              }
+            }
+
+            @keyframes fade-in-text {
+              0% {
+                opacity: 0;
+              }
+              100% {
+                opacity: 1;
+              }
+            }
+
+           .icon {
+              animation: slide-in 0.5s ease-out forwards;
+            }
+
+            .text {
+              opacity: 0;
+              animation: fade-in-text 0.3s ease-out forwards;
+              animation-delay: 0.5s; /* Ждёт, пока стрелка дойдет */
+            }
+
+
+
           }
 
 
