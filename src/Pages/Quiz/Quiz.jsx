@@ -126,27 +126,29 @@ const Quiz = () => {
                                             {/* Показ правильного ответа, если кнопка нажата */}
                                             {isAnswerRevealed && option === randomQuestion.correct_answer && (
                                                 <div className="answer-feedback  aa correct">
-                                                    <FaArrowLeft className="icon" style={{ color: 'green', marginRight: '8px' }} />
+                                                    <FaArrowLeft className="icon" style={{ color: 'green', marginRight: '4px' }} />
                                                     <span className="text">Правильный ответ</span>
                                                 </div>
                                             )}
                                         </div>
                                     ))}
                                     <div className="buttons">
-                                        {/* Если ответ был проверен и он неправильный, показываем кнопку "Посмотреть правильный ответ" */}
-                                        {isAnswerChecked && !isCorrectAnswer ? (
-                                            <button className="reveal-answer-button" onClick={revealCorrectAnswer}>
-                                                Посмотреть правильный ответ
-                                            </button>
-                                        ) : (
-                                            <button
-                                                className="check-answer-button"
-                                                onClick={checkAnswer}
-                                                disabled={isAnswerChecked || !selectedAnswer}
-                                            >
-                                                Проверить ответ
-                                            </button>
-                                        )}
+                                        {!isAnswerChecked ? (
+                                        <button
+                                            className="check-answer-button"
+                                            onClick={checkAnswer}
+                                            disabled={!selectedAnswer}  // Делаем кнопку активной только если выбран ответ
+                                        >
+                                            Проверить ответ
+                                        </button>
+                                    ) : isAnswerChecked && !isCorrectAnswer && !isAnswerRevealed ? (
+                                        <button className="reveal-answer-button" onClick={revealCorrectAnswer}>
+                                            Посмотреть правильный ответ
+                                        </button>
+                                    ) : null}
+
+
+
                                         <button
                                             className="next-question-button"
                                             onClick={() => window.location.reload()}
