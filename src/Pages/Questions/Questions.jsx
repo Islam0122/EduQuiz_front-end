@@ -255,7 +255,7 @@ const Questions = () => {
                     />
                 ))
             ) : (
-                <div className="group-item add-group" onClick={() => setIsModalOpen(true)}>
+                <div className="group-item add-group">
                   <img src={logo} alt="Логотип добавления" />
                   <h1>Вопросы отсутствуют</h1>
                 </div>

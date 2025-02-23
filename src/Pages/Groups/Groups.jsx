@@ -197,7 +197,7 @@ const Groups = () => {
                             />
                         ))
                     ) : (
-                        <div className="group-item add-group" onClick={() => setIsModalOpen(true)} style={isCreating ? { pointerEvents: "none", opacity: 0.5 } : {}}>
+                        <div className="group-item add-group">
                             <img src={logo} alt="Логотип добавления" />
                             <h1>Группы отсутствуют</h1>
                         </div>

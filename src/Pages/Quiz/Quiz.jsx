@@ -80,7 +80,6 @@ const Quiz = () => {
                         </h4>
                     )}
                 </div>
-
                 <div className="quiz__content">
                     {isQuestionLoading ? (
                         <div className="status-message loading">
