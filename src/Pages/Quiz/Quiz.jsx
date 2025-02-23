@@ -10,8 +10,6 @@ import "./Quiz.scss";
 
 const Quiz = () => {
     const {groupId, questionId, mode, studentId} = useParams();
-    const navigate = useNavigate();
-
     const {data: questionData, isLoading: isQuestionLoading} = useGetQuestionByIdQuery(questionId);
     const {data: group, isLoading: isGroupLoading} = useGetGroupByIdQuery(groupId);
     const {data: student, isLoading: isStudentLoading} = useGetStudentByIdQuery(studentId, {skip: !studentId});
@@ -44,24 +42,6 @@ const Quiz = () => {
 
     const checkAnswer = () => {
         setIsAnswerChecked(true);
-    };
-
-    const nextQuestion = () => {
-        setIsAnswerChecked(false);
-        setSelectedAnswer(null);
-        // Логика для перехода к следующему вопросу
-    };
-
-
-    const displayResults = () => {
-        // Логика для отображения результатов викторины
-        const isCorrect = randomQuestion.correct_answer === selectedAnswer;
-        return (
-            <div className="results">
-                <h3>Результаты викторины:</h3>
-                <p>Правильных ответов: {isCorrect ? 1 : 0}</p>
-            </div>
-        );
     };
 
     return (
@@ -152,8 +132,6 @@ const Quiz = () => {
                         </div>
                     )}
                 </div>
-
-                {isAnswerChecked && displayResults()}
             </div>
         </section>
     );
