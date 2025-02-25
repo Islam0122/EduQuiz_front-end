@@ -1,8 +1,11 @@
 {
   "files": {
     "main.css": "/EduQuiz_front-end/static/css/main.fac542c0.css",
-    "main.js": "/EduQuiz_front-end/static/js/main.ff021d90.js",
-    "static/media/img.png": "/EduQuiz_front-end/static/media/img.ec15ddfc7916a3b8f788.png",
+    "main.js": "/EduQuiz_front-end/static/js/main.4790b9be.js",
+    "static/media/fullstack.png": "/EduQuiz_front-end/static/media/fullstack.511c5df7829f68295853.png",
+    "static/media/img.png": "/EduQuiz_front-end/static/media/img.f59b8b677f3ed824a857.png",
+    "static/media/Block3.png": "/EduQuiz_front-end/static/media/Block3.2ca852ba196c1d6bc96d.png",
+    "static/media/typing.png": "/EduQuiz_front-end/static/media/typing.45b5f14386d411038e94.png",
     "static/media/cPlus.png": "/EduQuiz_front-end/static/media/cPlus.9fc4dade1dc4ce93cd1f.png",
     "static/media/C sharp.png": "/EduQuiz_front-end/static/media/C sharp.257e9dc98e7031cfed51.png",
     "static/media/Carousel-React.png": "/EduQuiz_front-end/static/media/Carousel-React.4fa66de670902a2df978.png",
@@ -11,14 +14,15 @@
     "static/media/Java.png": "/EduQuiz_front-end/static/media/Java.52cd1f88d8675ccab03d.png",
     "static/media/JavaScript.png": "/EduQuiz_front-end/static/media/JavaScript.910dc60f28b1411bfc66.png",
     "static/media/no-img.svg": "/EduQuiz_front-end/static/media/no-img.23725d7e4b6e05c6a51e4bc123950223.svg",
+    "static/media/Union.svg": "/EduQuiz_front-end/static/media/Union.0d9ca8858fdedec9b6746e892ba1540b.svg",
     "static/media/number2.svg": "/EduQuiz_front-end/static/media/number2.8eecd112b05415bff7d5a76e2b0aa193.svg",
     "static/media/number1.svg": "/EduQuiz_front-end/static/media/number1.3efae3c1701d2b4a2686d1d14b5e5a9f.svg",
     "index.html": "/EduQuiz_front-end/index.html",
     "main.fac542c0.css.map": "/EduQuiz_front-end/static/css/main.fac542c0.css.map",
-    "main.ff021d90.js.map": "/EduQuiz_front-end/static/js/main.ff021d90.js.map"
+    "main.4790b9be.js.map": "/EduQuiz_front-end/static/js/main.4790b9be.js.map"
   },
   "entrypoints": [
     "static/css/main.fac542c0.css",
-    "static/js/main.ff021d90.js"
+    "static/js/main.4790b9be.js"
   ]
 }
