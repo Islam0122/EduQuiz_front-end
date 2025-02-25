@@ -17,13 +17,14 @@
     "react-select": "^5.10.0",
     "sass": "^1.83.4"
   },
-  "homepage": "https://username.github.io/repository",
-
+  "homepage": "https://Islam0122.github.io/EduQuiz_front-end",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
