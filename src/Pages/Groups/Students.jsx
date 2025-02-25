@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import {FaEdit, FaTimes} from "react-icons/fa";
 import { MdOutlineDelete } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
+import {useSelector} from "react-redux";
 
 const Students = () => {
     const { id } = useParams();
@@ -21,6 +22,7 @@ const Students = () => {
     const [newStudentName, setNewStudentName] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
     const [currentStudent, setCurrentStudent] = useState(null);
+    const isAuthenticated = useSelector((state) => !!state.auth.token);
 
     useEffect(() => {
         if (group?.students) {
@@ -114,7 +116,9 @@ const Students = () => {
                 <div className="info-group-students">
                     <div className="info-group">
                         <h5 className="students-h5">Группа: <span className="students-span">{group?.name}</span></h5>
-                        <h4 className="students-h4" onClick={() => setAddModalOpen(true)}>+ Добавить студента</h4>
+                        {isAuthenticated && (
+                            <h4 className="students-h4" onClick={() => setAddModalOpen(true)}>+ Добавить студента</h4>
+                        )}
                     </div>
                     <div className="info-group-students-list">
                         {studentsList.length === 0 ? (
@@ -127,20 +131,23 @@ const Students = () => {
                                         <p>|</p>
                                         <span
                                             className={`students-span ${student.is_active ? "active" : "inactive"}`}
-                                            onClick={() => toggleActiveStatus(student)}
-                                            style={{ cursor: "pointer" }}
+                                            onClick={isAuthenticated ? () => toggleActiveStatus(student) : null}
+                                            style={{ cursor: isAuthenticated ? "pointer" : "default", }}
                                         >
-                                            {student.is_active ? "Активен" : "Неактивен"}
+                                                {student.is_active ? "Активен" : "Неактивен"}
                                         </span>
+
                                     </div>
-                                    <div className="Modalka">
-                                        <button className="Edit-button" onClick={() => handleEdit(student)}>
-                                            <FaEdit className="Edit-icon" />
-                                        </button>
-                                        <button className="Delete-button" onClick={() => handleDeleteConfirm(student)}>
-                                            <MdOutlineDelete className="Delete-icon" />
-                                        </button>
-                                    </div>
+                                    {isAuthenticated && (
+                                        <div className="Modalka">
+                                            <button className="Edit-button" onClick={() => handleEdit(student)}>
+                                                <FaEdit className="Edit-icon" />
+                                            </button>
+                                            <button className="Delete-button" onClick={() => handleDeleteConfirm(student)}>
+                                                <MdOutlineDelete className="Delete-icon" />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             ))
                         )}

@@ -443,6 +443,10 @@
       background: #6D7F94; /* Цвет фона при наведении */
       color: red; /* Цвет текста при наведении */
     }
+
+  }
+  .hidden {
+    display: none;
   }
   .close-button {
     position: absolute;
