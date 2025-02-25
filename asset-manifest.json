@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/repository/static/css/main.fac542c0.css",
-    "main.js": "/repository/static/js/main.171671f5.js",
-    "static/media/img.png": "/repository/static/media/img.ec15ddfc7916a3b8f788.png",
-    "static/media/cPlus.png": "/repository/static/media/cPlus.9fc4dade1dc4ce93cd1f.png",
-    "static/media/C sharp.png": "/repository/static/media/C sharp.257e9dc98e7031cfed51.png",
-    "static/media/Carousel-React.png": "/repository/static/media/Carousel-React.4fa66de670902a2df978.png",
-    "static/media/Python.png": "/repository/static/media/Python.5375197ec63005e82bec.png",
-    "static/media/ts.png": "/repository/static/media/ts.134ac12c04ea73433275.png",
-    "static/media/Java.png": "/repository/static/media/Java.52cd1f88d8675ccab03d.png",
-    "static/media/JavaScript.png": "/repository/static/media/JavaScript.910dc60f28b1411bfc66.png",
-    "static/media/no-img.svg": "/repository/static/media/no-img.23725d7e4b6e05c6a51e4bc123950223.svg",
-    "static/media/number2.svg": "/repository/static/media/number2.8eecd112b05415bff7d5a76e2b0aa193.svg",
-    "static/media/number1.svg": "/repository/static/media/number1.3efae3c1701d2b4a2686d1d14b5e5a9f.svg",
-    "index.html": "/repository/index.html",
-    "main.fac542c0.css.map": "/repository/static/css/main.fac542c0.css.map",
-    "main.171671f5.js.map": "/repository/static/js/main.171671f5.js.map"
+    "main.css": "/EduQuiz_front-end/static/css/main.fac542c0.css",
+    "main.js": "/EduQuiz_front-end/static/js/main.ff021d90.js",
+    "static/media/img.png": "/EduQuiz_front-end/static/media/img.ec15ddfc7916a3b8f788.png",
+    "static/media/cPlus.png": "/EduQuiz_front-end/static/media/cPlus.9fc4dade1dc4ce93cd1f.png",
+    "static/media/C sharp.png": "/EduQuiz_front-end/static/media/C sharp.257e9dc98e7031cfed51.png",
+    "static/media/Carousel-React.png": "/EduQuiz_front-end/static/media/Carousel-React.4fa66de670902a2df978.png",
+    "static/media/Python.png": "/EduQuiz_front-end/static/media/Python.5375197ec63005e82bec.png",
+    "static/media/ts.png": "/EduQuiz_front-end/static/media/ts.134ac12c04ea73433275.png",
+    "static/media/Java.png": "/EduQuiz_front-end/static/media/Java.52cd1f88d8675ccab03d.png",
+    "static/media/JavaScript.png": "/EduQuiz_front-end/static/media/JavaScript.910dc60f28b1411bfc66.png",
+    "static/media/no-img.svg": "/EduQuiz_front-end/static/media/no-img.23725d7e4b6e05c6a51e4bc123950223.svg",
+    "static/media/number2.svg": "/EduQuiz_front-end/static/media/number2.8eecd112b05415bff7d5a76e2b0aa193.svg",
+    "static/media/number1.svg": "/EduQuiz_front-end/static/media/number1.3efae3c1701d2b4a2686d1d14b5e5a9f.svg",
+    "index.html": "/EduQuiz_front-end/index.html",
+    "main.fac542c0.css.map": "/EduQuiz_front-end/static/css/main.fac542c0.css.map",
+    "main.ff021d90.js.map": "/EduQuiz_front-end/static/js/main.ff021d90.js.map"
   },
   "entrypoints": [
     "static/css/main.fac542c0.css",
-    "static/js/main.171671f5.js"
+    "static/js/main.ff021d90.js"
   ]
 }
