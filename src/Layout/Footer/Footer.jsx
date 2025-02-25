@@ -30,16 +30,16 @@ const Footer = () => {
 
           <div className="Footer-nav">
             <h2>Навигация</h2>
-            <p className={activeLink === '/' ? 'active' : ''} onClick={() => handleClick('/')}>
+            <p  onClick={() => handleClick('/')}>
               <Link to="/">Главная</Link>
             </p>
-            <p className={activeLink === '/questions' ? 'active' : ''} onClick={() => handleClick('/questions')}>
+            <p onClick={() => handleClick('/questions')}>
               <Link to="/questions">Вопросы</Link>
             </p>
-            <p className={activeLink === '/groups' ? 'active' : ''} onClick={() => handleClick('/groups')}>
+            <p onClick={() => handleClick('/groups')}>
               <Link to="/groups">Группы</Link>
             </p>
-            <p className={activeLink === '/video' ? 'active' : ''} onClick={() => handleClick('/video')}>
+            <p  onClick={() => handleClick('/video')}>
               <Link to="/video">Видео-уроки</Link>
             </p>
           </div>
@@ -51,7 +51,7 @@ const Footer = () => {
             </p>
             <div className="Lil-text">
               <a 
-                href="https://www.instagram.com/clubofprogg?igsh=MWZrYnFybHVidHV1aA==" 
+                href="https://www.instagram.com/duishobaevislam01?igsh=ZHIyM2k4dWI2ZDhr"
                 target="_blank" 
                 rel="noopener noreferrer"
               >
