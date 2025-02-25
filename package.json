@@ -17,7 +17,7 @@
     "react-select": "^5.10.0",
     "sass": "^1.83.4"
   },
-  "homepage": "https://Islam0122.github.io/EduQuiz_front-end/",
+  "homepage": "https://Islam0122.github.io/EduQuiz_front-end",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
