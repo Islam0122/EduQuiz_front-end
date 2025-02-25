@@ -1,24 +1,29 @@
 import "./HomeAdvantages.scss";
 import '../../../App.scss'
 import logo from "./icons/Block3.png"
+import logo1 from "./icons/monitor.svg"
+import logo2 from "./icons/Security.svg"
+import logo3 from "./icons/decision.svg"
+import logo4 from "../icons/analytics.svg"
+
 const cardsData = [
   {
-    icon: "./icons/monitor.svg",
+    icon: {logo1},
     title: "Удобство",
     description: "Создавайте и редактируйте викторины в несколько кликов",
   },
   {
-    icon: "./icons/Security.svg",
+    icon: {logo2},
     title: "Безопасность",
     description: "Данные учеников надежно защищены",
   },
   {
-    icon: "./icons/decision.svg",
+    icon: {logo3},
     title: "Гибкость",
     description: "Настраивайте тесты под свои задачи",
   },
   {
-    icon: "./icons/analytics.svg",
+    icon: {logo4},
     title: "Аналитика",
     description: "Отслеживайте результаты студентов и выявляйте проблемные темы",
   },
