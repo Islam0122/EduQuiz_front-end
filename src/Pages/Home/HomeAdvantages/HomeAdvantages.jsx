@@ -8,22 +8,22 @@ import logo4 from "./icons/analytics.svg"
 
 const cardsData = [
   {
-    icon: {logo1},
+    icon: logo1,
     title: "Удобство",
     description: "Создавайте и редактируйте викторины в несколько кликов",
   },
   {
-    icon: {logo2},
+    icon: logo2,
     title: "Безопасность",
     description: "Данные учеников надежно защищены",
   },
   {
-    icon: {logo3},
+    icon: logo3,
     title: "Гибкость",
     description: "Настраивайте тесты под свои задачи",
   },
   {
-    icon: {logo4},
+    icon: logo4,
     title: "Аналитика",
     description: "Отслеживайте результаты студентов и выявляйте проблемные темы",
   },
