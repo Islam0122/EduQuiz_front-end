@@ -4,7 +4,7 @@ import logo from "./icons/Block3.png"
 import logo1 from "./icons/monitor.svg"
 import logo2 from "./icons/Security.svg"
 import logo3 from "./icons/decision.svg"
-import logo4 from "../icons/analytics.svg"
+import logo4 from "./icons/analytics.svg"
 
 const cardsData = [
   {
