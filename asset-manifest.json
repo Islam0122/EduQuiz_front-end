@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/EduQuiz_front-end/static/css/main.fac542c0.css",
-    "main.js": "/EduQuiz_front-end/static/js/main.4790b9be.js",
+    "main.js": "/EduQuiz_front-end/static/js/main.9377c76e.js",
     "static/media/fullstack.png": "/EduQuiz_front-end/static/media/fullstack.511c5df7829f68295853.png",
     "static/media/img.png": "/EduQuiz_front-end/static/media/img.f59b8b677f3ed824a857.png",
     "static/media/Block3.png": "/EduQuiz_front-end/static/media/Block3.2ca852ba196c1d6bc96d.png",
@@ -13,16 +13,20 @@
     "static/media/ts.png": "/EduQuiz_front-end/static/media/ts.134ac12c04ea73433275.png",
     "static/media/Java.png": "/EduQuiz_front-end/static/media/Java.52cd1f88d8675ccab03d.png",
     "static/media/JavaScript.png": "/EduQuiz_front-end/static/media/JavaScript.910dc60f28b1411bfc66.png",
+    "static/media/Security.svg": "/EduQuiz_front-end/static/media/Security.48c147b0f4001b8946c8cd80810d07d5.svg",
+    "static/media/analytics.svg": "/EduQuiz_front-end/static/media/analytics.80c5b30bcbded10581d9a65f6f912988.svg",
     "static/media/no-img.svg": "/EduQuiz_front-end/static/media/no-img.23725d7e4b6e05c6a51e4bc123950223.svg",
     "static/media/Union.svg": "/EduQuiz_front-end/static/media/Union.0d9ca8858fdedec9b6746e892ba1540b.svg",
+    "static/media/decision.svg": "/EduQuiz_front-end/static/media/decision.b3b2f2e9650fcaf6b9a2c629d6735a04.svg",
+    "static/media/monitor.svg": "/EduQuiz_front-end/static/media/monitor.f55444a2f948b6eb676b280ba49b3799.svg",
     "static/media/number2.svg": "/EduQuiz_front-end/static/media/number2.8eecd112b05415bff7d5a76e2b0aa193.svg",
     "static/media/number1.svg": "/EduQuiz_front-end/static/media/number1.3efae3c1701d2b4a2686d1d14b5e5a9f.svg",
     "index.html": "/EduQuiz_front-end/index.html",
     "main.fac542c0.css.map": "/EduQuiz_front-end/static/css/main.fac542c0.css.map",
-    "main.4790b9be.js.map": "/EduQuiz_front-end/static/js/main.4790b9be.js.map"
+    "main.9377c76e.js.map": "/EduQuiz_front-end/static/js/main.9377c76e.js.map"
   },
   "entrypoints": [
     "static/css/main.fac542c0.css",
-    "static/js/main.4790b9be.js"
+    "static/js/main.9377c76e.js"
   ]
 }
