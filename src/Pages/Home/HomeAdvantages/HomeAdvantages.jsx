@@ -1,24 +1,24 @@
 import "./HomeAdvantages.scss";
 import '../../../App.scss'
-
+import logo from "./icons/Block3.png"
 const cardsData = [
   {
-    icon: "/icons/monitor.svg",
+    icon: "./icons/monitor.svg",
     title: "Удобство",
     description: "Создавайте и редактируйте викторины в несколько кликов",
   },
   {
-    icon: "/icons/Security.svg",
+    icon: "./icons/Security.svg",
     title: "Безопасность",
     description: "Данные учеников надежно защищены",
   },
   {
-    icon: "/icons/decision.svg",
+    icon: "./icons/decision.svg",
     title: "Гибкость",
     description: "Настраивайте тесты под свои задачи",
   },
   {
-    icon: "/icons/analytics.svg",
+    icon: "./icons/analytics.svg",
     title: "Аналитика",
     description: "Отслеживайте результаты студентов и выявляйте проблемные темы",
   },
@@ -30,7 +30,7 @@ function HomeAdvantages() {
       <div className="container">
         <h1>Наше преимущество</h1>
         <div className="content">
-          <img src="/images/Block3.png" alt="Преимущества" />
+          <img src={logo} alt="Преимущества" />
           <div className="cards">
             {cardsData.map((card, index) => (
               <div className="card" key={index}>

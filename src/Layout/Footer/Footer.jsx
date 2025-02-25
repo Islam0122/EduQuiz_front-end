@@ -4,6 +4,7 @@ import { BsInstagram } from 'react-icons/bs';
 import { FaTelegram } from 'react-icons/fa';
 import { FiYoutube } from "react-icons/fi";
 import { AiFillTikTok } from "react-icons/ai";
+import logo from '../Union.svg';
 import './Footer.scss';
 import '../../App.scss'
 
@@ -22,7 +23,7 @@ const Footer = () => {
         <div className="Footer-top">
           <div className="FooterTopIn">
             <div className="icon-foot">
-              <img src="/icons/Union.svg" alt="Logo" />
+              <img src={logo} alt="Logo" />
               <h1>EDUQUIZ</h1>
             </div>
           </div>

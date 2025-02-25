@@ -1,5 +1,6 @@
 import './HeroGreenting.scss'
 import '../../../App.scss'
+import logo from "./fullstack.png";
 
 const HeroGreenting = () => {
     return (
@@ -7,7 +8,7 @@ const HeroGreenting = () => {
             <div className="container">
                 <div className="Greenting-flex">
                     <div className="Greenting-images">
-                        <img className="Greenting-img" src="/images/fullstack.png" alt="" />
+                        <img className="Greenting-img" src={logo} alt="" />
                     </div>
                     <div className="Greenting-text">
                         <h2 className="text1">

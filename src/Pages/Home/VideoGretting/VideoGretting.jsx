@@ -1,7 +1,8 @@
 import "./VideoGretting.scss";
 import '../../../App.scss'
 import React from "react";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom"
+import img from "./img.png"
 
 function VideoGretting() {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ function VideoGretting() {
             </button>
 
           </div>
-          <img src="/images/img.png" alt="Преимущества" />
+          <img src={img} alt="Преимущества" />
         </div>
       </div>
     </section>

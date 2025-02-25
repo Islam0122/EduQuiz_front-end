@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser} from '../../redux/slices/authSlice.js';
 import './Header.scss';
 import '../../App.scss';
+import logo from "../Union.svg";
 
 const Header = () => {
     const location = useLocation();
@@ -20,7 +21,7 @@ const Header = () => {
         <div className='container'>
             <div className='Header-block'>
                 <div className='Header-logo'>
-                    <img src="/icons/Union.svg" alt="Logo" />
+                    <img src={logo} alt="Logo" />
                     <h1>EDUQUIZ</h1>
                 </div>
                 <div className='Header-div-button-text'>
