@@ -10,6 +10,7 @@ import {
     useUpdateQuestionMutation
 } from "../../redux/questionsDetailApi";
 import './Questions.scss';
+import {useSelector} from "react-redux";
 
 
 const AddModal = ({ topic_id,closeModal, createQuestion }) => {
@@ -200,7 +201,7 @@ const EditModal = ({ closeModal, updateQuestion, question }) => {
     );
 };
 
-const QuestionItem = ({ question, onDelete, onEdit }) => {
+const QuestionItem = ({ question, onDelete, onEdit ,isAuthenticated }) => {
     return (
         <div className="question_card">
             <p><strong>Вопрос:</strong> <span>{question.text || "Без текста"}</span></p>
@@ -219,18 +220,23 @@ const QuestionItem = ({ question, onDelete, onEdit }) => {
                 </div>
 
             </div>
-            <div className="icons">
-                <FaTrash className="delete-icon" onClick={() => onDelete(question.id, question.text)} />
-                <FaEdit className="edit-icon" onClick={() => onEdit(question)} />
+            {isAuthenticated && (
+                <>
+                    <div className="icons">
+                        <FaTrash className="delete-icon" onClick={() => onDelete(question.id, question.text)} />
+                        <FaEdit className="edit-icon" onClick={() => onEdit(question)} />
+                    </div>
+                    <p><strong>Правильный ответ:</strong>
+                        <span>
+                        {question.correct_answer && question[`option_${question.correct_answer.toLowerCase()}`]
+                            ? `${question.correct_answer} - ${question[`option_${question.correct_answer.toLowerCase()}`]}`
+                            : "Нет данных"}
+                    </span>
+                    </p>
+                </>
+            )}
+
             </div>
-            <p><strong>Правильный ответ:</strong>
-                <span>
-                    {question.correct_answer && question[`option_${question.correct_answer.toLowerCase()}`]
-                        ? `${question.correct_answer} - ${question[`option_${question.correct_answer.toLowerCase()}`]}`
-                        : "Нет данных"}
-                </span>
-            </p>
-        </div>
     );
 };
 
@@ -245,6 +251,8 @@ const QuestionsDetail = () => {
     const [editModalOpen, setEditModalOpen] = useState(false);
     const [selectedQuestion, setSelectedQuestion] = useState(null);
     const [addModalOpen, setAddModalOpen] = useState(false);
+    const isAuthenticated = useSelector((state) => !!state.auth?.token);
+
 
 
     const handleAddQuestion = (newQuestion) => {
@@ -294,7 +302,9 @@ const QuestionsDetail = () => {
                 <div className="questions_detail-list">
                     <div className="title">
                         <h5>Вопросы</h5>
-                        <h5 onClick={() => setAddModalOpen(true)}>+ Добавить вопрос</h5>
+                        {isAuthenticated && (
+                            <h5 onClick={() => setAddModalOpen(true)}>+ Добавить вопрос</h5>
+                        )}
                     </div>
                     <div className="list">
                         {question.questions && question.questions.length > 0 ? (
@@ -306,7 +316,8 @@ const QuestionsDetail = () => {
                                         setSelectedQuestion({ id, text });
                                         setModalOpen(true);
                                     }}
-                                    onEdit={handleEdit} // 👈 Добавляем обработчик
+                                    onEdit={handleEdit}
+                                    isAuthenticated={isAuthenticated}
                                 />
                             ))
                         ) : (
