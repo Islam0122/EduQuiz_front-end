@@ -12,16 +12,16 @@ import {
 import './Questions.scss';
 import {useSelector} from "react-redux";
 
-
-const AddModal = ({ topic_id,closeModal, createQuestion }) => {
+const AddModal = ({ topic_id, closeModal, createQuestion }) => {
     const [formData, setFormData] = useState({
-        topic:topic_id,
+        topic: topic_id,
         text: "",
         option_a: "",
         option_b: "",
         option_c: "",
         option_d: "",
         correct_answer: "A",
+        image: null,
     });
 
     const handleChange = (e) => {
@@ -29,10 +29,27 @@ const AddModal = ({ topic_id,closeModal, createQuestion }) => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const handleFileChange = (e) => {
+        setFormData({ ...formData, image: e.target.files[0] });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await createQuestion(formData); // Отправляем запрос на создание нового вопроса
-        closeModal(); // Закрываем модальное окно
+
+        const data = new FormData();
+        data.append("topic", formData.topic);
+        data.append("text", formData.text);
+        data.append("option_a", formData.option_a);
+        data.append("option_b", formData.option_b);
+        data.append("option_c", formData.option_c);
+        data.append("option_d", formData.option_d);
+        data.append("correct_answer", formData.correct_answer);
+        if (formData.image) {
+            data.append("image", formData.image);
+        }
+
+        await createQuestion(data);
+        closeModal();
     };
 
     return (
@@ -43,64 +60,28 @@ const AddModal = ({ topic_id,closeModal, createQuestion }) => {
                 </button>
                 <h2>Добавить новый вопрос</h2>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="text"
-                        value={formData.text}
-                        onChange={handleChange}
-                        placeholder="Введите текст вопроса"
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="option_a"
-                        value={formData.option_a}
-                        onChange={handleChange}
-                        placeholder="Ответ A"
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="option_b"
-                        value={formData.option_b}
-                        onChange={handleChange}
-                        placeholder="Ответ B"
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="option_c"
-                        value={formData.option_c}
-                        onChange={handleChange}
-                        placeholder="Ответ C"
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="option_d"
-                        value={formData.option_d}
-                        onChange={handleChange}
-                        placeholder="Ответ D"
-                        required
-                    />
-                    <select
-                        name="correct_answer"
-                        value={formData.correct_answer}
-                        onChange={handleChange}
-                    >
+                    <input type="text" name="text" value={formData.text} onChange={handleChange} placeholder="Введите текст вопроса" required />
+                    <input type="text" name="option_a" value={formData.option_a} onChange={handleChange} placeholder="Ответ A" required />
+                    <input type="text" name="option_b" value={formData.option_b} onChange={handleChange} placeholder="Ответ B" required />
+                    <input type="text" name="option_c" value={formData.option_c} onChange={handleChange} placeholder="Ответ C" required />
+                    <input type="text" name="option_d" value={formData.option_d} onChange={handleChange} placeholder="Ответ D" required />
+                    <select name="correct_answer" value={formData.correct_answer} onChange={handleChange}>
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
                         <option value="D">D</option>
                     </select>
-                    <button type="submit" className="add-button">
-                        Добавить вопрос
-                    </button>
+
+                    {/* Поле для загрузки изображения */}
+                    <input type="file" accept="image/*" onChange={handleFileChange} />
+
+                    <button type="submit" className="add-button">Добавить вопрос</button>
                 </form>
             </div>
         </div>
     );
 };
+
 
 const ConfirmDeleteModal = ({ closeModal, deleteQuestion, questionText }) => (
     <div className="modal-overlay">
