@@ -18,10 +18,11 @@ export const questionsDetailApi = createApi({
         getQuestionById: builder.query({
             query: (id) => `questions/${id}/`,
         }),
+        
         updateQuestion: builder.mutation({
-            query: ({ id, ...data }) => ({
-                url: `questions/${id}/`,
-                method: "PATCH",
+            query: ({ id, data }) => ({
+                url: `/questions/${id}/`,
+                method: 'PATCH',
                 body: data,
             }),
         }),

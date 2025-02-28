@@ -102,23 +102,45 @@ const ConfirmDeleteModal = ({ closeModal, deleteQuestion, questionText }) => (
 );
 
 const EditModal = ({ closeModal, updateQuestion, question }) => {
-    const [formData, setFormData] = useState({ ...question });
+    const [formData, setFormData] = useState({
+        id: question?.id || "",
+        text: question?.text || "",
+        option_a: question?.option_a || "",
+        option_b: question?.option_b || "",
+        option_c: question?.option_c || "",
+        option_d: question?.option_d || "",
+        correct_answer: question?.correct_answer || "A",
+        image: null,
+    });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        // Убираем префикс (A:, B:, C:, D:) при изменении поля
         if (name.startsWith("option_")) {
-            setFormData({ ...formData, [name]: value.replace(/^[A-D]:\s*/, '') });
+            setFormData({ ...formData, [name]: value.replace(/^[A-D]:\s*/, "") });
         } else {
             setFormData({ ...formData, [name]: value });
         }
     };
 
+    const handleFileChange = (e) => {
+        setFormData({ ...formData, image: e.target.files[0] });
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await updateQuestion(formData); // Обновляем вопрос
-        closeModal(); // Закрываем модалку
+
+        if (!formData.id) {
+            console.error("Ошибка: отсутствует ID вопроса!");
+            return;
+        }
+
+        const data = new FormData();
+        Object.keys(formData).forEach((key) => {
+            data.append(key, formData[key]);
+        });
+
+        await updateQuestion({ id: formData.id, data });
+        closeModal();
     };
 
     return (
@@ -129,52 +151,18 @@ const EditModal = ({ closeModal, updateQuestion, question }) => {
                 </button>
                 <h2>Редактирование вопроса</h2>
                 <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="text"
-                        value={formData.text}
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="option_a"
-                        value={`A: ${formData.option_a}`}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <input
-                        type="text"
-                        name="option_b"
-                        value={`B: ${formData.option_b}`}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <input
-                        type="text"
-                        name="option_c"
-                        value={`C: ${formData.option_c}`}
-                        onChange={handleChange}
-                        required
-                    />
-
-                    <input
-                        type="text"
-                        name="option_d"
-                        value={`D: ${formData.option_d}`}
-                        onChange={handleChange}
-                        required
-                    />
-
+                    <input type="text" name="text" value={formData.text} onChange={handleChange} required />
+                    <input type="text" name="option_a" value={formData.option_a} onChange={handleChange} required />
+                    <input type="text" name="option_b" value={formData.option_b} onChange={handleChange} required />
+                    <input type="text" name="option_c" value={formData.option_c} onChange={handleChange} required />
+                    <input type="text" name="option_d" value={formData.option_d} onChange={handleChange} required />
                     <select name="correct_answer" value={formData.correct_answer} onChange={handleChange}>
                         <option value="A">A</option>
                         <option value="B">B</option>
                         <option value="C">C</option>
                         <option value="D">D</option>
                     </select>
-
+                    <input type="file" accept="image/*" onChange={handleFileChange} />
                     <button type="submit" className="add-button">Сохранить</button>
                 </form>
             </div>
