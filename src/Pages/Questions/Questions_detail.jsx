@@ -73,7 +73,7 @@ const AddModal = ({ topic_id, closeModal, createQuestion }) => {
                     </select>
 
                     {/* Поле для загрузки изображения */}
-                    <input type="file" accept="image/*" onChange={handleFileChange} />
+                    <input className="fileinput" type="file" accept="image/*" onChange={handleFileChange} />
 
                     <button type="submit" className="add-button">Добавить вопрос</button>
                 </form>
@@ -162,7 +162,7 @@ const EditModal = ({ closeModal, updateQuestion, question }) => {
                         <option value="C">C</option>
                         <option value="D">D</option>
                     </select>
-                    <input type="file" accept="image/*" onChange={handleFileChange} />
+                    <input className="fileinput" type="file" accept="image/*" onChange={handleFileChange} />
                     <button type="submit" className="add-button">Сохранить</button>
                 </form>
             </div>
