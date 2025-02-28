@@ -122,8 +122,31 @@
     }
 
   }
+}
+.fileinput {
+  background-color: #561493;
+  color: white; /* Белый текст */
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  outline: none;
+  border: none;
+  transition: 0.3s;
+}
 
+.fileinput::-webkit-file-upload-button {
+  background-color: #561493; /* Зеленый фон кнопки */
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-right: 15px;
+}
 
-
-
+.fileinput::-webkit-file-upload-button:hover {
+  background-color: #3f0774; /* Темнее при наведении */
+  opacity: 0.9;
+  transform: translateY(-2px);
 }
