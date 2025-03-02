@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 const TestItem = ({ id, name }) => {
   const navigate = useNavigate();
   return (
-      <div onClick={() => navigate(`/questions/${id}`)} className="group-item">
+      <div onClick={() => navigate(`/test/${id}`)} className="group-item">
         <img src={logo} alt="Логотип группы" />
         <h1>{name[0].toUpperCase() + name.slice(1)}</h1>
       </div>

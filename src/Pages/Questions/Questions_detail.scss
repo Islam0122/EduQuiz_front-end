@@ -76,6 +76,15 @@
           justify-content: start;
           gap: 20px;
           align-items: center;
+          .image{
+            width: 200px;
+          height: 200px;
+          border-radius: 6px;
+          object-fit: cover;
+          margin: 10px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          border: none;
+          }
 
           img {
             width: 157px;

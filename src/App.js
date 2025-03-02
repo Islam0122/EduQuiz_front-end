@@ -12,6 +12,7 @@ import QuestionsDetail from "./Pages/Questions/Questions_detail";
 import Video from "./Pages/Video/Video";
 import Typing from "./Pages/Typing/Typing";
 import TestListPage from "./Pages/Test/Test_list_page";
+import TestDetailPage from "./Pages/Test/Test_detail_page";
 
 const App = () => {
     return (
@@ -33,6 +34,8 @@ const App = () => {
                 <Route path="typing" element={<Typing />} />
 
                 <Route path="test" element={<TestListPage />} />
+                <Route path="test/:id" element={<TestDetailPage/>} />
+
 
 
                 {/* 404: редирект на главную или login */}

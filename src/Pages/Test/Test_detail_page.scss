@@ -1,0 +1,324 @@
+$primary-color: rgba(86, 20, 147, 1);
+$secondary-color: rgba(86, 115, 227, 1);
+$white-color: rgba(255, 255, 255, 1);
+$button-width: 294px;
+$button-height: 40px;
+$button-font-size: 14px;
+$button-font-weight: 400;
+$button-border-radius: 12px;
+
+.finish-button {
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  border-radius: $button-border-radius;
+  width: $button-width;
+  height: $button-height;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  background-color: inherit;
+  margin-right: 27px;
+
+  &:hover {
+    background-color: $primary-color;
+    color: $white-color;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: $primary-color;
+    transform: scale(0.95);
+  }
+
+  &.active {
+    background-color: $primary-color;
+    color: $white-color;
+  }
+}
+
+.options {
+  display: block;
+
+  p {
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 38.13px;
+  }
+
+  input {
+    width: 25px;
+    height: 25px;
+    background: transparent;
+    border-radius: 20px;
+    border-width: 3px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+
+  .option-radio {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+    appearance: none;
+    color: transparent;
+    border: 3px solid rgba(255, 255, 255, 1);
+    border-radius: 50%;
+    background-color: transparent;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  .option-radio:checked {
+    border-color: #4caf50; /* Зелёный контур для правильного ответа */
+  }
+
+  .option-radio:checked::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background-color: #4caf50;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Центрируем */
+  }
+
+  .option-radio:checked + .option-text {
+    font-size: 14px;
+    color: #4CAF50; /* Изменяет цвет текста при выборе */
+  }
+
+  .option-text {
+    font-size: 14px;
+
+  }
+
+  /* Стили для неправильного ответа */
+  .option-radio.incorrect {
+    border-color: red;
+  }
+
+  .option-radio.incorrect::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    background-color: red;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .option-radio.incorrect + .option-text {
+    font-size: 14px;
+    color: red; /* Изменяет цвет текста для неправильного ответа */
+  }
+
+  .option-radio:focus {
+    outline: none;
+  }
+
+  .check-answer-button:disabled {
+    background-color: white;
+    color: #0D1117;
+    cursor: not-allowed;
+  }
+
+  /* Обратная связь о правильности ответа */
+  .answer-feedback {
+    font-size: 14px;
+    font-weight: bold;
+    padding-left: 10px;
+  }
+
+  .answer-feedback.correct {
+    color: green;
+  }
+
+  .answer-feedback.incorrect {
+    color: red;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 20px;
+
+    button {
+      background-color: #561493;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+
+  .aa {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    animation: rotate-in 0.5s ease-out;
+    @keyframes slide-in {
+      0% {
+        transform: translateX(-20px);
+        opacity: 0;
+      }
+      50% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fade-in-text {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .icon {
+      animation: slide-in 0.5s ease-out forwards;
+    }
+
+    .text {
+      opacity: 0;
+      animation: fade-in-text 0.3s ease-out forwards;
+      animation-delay: 0.5s; /* Ждёт, пока стрелка дойдет */
+    }
+
+
+  }
+
+
+}
+
+.user-info {
+  border: 2px solid #909090;
+  border-radius: 10px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+  align-content: center;
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 18px;
+    line-height: 24.51px;
+  }
+
+  input {
+    display: block;
+    width: 100%;
+    height: 46px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    border: 1px solid #FFFFFF;
+    background: #0D1117;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 18px;
+    color: #909090;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #00ff99;
+  }
+}
+
+.test-result {
+  border: 2px solid #00ff99;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f2f8f6;
+  box-shadow: 0 4px 8px rgba(0, 255, 153, 0.3);
+  margin: 20px auto;
+  transition: all 0.3s ease-in-out;
+  padding-top: 10px;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 255, 153, 0.4);
+  }
+
+  h3 {
+    margin-bottom: 15px;
+    font-size: 32px;
+    color: #333;
+  }
+
+  p {
+    font-size: 18px;
+    color: #555;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+
+    svg {
+      margin-right: 10px;
+      font-size: 24px;
+    }
+  }
+
+  .motivation-message {
+    font-weight: bold;
+    font-size: 20px;
+    color: #333;
+    text-align: center;
+
+    span{
+       display: flex;
+       align-items: center;
+    }
+    svg {
+      margin-right: 10px;
+      font-size: 24px;
+    }
+    svg:last-child{
+      margin-left: 10px;
+    }
+  }
+}
+
+
+
+
+
+
+
+
