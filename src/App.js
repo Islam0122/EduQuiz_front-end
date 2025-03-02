@@ -11,6 +11,7 @@ import Students from "./Pages/Groups/Students";
 import QuestionsDetail from "./Pages/Questions/Questions_detail";
 import Video from "./Pages/Video/Video";
 import Typing from "./Pages/Typing/Typing";
+import TestListPage from "./Pages/Test/Test_list_page";
 
 const App = () => {
     return (
@@ -30,6 +31,9 @@ const App = () => {
                 <Route path="video" element={<Video />} />
 
                 <Route path="typing" element={<Typing />} />
+
+                <Route path="test" element={<TestListPage />} />
+
 
                 {/* 404: редирект на главную или login */}
                 <Route path="*" element={<NotFound />} />

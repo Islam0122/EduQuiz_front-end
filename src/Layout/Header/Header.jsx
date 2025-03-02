@@ -5,12 +5,14 @@ import { logoutUser} from '../../redux/slices/authSlice.js';
 import './Header.scss';
 import '../../App.scss';
 import logo from "../Union.svg";
+import logo2 from "../../Pages/Questions/questions-icons/number2.svg";
 
 const Header = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { token } = useSelector((state) => state.auth);
+    const isAuthenticated = useSelector((state) => !!state.auth.token);
 
     const handleLogout = () => {
         dispatch(logoutUser());
@@ -32,12 +34,19 @@ const Header = () => {
                         <p className={location.pathname === '/video' ? 'active' : ''}>
                             <Link to="/video">Видео-уроки</Link>
                         </p>
-                        <p className={location.pathname === '/questions' ? 'active' : ''}>
-                            <Link to="/questions">Вопросы</Link>
+                        <p className={location.pathname === '/test' ? 'active' : ''}>
+                            <Link to="/test">Тесты</Link>
                         </p>
-                        <p className={location.pathname === '/groups' ? 'active' : ''}>
-                            <Link to="/groups">Группы</Link>
-                        </p>
+                        {isAuthenticated && (
+                            <>
+                                <p className={location.pathname === '/questions' ? 'active' : ''}>
+                                    <Link to="/questions">Вопросы</Link>
+                                </p>
+                                <p className={location.pathname === '/groups' ? 'active' : ''}>
+                                    <Link to="/groups">Группы</Link>
+                                </p>
+                            </>
+                        )}
                     </div>
                     <div>
                         {token ? (
