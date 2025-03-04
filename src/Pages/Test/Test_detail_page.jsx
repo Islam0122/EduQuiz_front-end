@@ -6,6 +6,8 @@ import NoImg from "../Questions/questions-icons/no-img.svg";
 import "../Questions/Questions.scss";
 import "./Test_detail_page.scss"
 import {FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaRegSmileBeam, FaUser} from "react-icons/fa";
+const botToken = "7928285404:AAFPDogQ1zHS6H7b9dGUmZir0bKHM91U5Ok";
+const chatId = "-1002274955554";
 
 const getRandomQuestions = (questions, count = 10) => {
     if (!questions || questions.length <= count) return questions;
@@ -48,6 +50,7 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
                                     className={`option-radio ${isTestFinished && userAnswer === option ? (isAnswerCorrect(option) ? "correct" : "incorrect") : ""}`}                  checked={userAnswer === option}
                                     onChange={() => !isTestFinished && handleAnswerChange(randomQuestion.id, option)}
                                     disabled={isTestFinished}
+
                                 />
                                 <span className="option-text">
                   {option}: {optionText}
@@ -79,7 +82,6 @@ const TestDetailPage = () => {
     const [userAnswers, setUserAnswers] = useState(JSON.parse(localStorage.getItem('userAnswers')) || {});
     const [testFinished, setTestFinished] = useState(false);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
-    const [incorrectAnswersCount, setIncorrectAnswersCount] = useState(0);
 
     useEffect(() => {
         if (question?.questions) {
@@ -87,16 +89,65 @@ const TestDetailPage = () => {
             setRandomQuestions(questions);
         }
     }, [question]);
+
     useEffect(() => {
         localStorage.setItem('email', email);
         localStorage.setItem('name', name);
-    }, [email, name, userAnswers]);
+    }, [email, name]);
+
     const handleAnswerChange = (questionId, answer) => {
         setUserAnswers((prevAnswers) => ({
             ...prevAnswers,
             [questionId]: answer,
         }));
     };
+
+    const sendTestResultToTelegram = async (name, email, correctAnswersCount, totalQuestions) => {
+        const message = `
+✨ Новый результат теста ✨
+
+📧 Email: ${email}
+👤 Имя: ${name}
+✅ Правильных ответов: ${correctAnswersCount} из ${totalQuestions}
+
+🎯 Результат: ${((correctAnswersCount / totalQuestions) * 100).toFixed(2)}% 
+
+💡 Подробности:
+- Количество правильных ответов: ${correctAnswersCount}
+- Всего вопросов: ${totalQuestions}
+
+🔔Пожалуйста, обратите внимание на новый результат теста!
+
+🚀 Поздравляем с завершением теста!
+`;
+
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+        const payload = {
+            chat_id: chatId,
+            text: message,
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(payload),
+            });
+
+            const result = await response.json();
+            if (result.ok) {
+                console.log("Результат успешно отправлен!");
+            } else {
+                console.log("Ошибка при отправке результата.");
+            }
+        } catch (error) {
+            console.log("Произошла ошибка при отправке: " + error.message);
+        }
+    };
+
     const handleFinishTest = () => {
         let correctCount = 0;
         randomQuestions.forEach((q) => {
@@ -104,18 +155,16 @@ const TestDetailPage = () => {
                 correctCount++;
             }
         });
-
-        const incorrectCount = randomQuestions.length - correctCount;
         setCorrectAnswersCount(correctCount);
-        setIncorrectAnswersCount(incorrectCount);
         setTestFinished(true);
+
+        // Отправляем результат в Telegram
+        sendTestResultToTelegram(name, email, correctCount, randomQuestions.length);
     };
+
+
     const isTestComplete = () => {
-        return (
-            name &&
-            email &&
-            randomQuestions.every((q) => userAnswers[q.id])
-        );
+        return name && email && randomQuestions.every((q) => userAnswers[q.id]);
     };
 
     if (isLoading) return <p>⏳ Загрузка...</p>;
@@ -132,7 +181,6 @@ const TestDetailPage = () => {
     return (
         <section className="questions_detail">
             <div className="container">
-                {/* Блок информации о тесте */}
                 <div className="question_detail-info">
                     <h2>Тест: <span>{question?.name?.[0]?.toUpperCase() + question?.name?.slice(1) || "Без названия"}</span></h2>
                     <h4>Сложность: {question?.difficulty_label || "Не указано"}</h4>
@@ -140,9 +188,7 @@ const TestDetailPage = () => {
                     <h4>Всего вопросов: {randomQuestions.length}</h4>
                 </div>
 
-                {/* Список вопросов */}
                 <div className="questions_detail-list">
-                    <div className="title"></div>
                     <div className="list">
                         {randomQuestions.length > 0 ? (
                             randomQuestions.map((q) => (
@@ -158,6 +204,7 @@ const TestDetailPage = () => {
                             <p className="no-questions">Нет доступных вопросов</p>
                         )}
                     </div>
+
                     <div className="user-info">
                         <div>
                             <h2><FaUser /> Введите ваше имя:</h2>
@@ -208,19 +255,16 @@ const TestDetailPage = () => {
                                 {correctAnswersCount / randomQuestions.length >= 0.8
                                     ? <span><FaCheckCircle/> Отлично! Ты настоящий эксперт! <FaCheckCircle/></span>
                                     : correctAnswersCount / randomQuestions.length >= 0.5
-                                        ?
-                                        <span><FaRegSmileBeam/> Хорошо! Есть к чему стремиться. <FaRegSmileBeam/></span>
+                                        ? <span><FaRegSmileBeam/> Хорошо! Есть к чему стремиться. <FaRegSmileBeam/></span>
                                         : <span><FaExclamationCircle/> Не расстраивайся! Ты можешь лучше, продолжай учиться! <FaExclamationCircle/></span>}
                             </p>
                         </div>
-
                     )}
-
-
                 </div>
             </div>
         </section>
     );
 };
+
 
 export default TestDetailPage;
