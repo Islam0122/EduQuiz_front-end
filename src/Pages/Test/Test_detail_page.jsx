@@ -108,7 +108,7 @@ const TestDetailPage = () => {
 
 📧 Email: ${email}
 👤 Имя: ${name}
-📝 Тест: ${testName}
+📝 Тест: ${question?.name?.[0]?.toUpperCase() + question?.name?.slice(1)}
 ✅ Правильных ответов: ${correctAnswersCount} из ${totalQuestions}
 
 🎯 Результат: ${((correctAnswersCount / totalQuestions) * 100).toFixed(2)}% 
