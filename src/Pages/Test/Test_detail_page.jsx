@@ -102,12 +102,13 @@ const TestDetailPage = () => {
         }));
     };
 
-    const sendTestResultToTelegram = async (name, email, correctAnswersCount, totalQuestions) => {
+    const sendTestResultToTelegram = async (name, email, correctAnswersCount, totalQuestions, testName) => {
         const message = `
 ✨ Новый результат теста ✨
 
 📧 Email: ${email}
 👤 Имя: ${name}
+📝 Тест: ${testName}
 ✅ Правильных ответов: ${correctAnswersCount} из ${totalQuestions}
 
 🎯 Результат: ${((correctAnswersCount / totalQuestions) * 100).toFixed(2)}% 
@@ -121,7 +122,10 @@ const TestDetailPage = () => {
 🚀 Поздравляем с завершением теста!
 `;
 
-        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+
+
+
+    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
         const payload = {
             chat_id: chatId,
