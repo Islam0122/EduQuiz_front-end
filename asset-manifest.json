@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/EduQuiz_front-end/static/css/main.fac542c0.css",
-    "main.js": "/EduQuiz_front-end/static/js/main.47999c88.js",
+    "main.css": "/EduQuiz_front-end/static/css/main.84b0f9b0.css",
+    "main.js": "/EduQuiz_front-end/static/js/main.a343f44b.js",
     "static/media/fullstack.png": "/EduQuiz_front-end/static/media/fullstack.511c5df7829f68295853.png",
     "static/media/img.png": "/EduQuiz_front-end/static/media/img.f59b8b677f3ed824a857.png",
     "static/media/Block3.png": "/EduQuiz_front-end/static/media/Block3.2ca852ba196c1d6bc96d.png",
@@ -22,11 +22,11 @@
     "static/media/number2.svg": "/EduQuiz_front-end/static/media/number2.8eecd112b05415bff7d5a76e2b0aa193.svg",
     "static/media/number1.svg": "/EduQuiz_front-end/static/media/number1.3efae3c1701d2b4a2686d1d14b5e5a9f.svg",
     "index.html": "/EduQuiz_front-end/index.html",
-    "main.fac542c0.css.map": "/EduQuiz_front-end/static/css/main.fac542c0.css.map",
-    "main.47999c88.js.map": "/EduQuiz_front-end/static/js/main.47999c88.js.map"
+    "main.84b0f9b0.css.map": "/EduQuiz_front-end/static/css/main.84b0f9b0.css.map",
+    "main.a343f44b.js.map": "/EduQuiz_front-end/static/js/main.a343f44b.js.map"
   },
   "entrypoints": [
-    "static/css/main.fac542c0.css",
-    "static/js/main.47999c88.js"
+    "static/css/main.84b0f9b0.css",
+    "static/js/main.a343f44b.js"
   ]
 }
