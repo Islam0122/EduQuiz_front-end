@@ -16,7 +16,8 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.10.0",
     "react-typed": "^2.0.12",
-    "sass": "^1.83.4"
+    "sass": "^1.83.4",
+    "swiper": "^11.2.5"
   },
   "homepage": "https://Islam0122.github.io/EduQuiz_front-end",
   "scripts": {

@@ -3,13 +3,19 @@ import { customBaseQuery } from "./api";
 
 export const videoApi = createApi({
     reducerPath: "videoApi",
-    baseQuery: customBaseQuery, // Используем кастомный базовый запрос
+    baseQuery: customBaseQuery,
     endpoints: (builder) => ({
         getVideos: builder.query({
-            query: () => "videos", // Путь для получения списка видео
+            query: () => "videos",
         }),
         getVideoById: builder.query({
-            query: (id) => `videos/${id}/`, // Путь для получения видео по id
+            query: (id) => `videos/${id}/`,
+        }),
+        getVideosCategory: builder.query({
+            query: () => "videos_categories",
+        }),
+        getVideoCategoryId: builder.query({
+            query: (id) => `videos_categories/${id}/`,
         }),
     }),
 });
@@ -17,4 +23,6 @@ export const videoApi = createApi({
 export const {
     useGetVideosQuery,
     useGetVideoByIdQuery,
+    useGetVideosCategoryQuery,
+    useGetVideoCategoryIdQuery,
 } = videoApi;
