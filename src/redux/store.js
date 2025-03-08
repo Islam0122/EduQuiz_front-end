@@ -6,6 +6,8 @@ import {questionsApi} from "./questionsApi";
 import {questionsDetailApi} from "./questionsDetailApi";
 import {videoApi} from "./videoApi";
 import {groupApi} from "./groupApi";
+import {typingApi} from "./TypingApi";
+
 
 const store = configureStore({
   reducer: {
@@ -16,10 +18,12 @@ const store = configureStore({
     [questionsApi.reducerPath]: questionsApi.reducer,
     [questionsDetailApi.reducerPath]: questionsDetailApi.reducer,
     [videoApi.reducerPath]: videoApi.reducer,
+    [typingApi.reducerPath]: typingApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(quizApi.middleware, groupApi.middleware,studentApi.middleware,
-          questionsApi.middleware,questionsDetailApi.middleware,questionsDetailApi.middleware,videoApi.middleware,),
+          questionsApi.middleware,questionsDetailApi.middleware,questionsDetailApi.middleware,
+          videoApi.middleware,typingApi.middleware),
 });
 
 export default store;

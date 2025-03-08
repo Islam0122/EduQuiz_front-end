@@ -1,0 +1,124 @@
+.Typing {
+  color: white;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  font-size: 20px;
+
+  .typing-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: box-shadow 0.3s ease;
+
+    .settings-time,
+    .settings-category-text,
+    .stats {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 8px;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+    }
+
+    .stats {
+      p {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 20px;
+
+      }
+    }
+  }
+
+.Time {
+  margin-top: 60px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  h3 {
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1); // Полупрозрачный фон
+    border-radius: 15px; // Закругленные углы
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Тень
+    transition: all 0.3s ease; // Плавные переходы для всех свойств
+    font-size: 44px; // Увеличим размер шрифта
+    font-weight: 700;
+    color: #4CAF50; // Зеленый цвет текста
+    margin: 0; // Убираем отступы
+    animation: pulse 1.5s infinite; // Анимация пульсации
+
+    &:hover {
+      transform: translateY(-3px); // Эффект поднятия при наведении
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); // Увеличенная тень при наведении
+    }
+  }
+}
+  .text {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        font-size: 16px;
+        padding: 10px;
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateX(5px);
+        }
+      }
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+  }
+
+  .keyboard {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+
+    p {
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+
+}
