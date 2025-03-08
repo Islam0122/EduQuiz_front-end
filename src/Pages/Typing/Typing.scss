@@ -46,68 +46,45 @@
     }
   }
 
-.Time {
-  margin-top: 60px;
-  margin-bottom: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  h3 {
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1); // Полупрозрачный фон
-    border-radius: 15px; // Закругленные углы
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Тень
-    transition: all 0.3s ease; // Плавные переходы для всех свойств
-    font-size: 44px; // Увеличим размер шрифта
-    font-weight: 700;
-    color: #4CAF50; // Зеленый цвет текста
-    margin: 0; // Убираем отступы
-    animation: pulse 1.5s infinite; // Анимация пульсации
-
-    &:hover {
-      transform: translateY(-3px); // Эффект поднятия при наведении
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); // Увеличенная тень при наведении
-    }
-  }
-}
-  .text {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
+  .Time {
+    margin-top: 60px;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     h3 {
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1); // Полупрозрачный фон
+      border-radius: 15px; // Закругленные углы
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Тень
+      transition: all 0.3s ease; // Плавные переходы для всех свойств
+      font-size: 44px; // Увеличим размер шрифта
+      font-weight: 700;
+      color: #4CAF50; // Зеленый цвет текста
+      margin: 0; // Убираем отступы
+      animation: pulse 1.5s infinite; // Анимация пульсации
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      li {
-        font-size: 16px;
-        padding: 10px;
-        margin-bottom: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background 0.3s ease, transform 0.3s ease;
-
-        &:hover {
-          background: rgba(255, 255, 255, 0.2);
-          transform: translateX(5px);
-        }
+      &:hover {
+        transform: translateY(-3px); // Эффект поднятия при наведении
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); // Увеличенная тень при наведении
       }
     }
+  }
 
-    p {
-      font-size: 16px;
-      line-height: 1.6;
+  .text {
+    border-radius: 8px;
+    h3{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
     }
   }
+
+
+
+
 
   .keyboard {
     background: rgba(255, 255, 255, 0.1);

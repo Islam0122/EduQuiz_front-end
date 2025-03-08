@@ -6,7 +6,7 @@ export const typingApi = createApi({
     baseQuery: customBaseQuery,
     endpoints: (builder) => ({
         getTypingText: builder.query({
-            query: () => "texts/",
+            query: (category) => category ? `texts/?category=${category}` : "texts/",
         }),
         getTypingById: builder.query({
             query: (id) => `texts/${id}`,
