@@ -21,9 +21,12 @@
       align-items: center;
       gap: 10px;
       border-radius: 8px;
+      padding: 10px; // Добавлено для лучшего визуального разделения
+      transition: transform 0.2s ease, background 0.3s ease;
 
       &:hover {
         transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.1); // Изменение фона при наведении
       }
     }
 
@@ -31,7 +34,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-
+      font-size: 18px; // Увеличен размер текста для лучшей читаемости
     }
 
     .stats {
@@ -41,12 +44,15 @@
         align-items: center;
         gap: 5px;
         font-size: 20px;
-
       }
     }
   }
+  option:hover{
+  background: #00FF66 ;
+  }
 
   .Time {
+    z-index: -1;
     margin-top: 60px;
     margin-bottom: 20px;
     display: flex;
@@ -55,47 +61,67 @@
 
     h3 {
       padding: 20px;
-      background: rgba(255, 255, 255, 0.1); // Полупрозрачный фон
-      border-radius: 15px; // Закругленные углы
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); // Тень
-      transition: all 0.3s ease; // Плавные переходы для всех свойств
-      font-size: 44px; // Увеличим размер шрифта
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      font-size: 44px;
       font-weight: 700;
-      color: #4CAF50; // Зеленый цвет текста
-      margin: 0; // Убираем отступы
-      animation: pulse 1.5s infinite; // Анимация пульсации
+      color: #4CAF50;
+      margin: 0;
+      animation: pulse 1.5s infinite;
 
       &:hover {
-        transform: translateY(-3px); // Эффект поднятия при наведении
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); // Увеличенная тень при наведении
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
       }
     }
   }
 
   .text {
     border-radius: 8px;
-    h3{
+    padding: 5px 40px 40px;
+    background: rgba(255, 255, 255, 0.05); // Легкий фон для выделения
+
+    h3 {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 36px;
+      margin-bottom: 20px; // Добавлено для отступа
+    }
+
+    .syntax-highlighter {
+      margin-top: 10px; // Отступ для SyntaxHighlighter
     }
   }
-
-
-
-
 
   .keyboard {
     background: rgba(255, 255, 255, 0.1);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
+    margin-top: 20px; // Отступ сверху
 
     p {
       font-size: 16px;
       margin: 0;
     }
   }
+}
 
+// Анимация пульсации для времени
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
