@@ -37,17 +37,88 @@ const GlobalCodeStyles = createGlobalStyle`
     }
 
     .syntax-highlighter .linenumber {
-        color: #6e7681 !important; /* Цвет номеров строк */
-        user-select: none; /* Запрет выделения номеров строк */
-        padding-right: 20px !important; /* Отступ справа */
-        text-align: right !important; /* Выравнивание по правому краю */
+        color: #6e7681 !important;
+        user-select: none;
+        padding-right: 20px !important;
+        text-align: right !important;
     }
 
     .current-char {
-        background-color: #4CAF50; /* Подсветка текущего символа */
+        background-color: #4CAF50;
         color: white;
         border-radius: 3px;
         padding: 0 2px;
+    }
+
+    .correct {
+        color: #4CAF50;
+    }
+
+    .error {
+        color: #FF5252;
+        text-decoration: underline;
+    }
+
+    .keyboard {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .keyboard-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
+
+    .key {
+        padding: 10px;
+        margin: 2px;
+        border: 1px solid #4CAF50;
+        border-radius: 5px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .key.highlight {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .buttons button:hover {
+        background-color: #45a049;
+    }
+
+    .buttons button:active {
+        background-color: #388E3C;
+    }
+
+    .buttons h3 {
+        margin: 0;
+        padding: 10px 20px;
+        background-color: #34495e;
+        color: white;
+        border-radius: 5px;
     }
 `;
 
@@ -66,15 +137,19 @@ const Typing = () => {
     });
 
     const [selectedTimer, setSelectedTimer] = useState(timers?.[0]?.seconds || 30);
+    const [timeLeft, setTimeLeft] = useState(selectedTimer);
     const [currentText, setCurrentText] = useState('');
     const [cursorPosition, setCursorPosition] = useState(0);
     const [errors, setErrors] = useState(0);
     const [startTime, setStartTime] = useState(null);
     const [wpm, setWpm] = useState(0);
+    const [isTyping, setIsTyping] = useState(false);
+    const [isKeyHandled, setIsKeyHandled] = useState(false); // Флаг для блокировки множественных нажатий
 
-    // Ref для отслеживания фокуса
-    const inputRef = useRef(null);
+    const inputRef = useRef(null); // Добавлено определение inputRef
+    const timeoutRef = useRef(null); // Реф для хранения таймаута
 
+    // Загрузка случайного текста при изменении категории или таймера
     useEffect(() => {
         if (texts?.length > 0) {
             const randomText = texts[Math.floor(Math.random() * texts.length)];
@@ -83,32 +158,66 @@ const Typing = () => {
             setCursorPosition(0);
             setErrors(0);
             setStartTime(Date.now());
+            setTimeLeft(selectedTimer);
+            setIsTyping(false);
         } else {
             setSelectedTextId(null);
             setCurrentText('');
         }
-    }, [texts]);
+    }, [texts, selectedTimer]);
 
+    // Таймер обратного отсчета
+    useEffect(() => {
+        if (isTyping && timeLeft > 0) {
+            const timerId = setInterval(() => {
+                setTimeLeft((prev) => prev - 1);
+            }, 1000);
+            return () => clearInterval(timerId);
+        } else if (timeLeft === 0) {
+            setIsTyping(false);
+        }
+    }, [isTyping, timeLeft]);
+
+    // Обработка нажатия клавиш
     const handleKeyDown = useCallback((e) => {
+        if (isKeyHandled) return; // Если клавиша уже обрабатывается, игнорируем новое нажатие
+
+        // Игнорируем специальные клавиши
+        if (e.key.length > 1 || e.ctrlKey || e.altKey || e.metaKey) {
+            return;
+        }
+
+        if (!isTyping) setIsTyping(true);
         if (cursorPosition >= currentText.length) return;
 
         const expectedChar = currentText[cursorPosition];
         const pressedChar = e.key;
 
+        setIsKeyHandled(true); // Блокируем обработку новых нажатий
+
         if (pressedChar === expectedChar) {
+            setCurrentText((prev) => prev.slice(0, cursorPosition) + prev.slice(cursorPosition + 1));
             setCursorPosition((prev) => prev + 1);
         } else {
             setErrors((prev) => prev + 1);
         }
 
-        // Calculate WPM
-        const timeElapsed = (Date.now() - startTime) / 60000; // in minutes
-        const wordsTyped = (cursorPosition + 1) / 5; // assuming 5 characters per word
+        // Рассчитываем WPM
+        const timeElapsed = (Date.now() - startTime) / 60000;
+        const wordsTyped = (cursorPosition + 1) / 5;
         setWpm(Math.floor(wordsTyped / timeElapsed));
-    }, [currentText, cursorPosition, startTime]);
 
+        // Очищаем предыдущий таймаут, если он есть
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+
+        // Устанавливаем новый таймаут
+        timeoutRef.current = setTimeout(() => setIsKeyHandled(false), 50);
+    }, [currentText, cursorPosition, startTime, isTyping, isKeyHandled]);
+
+    // Фокусировка на поле ввода и добавление обработчика событий
     useEffect(() => {
-        // Устанавливаем фокус на компонент при монтировании
         if (inputRef.current) {
             inputRef.current.focus();
         }
@@ -117,57 +226,86 @@ const Typing = () => {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
+    // Форматирование времени
     const formatTime = useCallback((seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }, []);
 
+    // Обработка изменения таймера
     const handleTimerChange = useCallback((selectedOption) => {
         setSelectedTimer(selectedOption.value);
+        setTimeLeft(selectedOption.value);
     }, []);
 
+    // Обработка изменения категории
     const handleCategoryChange = useCallback((selectedOption) => {
         setSelectedCategory(selectedOption.value);
     }, []);
 
+    // Перезапуск сессии
+    const restartSession = () => {
+        if (texts?.length > 0) {
+            const randomText = texts[Math.floor(Math.random() * texts.length)];
+            setCurrentText(randomText.text_content);
+        }
+        setCursorPosition(0);
+        setErrors(0);
+        setStartTime(Date.now());
+        setTimeLeft(selectedTimer);
+        setIsTyping(false);
+    };
+
+    // Очистка таймаута при размонтировании компонента
+    useEffect(() => {
+        return () => {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+            }
+        };
+    }, []);
+
+    // Опции для выбора таймера
     const timerOptions = useMemo(() => timers?.map((timer) => ({
         value: timer.seconds,
         label: `${timer.seconds} секунд`,
     })) || [], [timers]);
 
+    // Опции для выбора категории
     const categoryOptions = useMemo(() => categories?.map((category) => ({
         value: category.id,
         label: category.name,
     })) || [], [categories]);
 
+    // Стили для Select
     const customStyles = useMemo(() => ({
         control: (provided, state) => ({
             ...provided,
             backgroundColor: 'transparent',
             border: 'none',
-            borderBottom: '2px solid #4CAF50', // Подчеркивание
-            borderRadius: '0', // Убираем скругления
+            borderBottom: '2px solid #4CAF50',
+            borderRadius: '0',
             boxShadow: 'none',
             fontSize: '16px',
             color: 'white',
             minWidth: '200px',
             cursor: 'pointer',
-            transition: 'border-color 0.3s ease', // Плавное изменение цвета подчеркивания
+            transition: 'border-color 0.3s ease',
             '&:hover': {
-                borderBottomColor: '#81C784', // Мягкий зеленый при наведении
+                borderBottomColor: '#81C784',
             },
         }),
         option: (provided, state) => ({
             ...provided,
-            backgroundColor: state.isSelected ? '#4CAF50' : '#0d1117', // Фон для выбранного и обычного элемента
+            backgroundColor: state.isSelected ? '#4CAF50' : '#0d1117',
             color: 'white',
             fontSize: '16px',
             padding: '10px 20px',
             cursor: 'pointer',
-            transition: 'background-color 0.3s ease', // Плавное изменение фона
+            transition: 'background-color 0.3s ease',
             '&:hover': {
-                backgroundColor: '#388E3C', // Мягкий зеленый при наведении
+                backgroundColor: '#388E3C',
             },
         }),
         singleValue: (provided) => ({
@@ -186,18 +324,18 @@ const Typing = () => {
         }),
         placeholder: (provided) => ({
             ...provided,
-            color: '#9E9E9E', // Серый цвет для плейсхолдера
+            color: '#9E9E9E',
         }),
         dropdownIndicator: (provided) => ({
             ...provided,
-            color: '#4CAF50', // Цвет стрелки
-            transition: 'color 0.3s ease', // Плавное изменение цвета
+            color: '#4CAF50',
+            transition: 'color 0.3s ease',
             '&:hover': {
-                color: '#81C784', // Мягкий зеленый при наведении
+                color: '#81C784',
             },
         }),
         indicatorSeparator: () => ({
-            display: 'none', // Убираем разделитель
+            display: 'none',
         }),
     }), []);
 
@@ -245,28 +383,68 @@ const Typing = () => {
                 </div>
 
                 <div className="Time">
-                    <h3>{formatTime(selectedTimer)}</h3>
+                    <h3>{formatTime(timeLeft)}</h3>
                 </div>
 
-                <div className="text" >
+                <div className="text">
                     {currentText ? (
                         <>
                             <h3>TEXT - {selectedText?.category?.name}</h3>
-                            <SyntaxHighlighter
+                            <div style={{ position: 'relative' }}>
+                                <SyntaxHighlighter
                                 language={(selectedText?.category?.name || "javascript").toLowerCase()}
                                 style={dracula}
                                 className="syntax-highlighter"
-                                showLineNumbers={true} // Включаем нумерацию строк
-                                lineNumberStyle={{ color: '#6e7681', marginRight: '20px' }} // Стили для номеров строк
+                                showLineNumbers={true}
+                                lineNumberStyle={{ color: '#6e7681', marginRight: '20px' }}
                             >
                                 {currentText.slice(cursorPosition)}
                             </SyntaxHighlighter>
+                            </div>
                         </>
                     ) : (
                         <p>Нет текстов для этой категории</p>
                     )}
                 </div>
+
+                <div className="keyboard">
+                    <div className="buttons">
+                        <div>
+                            <button onClick={restartSession}>Перезапустить</button>
+                            <button onClick={() => setIsTyping(false)}>Стоп</button>
+                            <h3>Ошибки: {errors}</h3>
+                        </div>
+                    </div>
+                    <Keyboard nextChar={currentText[cursorPosition]}/>
+                </div>
             </div>
+        </div>
+    );
+};
+
+const Keyboard = ({nextChar}) => {
+    const keys = [
+        ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '←'],
+        ['TAB', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
+        ['CAPS', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'ENTER'],
+        ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',<', '.>', '/?', 'SHIFT'],
+        ['SPACE']
+    ];
+
+    return (
+        <div className="keyboard">
+            {keys.map((row, rowIndex) => (
+                <div key={rowIndex} className="keyboard-row">
+                    {row.map((key) => (
+                        <div
+                            key={key}
+                            className={`key ${key === nextChar ? 'highlight' : ''} ${key === 'SPACE' ? 'space-key' : ''}`}
+                        >
+                            {key === 'SPACE' ? ' ' : key}
+                        </div>
+                    ))}
+                </div>
+            ))}
         </div>
     );
 };
