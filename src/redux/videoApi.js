@@ -11,6 +11,9 @@ export const videoApi = createApi({
         getVideoById: builder.query({
             query: (id) => `videos/${id}/`,
         }),
+        getVideosByCategory :  builder.query({
+            query: (category) => `videos/?category=${category}`,
+        }),
         getVideosCategory: builder.query({
             query: () => "videos_categories",
         }),
@@ -23,6 +26,7 @@ export const videoApi = createApi({
 export const {
     useGetVideosQuery,
     useGetVideoByIdQuery,
+    useGetVideosByCategoryQuery,
     useGetVideosCategoryQuery,
     useGetVideoCategoryIdQuery,
 } = videoApi;

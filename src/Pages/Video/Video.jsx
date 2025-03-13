@@ -70,7 +70,7 @@ const Video = () => {
                     >
                         {categories.map((category) => (
                             <SwiperSlide key={category}>
-                                <button 
+                                <button
                                     className={selectedCategory === category ? "active" : ""}
                                     onClick={() => handleCategoryClick(category)}
                                 >
@@ -80,7 +80,7 @@ const Video = () => {
                         ))}
                     </Swiper>
                 </div>
-                
+
                 {isLoading ? (
                     <div className="status-message loading">
                         <p>⏳ Загрузка видео...</p>
