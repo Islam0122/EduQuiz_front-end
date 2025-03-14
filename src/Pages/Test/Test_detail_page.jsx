@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useGetQuestionByIdQuery } from "../../redux/questionsApi";
 import "../Questions/Questions_detail.scss";
 import NoImg from "../Questions/questions-icons/no-img.svg";
 import "../Questions/Questions.scss";
 import "./Test_detail_page.scss"
-import {FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaRegSmileBeam, FaUser} from "react-icons/fa";
+import { FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaRegSmileBeam, FaUser } from "react-icons/fa";
 const botToken = "7928285404:AAFPDogQ1zHS6H7b9dGUmZir0bKHM91U5Ok";
 const chatId = "-1002274955554";
 
@@ -32,7 +32,7 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
         <div className="question_card">
             <p><strong>Вопрос:</strong> <span>{randomQuestion.text}</span></p>
             <div className="question_content">
-                <img src={randomQuestion.image || NoImg} alt="Изображение вопроса" className="image"/>
+                <img src={randomQuestion.image || NoImg} alt="Изображение вопроса" className="image" />
                 <div className="options">
                     <p><strong>Варианты:</strong></p>
                     {["A", "B", "C", "D"].map((option) => {
@@ -47,14 +47,14 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
                                     id={`option${option}`}
                                     name={`question-${randomQuestion.id}`}
                                     value={option}
-                                    className={`option-radio ${isTestFinished && userAnswer === option ? (isAnswerCorrect(option) ? "correct" : "incorrect") : ""}`}                  checked={userAnswer === option}
+                                    className={`option-radio ${isTestFinished && userAnswer === option ? (isAnswerCorrect(option) ? "correct" : "incorrect") : ""}`} checked={userAnswer === option}
                                     onChange={() => !isTestFinished && handleAnswerChange(randomQuestion.id, option)}
                                     disabled={isTestFinished}
 
                                 />
                                 <span className="option-text">
-                  {option}: {optionText}
-                </span>
+                                    {option}: {optionText}
+                                </span>
 
                                 {isTestFinished && isSelected && (
                                     <div
@@ -72,7 +72,6 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
     );
 };
 
-
 const TestDetailPage = () => {
     const { id } = useParams();
     const { data: question, error, isLoading, refetch } = useGetQuestionByIdQuery(id);
@@ -82,6 +81,8 @@ const TestDetailPage = () => {
     const [userAnswers, setUserAnswers] = useState(JSON.parse(localStorage.getItem('userAnswers')) || {});
     const [testFinished, setTestFinished] = useState(false);
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+    const [emailError, setEmailError] = useState("");
+    const [nameError, setNameError] = useState("");
 
     useEffect(() => {
         if (question?.questions) {
@@ -94,6 +95,16 @@ const TestDetailPage = () => {
         localStorage.setItem('email', email);
         localStorage.setItem('name', name);
     }, [email, name]);
+
+    const validateEmail = (email) => {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(String(email).toLowerCase());
+    };
+
+    const validateName = (name) => {
+        const re = /^[a-zA-Zа-яА-Я\s]{2,}$/; // Минимум 2 символа, только буквы и пробелы
+        return re.test(String(name));
+    };
 
     const handleAnswerChange = (questionId, answer) => {
         setUserAnswers((prevAnswers) => ({
@@ -122,10 +133,7 @@ const TestDetailPage = () => {
 🚀 Поздравляем с завершением теста!
 `;
 
-
-
-
-    const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
         const payload = {
             chat_id: chatId,
@@ -153,6 +161,20 @@ const TestDetailPage = () => {
     };
 
     const handleFinishTest = () => {
+        // Проверка имени
+        if (!validateName(name)) {
+            setNameError("Пожалуйста, введите корректное имя (минимум 2 символа, только буквы и пробелы).");
+            return;
+        }
+        setNameError("");
+
+        // Проверка email
+        if (!validateEmail(email)) {
+            setEmailError("Пожалуйста, введите корректный email.");
+            return;
+        }
+        setEmailError("");
+
         let correctCount = 0;
         randomQuestions.forEach((q) => {
             if (userAnswers[q.id] === q.correct_answer) {
@@ -166,6 +188,15 @@ const TestDetailPage = () => {
         sendTestResultToTelegram(name, email, correctCount, randomQuestions.length);
     };
 
+    const handleRestartTest = () => {
+        // Сбрасываем состояние теста
+        setUserAnswers({});
+        setTestFinished(false);
+        setCorrectAnswersCount(0);
+        setEmailError("");
+        setNameError("");
+        localStorage.removeItem('userAnswers'); // Очищаем сохраненные ответы
+    };
 
     const isTestComplete = () => {
         return name && email && randomQuestions.every((q) => userAnswers[q.id]);
@@ -219,6 +250,7 @@ const TestDetailPage = () => {
                                 onChange={(e) => setName(e.target.value)}
                                 disabled={testFinished}
                             />
+                            {nameError && <p className="error-message">{nameError}</p>}
                         </div>
                         <div>
                             <h2><FaEnvelope /> Введите ваш email:</h2>
@@ -229,6 +261,7 @@ const TestDetailPage = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={testFinished}
                             />
+                            {emailError && <p className="error-message">{emailError}</p>}
                         </div>
                     </div>
 
@@ -247,28 +280,36 @@ const TestDetailPage = () => {
                             <h3>Результаты теста:</h3>
 
                             <p>
-                                <FaCheckCircle style={{color: 'green'}}/> Правильных
+                                <FaCheckCircle style={{ color: 'green' }} /> Правильных
                                 ответов: {correctAnswersCount} из {randomQuestions.length}
                             </p>
 
                             <p>
-                                <FaCheckCircle style={{color: 'green'}}/> Процент правильных
+                                <FaCheckCircle style={{ color: 'green' }} /> Процент правильных
                                 ответов: {(correctAnswersCount / randomQuestions.length) * 100}%
                             </p>
                             <p className="motivation-message">
                                 {correctAnswersCount / randomQuestions.length >= 0.8
-                                    ? <span><FaCheckCircle/> Отлично! Ты настоящий эксперт! <FaCheckCircle/></span>
+                                    ? <span><FaCheckCircle /> Отлично! Ты настоящий эксперт! <FaCheckCircle /></span>
                                     : correctAnswersCount / randomQuestions.length >= 0.5
-                                        ? <span><FaRegSmileBeam/> Хорошо! Есть к чему стремиться. <FaRegSmileBeam/></span>
-                                        : <span><FaExclamationCircle/> Не расстраивайся! Ты можешь лучше, продолжай учиться! <FaExclamationCircle/></span>}
+                                        ? <span><FaRegSmileBeam /> Хорошо! Есть к чему стремиться. <FaRegSmileBeam /></span>
+                                        : <span><FaExclamationCircle /> Не расстраивайся! Ты можешь лучше, продолжай учиться! <FaExclamationCircle /></span>}
                             </p>
                         </div>
                     )}
+
+                    {/* Кнопка перезапуска */}
+                    <button
+                        onClick={handleRestartTest}
+                        className="restart"
+                        disabled={!testFinished} // Делаем кнопку активной только после завершения теста
+                    >
+                        Перезапустить
+                    </button>
                 </div>
             </div>
         </section>
     );
 };
-
 
 export default TestDetailPage;

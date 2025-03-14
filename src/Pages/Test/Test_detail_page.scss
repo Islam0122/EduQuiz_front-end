@@ -8,6 +8,7 @@ $button-font-weight: 400;
 $button-border-radius: 12px;
 
 .finish-button {
+  display: block;
   font-size: $button-font-size;
   font-weight: $button-font-weight;
   border-radius: $button-border-radius;
@@ -19,6 +20,36 @@ $button-border-radius: 12px;
   color: $primary-color;
   background-color: inherit;
   margin-right: 27px;
+
+  &:hover {
+    background-color: $primary-color;
+    color: $white-color;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: $primary-color;
+    transform: scale(0.95);
+  }
+
+  &.active {
+    background-color: $primary-color;
+    color: $white-color;
+  }
+}
+.restart {
+  font-size: $button-font-size;
+  font-weight: $button-font-weight;
+  border-radius: $button-border-radius;
+  width: $button-width;
+  height: $button-height;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  border: 2px solid $primary-color;
+  color: $primary-color;
+  background-color: inherit;
+  margin-right: 27px;
+  margin-top: 20px;
 
   &:hover {
     background-color: $primary-color;
