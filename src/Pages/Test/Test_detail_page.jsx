@@ -6,6 +6,7 @@ import NoImg from "../Questions/questions-icons/no-img.svg";
 import "../Questions/Questions.scss";
 import "./Test_detail_page.scss"
 import { FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaRegSmileBeam, FaUser } from "react-icons/fa";
+import { text } from "framer-motion/client";
 const botToken = "7928285404:AAFPDogQ1zHS6H7b9dGUmZir0bKHM91U5Ok";
 const chatId = "-1002274955554";
 
@@ -17,6 +18,7 @@ const getRandomQuestions = (questions, count = 10) => {
 const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestFinished }) => {
     const isAnswerCorrect = (answer) => answer === randomQuestion.correct_answer;
     const userAnswer = userAnswers[randomQuestion.id];
+    const isSkipped = isTestFinished && !userAnswer;
 
     const getAnswerClass = (answer) => {
         if (!isTestFinished) return "";
@@ -35,7 +37,7 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
                 <img src={randomQuestion.image || NoImg} alt="Изображение вопроса" className="image" />
                 <div className="options">
                     <p><strong>Варианты:</strong></p>
-                    {["A", "B", "C", "D"].map((option) => {
+                    {"ABCD".split("").map((option) => {
                         const optionText = randomQuestion[`option_${option.toLowerCase()}`];
                         const optionClass = getAnswerClass(option);
                         const isSelected = userAnswer === option;
@@ -47,25 +49,22 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
                                     id={`option${option}`}
                                     name={`question-${randomQuestion.id}`}
                                     value={option}
-                                    className={`option-radio ${isTestFinished && userAnswer === option ? (isAnswerCorrect(option) ? "correct" : "incorrect") : ""}`} checked={userAnswer === option}
+                                    className={`option-radio ${isTestFinished && isSelected ? (isAnswerCorrect(option) ? "correct" : "incorrect") : ""}`}
+                                    checked={isSelected}
                                     onChange={() => !isTestFinished && handleAnswerChange(randomQuestion.id, option)}
                                     disabled={isTestFinished}
-
                                 />
                                 <span className="option-text">
                                     {option}: {optionText}
                                 </span>
-
-                                {isTestFinished && isSelected && (
-                                    <div
-                                        className={`answer-feedback ${isAnswerCorrect(option) ? "correct" : "incorrect"}`}
-                                    >
-                                        {isAnswerCorrect(option) ? "Правильно!" : "Неправильно!"}
-                                    </div>
-                                )}
                             </div>
                         );
                     })}
+                    {isTestFinished && isSkipped && (
+                        <div className="answer-feedback skipped">
+                            <FaExclamationCircle className="icon" /> Вы пропустили этот вопрос!
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -176,13 +175,23 @@ const TestDetailPage = () => {
         setEmailError("");
 
         let correctCount = 0;
+        let skippedQuestions = [];
+
         randomQuestions.forEach((q) => {
             if (userAnswers[q.id] === q.correct_answer) {
                 correctCount++;
+            } else if (!userAnswers[q.id]) {
+                skippedQuestions.push(q);
             }
         });
+
         setCorrectAnswersCount(correctCount);
         setTestFinished(true);
+
+        // Сохраняем результаты в localStorage
+        localStorage.setItem("testFinished", true);
+        localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
+        localStorage.setItem("correctAnswersCount", correctCount);
 
         // Отправляем результат в Telegram
         sendTestResultToTelegram(name, email, correctCount, randomQuestions.length);
@@ -274,6 +283,24 @@ const TestDetailPage = () => {
                             Завершить тест
                         </button>
                     )}
+
+                    {testFinished && (
+                        <div className="skipped-questions">
+                            {randomQuestions.some(q => !userAnswers[q.id]) && (
+                                <>
+                                    <h3>❗ Вы пропустили следующие вопросы:</h3>
+                                    <ul>
+                                        {randomQuestions
+                                            .filter(q => !userAnswers[q.id])
+                                            .map((q) => (
+                                                <li key={q.id}>{q.text}</li>
+                                            ))}
+                                    </ul>
+                                </>
+                            )}
+                        </div>
+                    )}
+
 
                     {testFinished && (
                         <div className="test-result">
