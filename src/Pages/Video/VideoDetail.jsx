@@ -1,5 +1,5 @@
 import YouTube from "react-youtube";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useGetVideoByIdQuery, useGetVideosByCategoryQuery } from "../../redux/videoApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -13,8 +13,13 @@ const VideoDetail = () => {
     const { data: relatedVideos, error: videosError, isLoading: videosLoading } =
         useGetVideosByCategoryQuery(category, { skip: !category });
 
-    if (isLoading || videosLoading) return <p>Загрузка...</p>;
-    if (error || videosError) return <p>Ошибка при загрузке данных.</p>;
+    if (isLoading || videosLoading) return <div className="loading-spinner">⏳ Загрузка...</div>;
+    if (error || videosError) return (
+        <div className="error-message">
+            <p>❌ Ошибка при загрузке данных.</p>
+            <button onClick={() => window.location.reload()}>Попробовать снова</button>
+        </div>
+    );
     if (!data) return <p>Видео не найдено.</p>;
 
     const extractVideoId = (url) => {
@@ -29,11 +34,11 @@ const VideoDetail = () => {
         <section className="VideoDetail">
             <div className="container">
                 <div className="video">
-                    <YouTube className="youtube" videoId={videoId}/>
-                </div>
-                <div className="description">
-                    <h2>{data.title}</h2>
-                    <p>{data.description}</p>
+                    <YouTube className="youtube" videoId={videoId} />
+                    <div className="description">
+                        <h2>{data.title}</h2>
+                        <p>{data.description}</p>
+                    </div>
                 </div>
                 {category && relatedVideos?.length > 0 && (
                     <div className="category-video">
@@ -51,7 +56,12 @@ const VideoDetail = () => {
                                 <SwiperSlide key={video.id}>
                                     <div className="video-item" onClick={() => navigate(`/video/${video.id}`)}>
                                         <div>
-                                            <img className="video-img" src={`https://img.youtube.com/vi/${extractVideoId(video.video_url)}/hqdefault.jpg`} alt={video.title} />
+                                            <img
+                                                className="video-img"
+                                                src={`https://img.youtube.com/vi/${extractVideoId(video.video_url)}/hqdefault.jpg`}
+                                                alt={video.title}
+                                                loading="lazy"
+                                            />
                                         </div>
                                         <h2>{video.title}</h2>
                                     </div>

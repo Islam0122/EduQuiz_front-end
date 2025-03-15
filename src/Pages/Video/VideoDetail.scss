@@ -6,8 +6,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            gap: 20px;
             .youtube {
-                width: 993px;
+                width: 900px;
                 height: 450px;
                 iframe {
                     width: 100%;
@@ -15,22 +16,20 @@
                     border-radius: 15px;
                 }
             }
-        }
-
-        .description {
-            color: white;
-
-            h2 {
-                font-size: 24px;
-                font-weight: 600;
-                margin-bottom: 20px;
-                text-align: center;
-            }
-
-            p {
-                font-size: 20px;
-                font-weight: 400;
-                text-align: center;
+            .description {
+                color: white;
+                width: 180px;
+    
+                h2 {
+                    font-size: 24px;
+                    font-weight: 600;
+                    margin-bottom: 20px;
+                }
+    
+                p {
+                    font-size: 20px;
+                    font-weight: 400;
+                }
             }
         }
 
