@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 import { useGetQuestionByIdQuery } from "../../redux/questionsApi";
+import { link, useParams, useNavigate } from 'react-router-dom';
 import "../Questions/Questions_detail.scss";
 import NoImg from "../Questions/questions-icons/no-img.svg";
 import "../Questions/Questions.scss";
@@ -71,8 +71,10 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
     );
 };
 
+
 const TestDetailPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
     const { data: question, error, isLoading, refetch } = useGetQuestionByIdQuery(id);
     const [email, setEmail] = useState(localStorage.getItem('email') || "");
     const [name, setName] = useState(localStorage.getItem('name') || "");
@@ -207,6 +209,40 @@ const TestDetailPage = () => {
         localStorage.removeItem('userAnswers'); // Очищаем сохраненные ответы
     };
 
+    const handleClearEverything = () => {
+        setUserAnswers({});
+        setTestFinished(false);
+        setCorrectAnswersCount(0);
+        setEmail("");
+        setName("");
+        setEmailError("");
+        setNameError("");
+        localStorage.removeItem('userAnswers');
+        localStorage.removeItem('email');
+        localStorage.removeItem('name');
+        localStorage.removeItem('testFinished');
+        localStorage.removeItem('correctAnswersCount');
+    };
+
+    const handleNewTest = () => {
+        if (question?.questions) {
+            const questions = getRandomQuestions(question.questions, 10);
+            setRandomQuestions(questions);
+        }
+        setUserAnswers({});
+        setTestFinished(false);
+        setCorrectAnswersCount(0);
+        setEmailError("");
+        setNameError("");
+        localStorage.removeItem('userAnswers');
+        localStorage.removeItem('testFinished');
+        localStorage.removeItem('correctAnswersCount');
+    };
+
+    const handleGoBack = () => {
+        navigate('/test'); // Переход на страницу /test
+    };
+
     const isTestComplete = () => {
         return name && email && randomQuestions.every((q) => userAnswers[q.id]);
     };
@@ -274,33 +310,38 @@ const TestDetailPage = () => {
                         </div>
                     </div>
 
-                    {!testFinished && (
-                        <button
-                            onClick={handleFinishTest}
-                            className="finish-button"
-                            disabled={!isTestComplete()}
-                        >
-                            Завершить тест
-                        </button>
-                    )}
+                    <div className="test-button">
+                        {!testFinished && (
+                            <button
+                                onClick={handleFinishTest}
+                                className="finish-button"
+                                disabled={!isTestComplete()}
+                            >
+                                Завершить тест
+                            </button>
+                        )}
 
-                    {testFinished && (
-                        <div className="skipped-questions">
-                            {randomQuestions.some(q => !userAnswers[q.id]) && (
-                                <>
-                                    <h3>❗ Вы пропустили следующие вопросы:</h3>
-                                    <ul>
-                                        {randomQuestions
-                                            .filter(q => !userAnswers[q.id])
-                                            .map((q) => (
-                                                <li key={q.id}>{q.text}</li>
-                                            ))}
-                                    </ul>
-                                </>
-                            )}
-                        </div>
-                    )}
-
+                        {testFinished && (
+                            <div className="skipped-questions">
+                                {randomQuestions.some(q => !userAnswers[q.id]) && (
+                                    <>
+                                        <h3>❗ Вы пропустили следующие вопросы:</h3>
+                                        <ul>
+                                            {randomQuestions
+                                                .filter(q => !userAnswers[q.id])
+                                                .map((q) => (
+                                                    <li key={q.id}>{q.text}</li>
+                                                ))}
+                                        </ul>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                        
+                        <button onClick={handleClearEverything} className="clear-everything">Очистить все</button>
+                        <button onClick={handleNewTest} className="new-test">Новый тест</button>
+                        <button onClick={handleGoBack} className="back">Назад</button>
+                    </div>
 
                     {testFinished && (
                         <div className="test-result">
@@ -322,17 +363,17 @@ const TestDetailPage = () => {
                                         ? <span><FaRegSmileBeam /> Хорошо! Есть к чему стремиться. <FaRegSmileBeam /></span>
                                         : <span><FaExclamationCircle /> Не расстраивайся! Ты можешь лучше, продолжай учиться! <FaExclamationCircle /></span>}
                             </p>
+                            {/* Кнопка перезапуска */}
+                            <button
+                                onClick={handleRestartTest}
+                                className="restart"
+                                disabled={!testFinished} // Делаем кнопку активной только после завершения теста
+                            >
+                                Перезапустить
+                            </button>
                         </div>
                     )}
 
-                    {/* Кнопка перезапуска */}
-                    <button
-                        onClick={handleRestartTest}
-                        className="restart"
-                        disabled={!testFinished} // Делаем кнопку активной только после завершения теста
-                    >
-                        Перезапустить
-                    </button>
                 </div>
             </div>
         </section>
