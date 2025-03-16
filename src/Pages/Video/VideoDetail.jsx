@@ -43,11 +43,9 @@ const VideoDetail = () => {
                     </div>
                     <div className="description">
                         <h2>
-                            <FaVideo style={{color: "#ff9800", marginRight: "15px"}}/>
                             {data.title}
                         </h2>
                         <p>
-                            <FaListUl style={{marginRight: '15px', color: '#3498db'}}/>
                             {data.description}
                         </p>
                     </div>
