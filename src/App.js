@@ -10,6 +10,7 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Students from "./Pages/Groups/Students";
 import QuestionsDetail from "./Pages/Questions/Questions_detail";
 import Video from "./Pages/Video/Video";
+import VideoDetail from "./Pages/Video/VideoDetail";
 import Typing from "./Pages/Typing/Typing";
 import TestListPage from "./Pages/Test/Test_list_page";
 import TestDetailPage from "./Pages/Test/Test_detail_page";
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="groups/:id" element={<Students />} />
 
                 <Route path="video" element={<Video />} />
+                <Route path="/video/:id" element={<VideoDetail />} />
 
                 <Route path="typing" element={<Typing />} />
 

@@ -9,6 +9,71 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
 
+// Компонент для кнопок категорий
+const CategoryButtons = ({ categories, selectedCategory, handleCategoryClick }) => (
+    <Swiper
+        spaceBetween={80}
+        slidesPerView={6}
+        loop={true}
+        autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+        }}
+        className="category-swiper"
+    >
+        {categories.map((category) => (
+            <SwiperSlide key={category}>
+                <button
+                    className={selectedCategory === category ? "active" : ""}
+                    onClick={() => handleCategoryClick(category)}
+                >
+                    {category}
+                </button>
+            </SwiperSlide>
+        ))}
+    </Swiper>
+);
+
+// Компонент для списка видео
+const VideoList = ({ groupedVideos, categories, categoryRefs, navigate, getVideoId }) => (
+    <div className="category_list">
+        {categories.map((category) => (
+            <div key={category} ref={categoryRefs.current[category]} className="category_block">
+                <h2 className="category_title">{category}</h2>
+                <Swiper
+                    spaceBetween={20}
+                    slidesPerView={3}
+                    loop={true}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    className="mySwiper"
+                >
+                    {groupedVideos[category].map((video) => {
+                        const videoId = getVideoId(video.video_url);
+                        return (
+                            <SwiperSlide key={video.id}>
+                                <div className="video_item" onClick={() => navigate(`/video/${video.id}`)}>
+                                    <div>
+                                        <img
+                                            src={videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : img2}
+                                            alt={video.title}
+                                            className="video-thumbnail"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                    <h5>{video.title}</h5>
+                                </div>
+                            </SwiperSlide>
+                        );
+                    })}
+                </Swiper>
+            </div>
+        ))}
+    </div>
+);
+
 const Video = () => {
     const { data, error, isLoading } = useGetVideosQuery();
     const navigate = useNavigate();
@@ -37,7 +102,13 @@ const Video = () => {
 
     const handleCategoryClick = (category) => {
         setSelectedCategory(category);
-        categoryRefs.current[category]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        const categoryElement = categoryRefs.current[category]?.current;
+        if (categoryElement) {
+            categoryElement.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
     };
 
     return (
@@ -55,32 +126,15 @@ const Video = () => {
                     <img src={img1} alt="img1" />
                 </div>
 
-
                 <div className="video-button">
-                    <h2>Hаши разделы</h2>
-                    <Swiper
-                        spaceBetween={75}
-                        slidesPerView={6}
-                        loop={true}
-                        autoplay={{
-                            delay: 3000,
-                            disableOnInteraction: false,
-                        }}
-                        className="category-swiper"
-                    >
-                        {categories.map((category) => (
-                            <SwiperSlide key={category}>
-                                <button 
-                                    className={selectedCategory === category ? "active" : ""}
-                                    onClick={() => handleCategoryClick(category)}
-                                >
-                                    {category}
-                                </button>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
+                    <h2>Наши разделы</h2>
+                    <CategoryButtons
+                        categories={categories}
+                        selectedCategory={selectedCategory}
+                        handleCategoryClick={handleCategoryClick}
+                    />
                 </div>
-                
+
                 {isLoading ? (
                     <div className="status-message loading">
                         <p>⏳ Загрузка видео...</p>
@@ -88,43 +142,16 @@ const Video = () => {
                 ) : error ? (
                     <div className="status-message error">
                         <p>❌ Ошибка загрузки видео. Попробуйте еще раз.</p>
+                        <button onClick={() => window.location.reload()}>Обновить страницу</button>
                     </div>
                 ) : filteredVideos && filteredVideos.length > 0 ? (
-                    <div className="category_list">
-                        {categories.map((category) => (
-                            <div key={category} ref={categoryRefs.current[category]} className="category_block">
-                                <h2 className="category_title">{category}</h2>
-                                <Swiper
-                                    spaceBetween={20}
-                                    slidesPerView={3}
-                                    loop={true}
-                                    autoplay={{
-                                        delay: 3000,
-                                        disableOnInteraction: false,
-                                    }}
-                                    className="mySwiper"
-                                >
-                                    {groupedVideos[category].map((video) => {
-                                        const videoId = getVideoId(video.video_url);
-                                        return (
-                                            <SwiperSlide key={video.id}>
-                                                <div className="video_item" onClick={() => navigate(`/video/${video.id}`)}>
-                                                    <div>
-                                                        <img
-                                                            src={videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : img2}
-                                                            alt={video.title}
-                                                            className="video-thumbnail"
-                                                        />
-                                                    </div>
-                                                    <h5>{video.title}</h5>
-                                                </div>
-                                            </SwiperSlide>
-                                        );
-                                    })}
-                                </Swiper>
-                            </div>
-                        ))}
-                    </div>
+                    <VideoList
+                        groupedVideos={groupedVideos}
+                        categories={categories}
+                        categoryRefs={categoryRefs}
+                        navigate={navigate}
+                        getVideoId={getVideoId} // Передаем функцию getVideoId
+                    />
                 ) : (
                     <div className="status-message error">
                         <p>Нет доступных видео.</p>
