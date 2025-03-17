@@ -1,27 +1,28 @@
-import React, {useState, useRef} from "react";
+import React, { useState, useRef } from "react";
 import "./Video.scss";
 import img1 from "./img.png";
 import img2 from "./image.png";
-import {useGetVideosQuery} from "../../redux/videoApi";
-import {Swiper, SwiperSlide} from "swiper/react";
+import { useGetVideosQuery } from "../../redux/videoApi";
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import {Navigation} from "swiper/modules";
-import {useNavigate} from "react-router-dom";
-import {FaThList} from "react-icons/fa";
+import { Autoplay} from "swiper/modules";
+import { useNavigate } from "react-router-dom";
+import { FaThList } from "react-icons/fa";
 
 // Компонент для кнопок категорий
 // components/CategoryButtons.jsx
 
 const CategoryButtons = ({ categories, selectedCategory, handleCategoryClick }) => (
     <Swiper
-        spaceBetween={10}
+        spaceBetween={30}
+        slidesPerView={4}
         loop={true}
         autoplay={{
-            delay: 3000,
+            delay: 9000,
             disableOnInteraction: false,
-            pauseOnMouseEnter: true,
         }}
+        modules={[Autoplay]} // Указываем используемые модули
         className="category-swiper"
     >
         {categories.map((category) => (
@@ -38,19 +39,19 @@ const CategoryButtons = ({ categories, selectedCategory, handleCategoryClick }) 
 );
 
 // Компонент для списка видео
-const VideoList = ({groupedVideos, categories, categoryRefs, navigate, getVideoId}) => (
+const VideoList = ({ groupedVideos, categories, categoryRefs, navigate, getVideoId }) => (
     <div className="category_list">
         {categories.map((category) => (
             <div key={category} ref={categoryRefs.current[category]} className="category_block">
                 <h2 className="category_title"> <FaThList
-                                style={{
-                                    marginRight: '15px',
-                                    color: '#FFD700',
-                                    transition: 'color 0.3s ease'
-                                }}
-                                onMouseEnter={(e) => e.target.style.color = '#FF6347'} // Цвет при наведении
-                                onMouseLeave={(e) => e.target.style.color = '#FFD700'} // Вернуться к изначальному цвету
-                            />{category}</h2>
+                    style={{
+                        marginRight: '15px',
+                        color: '#FFD700',
+                        transition: 'color 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => e.target.style.color = '#FF6347'} // Цвет при наведении
+                    onMouseLeave={(e) => e.target.style.color = '#FFD700'} // Вернуться к изначальному цвету
+                />{category}</h2>
                 <Swiper
                     spaceBetween={20}
                     slidesPerView={3}
@@ -86,7 +87,7 @@ const VideoList = ({groupedVideos, categories, categoryRefs, navigate, getVideoI
 );
 
 const Video = () => {
-    const {data, error, isLoading} = useGetVideosQuery();
+    const { data, error, isLoading } = useGetVideosQuery();
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const categoryRefs = useRef({});
@@ -141,7 +142,7 @@ const Video = () => {
                             />
                         </div>
                     </div>
-                    <img src={img1} alt="img1"/>
+                    <img src={img1} alt="img1" />
                 </div>
 
 
