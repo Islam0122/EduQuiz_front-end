@@ -67,15 +67,17 @@
       }
 
       .category-swiper {
-        overflow: hidden;
+        overflow-x: auto; /* Разрешаем горизонтальный скролл */
+        overflow-y: hidden; /* Убираем вертикальный скролл */
         padding: 10px 0;
-
+        white-space: nowrap; /* Чтобы кнопки не переносились */
+      
         .swiper-slide {
           display: flex;
           justify-content: center;
           width: auto !important;
         }
-
+      
         button {
           padding: 8px 16px;
           background: #5A2CA0;
@@ -88,42 +90,43 @@
           font-weight: 500;
           transition: background 0.3s ease, transform 0.2s ease;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
+      
           &.active {
             background: #3D1C6E;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
           }
-
+      
           &:hover {
             background: #4A2386;
             transform: translateY(-2px);
           }
-
+      
           &:focus {
             outline: 2px solid #ffffff;
             outline-offset: 2px;
           }
         }
-
-        // Для мобильных, чтобы можно было скроллить, если много кнопок
+      
+        /* Улучшенный стиль для мобильных */
         @media (max-width: 768px) {
-          overflow-x: auto;
-          padding-bottom: 10px;
-
+          display: flex;
+          flex-wrap: nowrap; /* Запрещаем перенос элементов */
+          scroll-snap-type: x mandatory; /* Плавный скроллинг */
+          
           &::-webkit-scrollbar {
             height: 6px;
           }
-
+      
           &::-webkit-scrollbar-thumb {
             background: rgba(90, 44, 160, 0.5);
             border-radius: 10px;
           }
-
+      
           &::-webkit-scrollbar-track {
             background: transparent;
           }
         }
-      }
+      }      
 
     }
   }
