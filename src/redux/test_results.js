@@ -1,3 +1,6 @@
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { customBaseQuery } from "./api";
+
 export const TestResultsApi = createApi({
     reducerPath: "TestResultsApi",
     baseQuery: customBaseQuery,
