@@ -442,7 +442,50 @@ $button-border-radius: 12px;
 
 
 
+.user-info {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    .verify-otp-button,
+    .resend-otp-button {
+        padding: 10px 15px;
+        margin-right: 10px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
 
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+
+    .verify-otp-button {
+        background-color: #007bff;
+        color: white;
+
+        &:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+    }
+
+    .resend-otp-button {
+        background-color: #28a745;
+        color: white;
+
+        &:hover:not(:disabled) {
+            background-color: #218838;
+        }
+    }
+
+    .error-message {
+        color: #dc3545;
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+}
 
 
 

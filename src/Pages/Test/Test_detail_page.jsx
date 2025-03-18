@@ -1,18 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useGetQuestionByIdQuery } from "../../redux/questionsApi";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCreateResultMutation, useSendOtpMutation, useVerifyOtpMutation } from "../../redux/test_results";
 import "../Questions/Questions_detail.scss";
 import NoImg from "../Questions/questions-icons/no-img.svg";
-import "./Test_detail_page.scss"
+import "./Test_detail_page.scss";
 import { FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaRegSmileBeam, FaUser } from "react-icons/fa";
 
 const botToken = "7928285404:AAFPDogQ1zHS6H7b9dGUmZir0bKHM91U5Ok";
 const chatId = "-1002274955554";
+const TOTAL_QUESTIONS = 10;
 
-const getRandomQuestions = (questions, count = 10) => {
+const getRandomQuestions = (questions, count = TOTAL_QUESTIONS) => {
     if (!questions || questions.length <= count) return questions;
     return [...questions].sort(() => Math.random() - 0.5).slice(0, count);
+};
+
+const useInterval = (callback, delay) => {
+    const savedCallback = useRef();
+
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+        const tick = () => savedCallback.current();
+        if (delay !== null) {
+            const id = setInterval(tick, delay);
+            return () => clearInterval(id);
+        }
+    }, [delay]);
 };
 
 const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestFinished }) => {
@@ -32,7 +49,7 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
             <div className="question_content">
                 <img src={randomQuestion.image || NoImg} alt="Изображение вопроса" className="image" />
                 <div className="options">
-                    <p><strong>Варианты:</strong></p>
+                    <p><strong>Варианты ответов:</strong></p>
                     {"ABCD".split("").map((option) => {
                         const optionText = randomQuestion[`option_${option.toLowerCase()}`];
                         const optionClass = getAnswerClass(option);
@@ -67,6 +84,67 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
     );
 };
 
+const OtpVerification = ({ email, isOtpVerified, setIsOtpVerified, timeLeft, setTimeLeft }) => {
+    const [otp, setOtp] = useState("");
+    const [otpError, setOtpError] = useState("");
+    const [isOtpSent, setIsOtpSent] = useState(false);
+    const [lastOtpSentTime, setLastOtpSentTime] = useState(null);
+
+    const [sendOtp] = useSendOtpMutation();
+    const [verifyOtp] = useVerifyOtpMutation();
+
+    const handleSendOtp = async () => {
+        try {
+            await sendOtp(email).unwrap();
+            setIsOtpSent(true);
+            setOtpError("");
+            setLastOtpSentTime(Date.now());
+            setTimeLeft(60);
+        } catch (error) {
+            setOtpError("Ошибка при отправке OTP. Пожалуйста, попробуйте снова.");
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        if (!otp) {
+            setOtpError("Пожалуйста, введите OTP.");
+            return;
+        }
+
+        try {
+            await verifyOtp({ email, code: otp }).unwrap();
+            setIsOtpVerified(true);
+            setOtpError("");
+        } catch (error) {
+            setOtpError("Неверный OTP. Пожалуйста, проверьте и попробуйте снова.");
+        }
+    };
+
+    return (
+        <div>
+            <h2>Введите OTP:</h2>
+            <input
+                type="text"
+                placeholder="Введите 6-значный код"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength={6}
+            />
+            <button onClick={handleVerifyOtp} className="verify-otp-button">
+                Подтвердить OTP
+            </button>
+            <button
+                onClick={handleSendOtp}
+                className="resend-otp-button"
+                disabled={timeLeft > 0}
+            >
+                Отправить повторно {timeLeft > 0 && `(${timeLeft} сек)`}
+            </button>
+            {otpError && <p className="error-message">{otpError}</p>}
+        </div>
+    );
+};
+
 const TestDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -81,20 +159,21 @@ const TestDetailPage = () => {
     const [nameError, setNameError] = useState("");
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState(null);
-
-    // OTP States
-    const [otp, setOtp] = useState("");
-    const [otpError, setOtpError] = useState("");
-    const [isOtpSent, setIsOtpSent] = useState(false);
-    const [isOtpVerified, setIsOtpVerified] = useState(false);
+    const [isOtpVerified, setIsOtpVerified] = useState(localStorage.getItem('isOtpVerified') === 'true' || false);
+    const [showOtpInput, setShowOtpInput] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(0);
 
     const [createResult] = useCreateResultMutation();
-    const [sendOtp] = useSendOtpMutation();
-    const [verifyOtp] = useVerifyOtpMutation();
+
+    useInterval(() => {
+        if (timeLeft > 0) {
+            setTimeLeft(timeLeft - 1);
+        }
+    }, 1000);
 
     useEffect(() => {
         if (question?.questions) {
-            setRandomQuestions(getRandomQuestions(question.questions, 10));
+            setRandomQuestions(getRandomQuestions(question.questions, TOTAL_QUESTIONS));
         }
     }, [question]);
 
@@ -102,6 +181,10 @@ const TestDetailPage = () => {
         localStorage.setItem('email', email);
         localStorage.setItem('name', name);
     }, [email, name]);
+
+    useEffect(() => {
+        localStorage.setItem('isOtpVerified', isOtpVerified.toString());
+    }, [isOtpVerified]);
 
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).toLowerCase());
     const validateName = (name) => /^[a-zA-Zа-яА-Я\s]{2,}$/.test(String(name));
@@ -125,7 +208,7 @@ const TestDetailPage = () => {
 - Количество правильных ответов: ${correctAnswersCount}
 - Всего вопросов: ${totalQuestions}
 
-🔔Пожалуйста, обратите внимание на новый результат теста!
+🔔 Пожалуйста, обратите внимание на новый результат теста!
 
 🚀 Поздравляем с завершением теста!
 `;
@@ -144,37 +227,6 @@ const TestDetailPage = () => {
         }
     };
 
-    const handleSendOtp = async () => {
-        if (!validateEmail(email)) {
-            setEmailError("Пожалуйста, введите корректный email.");
-            return;
-        }
-        setEmailError("");
-
-        try {
-            await sendOtp(email).unwrap();
-            setIsOtpSent(true);
-            setOtpError("");
-        } catch (error) {
-            setOtpError("Ошибка при отправке OTP. Пожалуйста, попробуйте снова.");
-        }
-    };
-
-    const handleVerifyOtp = async () => {
-        if (!otp) {
-            setOtpError("Пожалуйста, введите OTP.");
-            return;
-        }
-
-        try {
-            await verifyOtp({ email, code: otp }).unwrap();
-            setIsOtpVerified(true);
-            setOtpError("");
-        } catch (error) {
-            setOtpError("Неверный OTP. Пожалуйста, проверьте и попробуйте снова.");
-        }
-    };
-
     const handleFinishTest = async () => {
         if (!validateName(name)) {
             setNameError("Пожалуйста, введите корректное имя (минимум 2 символа, только буквы и пробелы).");
@@ -189,7 +241,7 @@ const TestDetailPage = () => {
         setEmailError("");
 
         if (!isOtpVerified) {
-            setOtpError("Пожалуйста, подтвердите OTP.");
+            setShowOtpInput(true);
             return;
         }
 
@@ -248,11 +300,12 @@ const TestDetailPage = () => {
         localStorage.removeItem('name');
         localStorage.removeItem('testFinished');
         localStorage.removeItem('correctAnswersCount');
+        localStorage.removeItem('isOtpVerified');
     };
 
     const handleNewTest = () => {
         if (question?.questions) {
-            setRandomQuestions(getRandomQuestions(question.questions, 10));
+            setRandomQuestions(getRandomQuestions(question.questions, TOTAL_QUESTIONS));
         }
         setUserAnswers({});
         setTestFinished(false);
@@ -329,39 +382,25 @@ const TestDetailPage = () => {
                             />
                             {emailError && <p className="error-message">{emailError}</p>}
                         </div>
-                        {!isOtpSent && (
-                            <button onClick={handleSendOtp} className="send-otp-button">
-                                Отправить OTP
-                            </button>
-                        )}
-                        {isOtpSent && !isOtpVerified && (
-                            <div>
-                                <h2>Введите OTP:</h2>
-                                <input
-                                    type="text"
-                                    placeholder="Введите OTP"
-                                    value={otp}
-                                    onChange={(e) => setOtp(e.target.value)}
-                                    disabled={isOtpVerified}
-                                />
-                                <button onClick={handleVerifyOtp} className="verify-otp-button">
-                                    Подтвердить OTP
-                                </button>
-                                {otpError && <p className="error-message">{otpError}</p>}
-                            </div>
+                        {showOtpInput && !isOtpVerified && (
+                            <OtpVerification
+                                email={email}
+                                isOtpVerified={isOtpVerified}
+                                setIsOtpVerified={setIsOtpVerified}
+                                timeLeft={timeLeft}
+                                setTimeLeft={setTimeLeft}
+                            />
                         )}
                     </div>
 
                     <div className="test-button">
-                        {!testFinished && (
-                            <button
-                                onClick={handleFinishTest}
-                                className="finish-button"
-                                disabled={!isTestComplete() || !isOtpVerified}
-                            >
-                                Завершить тест
-                            </button>
-                        )}
+                        <button
+                            onClick={handleFinishTest}
+                            className="finish-button"
+                            disabled={!isTestComplete()}
+                        >
+                            Завершить тест
+                        </button>
 
                         {testFinished && (
                             <div className="skipped-questions">
