@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useGetQuestionByIdQuery } from "../../redux/questionsApi";
-import { link, useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useCreateResultMutation } from "../../redux/test_results";
 import "../Questions/Questions_detail.scss";
 import NoImg from "../Questions/questions-icons/no-img.svg";
-import "../Questions/Questions.scss";
 import "./Test_detail_page.scss"
 import { FaArrowLeft, FaCheckCircle, FaEnvelope, FaExclamationCircle, FaRegSmileBeam, FaUser } from "react-icons/fa";
-import { text } from "framer-motion/client";
+
 const botToken = "7928285404:AAFPDogQ1zHS6H7b9dGUmZir0bKHM91U5Ok";
 const chatId = "-1002274955554";
 
@@ -71,7 +71,6 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
     );
 };
 
-
 const TestDetailPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -84,6 +83,10 @@ const TestDetailPage = () => {
     const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
     const [emailError, setEmailError] = useState("");
     const [nameError, setNameError] = useState("");
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveError, setSaveError] = useState(null);
+
+    const [createResult] = useCreateResultMutation();
 
     useEffect(() => {
         if (question?.questions) {
@@ -114,7 +117,7 @@ const TestDetailPage = () => {
         }));
     };
 
-    const sendTestResultToTelegram = async (name, email, correctAnswersCount, totalQuestions, testName) => {
+    const sendTestResultToTelegram = async (name, email, correctAnswersCount, totalQuestions) => {
         const message = `
 ✨ Новый результат теста ✨
 
@@ -161,7 +164,7 @@ const TestDetailPage = () => {
         }
     };
 
-    const handleFinishTest = () => {
+    const handleFinishTest = async () => {
         // Проверка имени
         if (!validateName(name)) {
             setNameError("Пожалуйста, введите корректное имя (минимум 2 символа, только буквы и пробелы).");
@@ -177,13 +180,9 @@ const TestDetailPage = () => {
         setEmailError("");
 
         let correctCount = 0;
-        let skippedQuestions = [];
-
         randomQuestions.forEach((q) => {
             if (userAnswers[q.id] === q.correct_answer) {
                 correctCount++;
-            } else if (!userAnswers[q.id]) {
-                skippedQuestions.push(q);
             }
         });
 
@@ -197,16 +196,39 @@ const TestDetailPage = () => {
 
         // Отправляем результат в Telegram
         sendTestResultToTelegram(name, email, correctCount, randomQuestions.length);
+
+        // Сохраняем результат на сервере
+        setIsSaving(true);
+        setSaveError(null);
+
+        try {
+            const result = await createResult({
+                topic: id,
+                name: name,
+                email: email,
+                score: correctCount,
+                total_questions: randomQuestions.length,
+                correct_answers: correctCount,
+                wrong_answers: randomQuestions.length - correctCount,
+                percentage: ((correctCount / randomQuestions.length) * 100).toFixed(2),
+            }).unwrap();
+
+            console.log("Результат успешно сохранен:", result);
+        } catch (error) {
+            console.error("Ошибка при сохранении результата:", error);
+            setSaveError("Ошибка при сохранении результата. Пожалуйста, попробуйте снова.");
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const handleRestartTest = () => {
-        // Сбрасываем состояние теста
         setUserAnswers({});
         setTestFinished(false);
         setCorrectAnswersCount(0);
         setEmailError("");
         setNameError("");
-        localStorage.removeItem('userAnswers'); // Очищаем сохраненные ответы
+        localStorage.removeItem('userAnswers');
     };
 
     const handleClearEverything = () => {
@@ -240,7 +262,7 @@ const TestDetailPage = () => {
     };
 
     const handleGoBack = () => {
-        navigate('/test'); // Переход на страницу /test
+        navigate('/test');
     };
 
     const isTestComplete = () => {
@@ -306,8 +328,9 @@ const TestDetailPage = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={testFinished}
                             />
-                            {emailError && <p className="error-message">{emailError}</p>}
-                        </div>
+                            {emailError && <p className="error-message">{emailError}</p>
+                            }
+                            </div>
                     </div>
 
                     <div className="test-button">
