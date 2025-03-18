@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useGetQuestionByIdQuery } from "../../redux/questionsApi";
 import { useParams, useNavigate } from 'react-router-dom';
-import { useCreateResultMutation } from "../../redux/test_results";
+import { useCreateResultMutation, useSendOtpMutation, useVerifyOtpMutation } from "../../redux/test_results";
 import "../Questions/Questions_detail.scss";
 import NoImg from "../Questions/questions-icons/no-img.svg";
 import "./Test_detail_page.scss"
@@ -82,7 +82,15 @@ const TestDetailPage = () => {
     const [isSaving, setIsSaving] = useState(false);
     const [saveError, setSaveError] = useState(null);
 
+    // OTP States
+    const [otp, setOtp] = useState("");
+    const [otpError, setOtpError] = useState("");
+    const [isOtpSent, setIsOtpSent] = useState(false);
+    const [isOtpVerified, setIsOtpVerified] = useState(false);
+
     const [createResult] = useCreateResultMutation();
+    const [sendOtp] = useSendOtpMutation();
+    const [verifyOtp] = useVerifyOtpMutation();
 
     useEffect(() => {
         if (question?.questions) {
@@ -136,6 +144,37 @@ const TestDetailPage = () => {
         }
     };
 
+    const handleSendOtp = async () => {
+        if (!validateEmail(email)) {
+            setEmailError("Пожалуйста, введите корректный email.");
+            return;
+        }
+        setEmailError("");
+
+        try {
+            await sendOtp(email).unwrap();
+            setIsOtpSent(true);
+            setOtpError("");
+        } catch (error) {
+            setOtpError("Ошибка при отправке OTP. Пожалуйста, попробуйте снова.");
+        }
+    };
+
+    const handleVerifyOtp = async () => {
+        if (!otp) {
+            setOtpError("Пожалуйста, введите OTP.");
+            return;
+        }
+
+        try {
+            await verifyOtp({ email, code: otp }).unwrap();
+            setIsOtpVerified(true);
+            setOtpError("");
+        } catch (error) {
+            setOtpError("Неверный OTP. Пожалуйста, проверьте и попробуйте снова.");
+        }
+    };
+
     const handleFinishTest = async () => {
         if (!validateName(name)) {
             setNameError("Пожалуйста, введите корректное имя (минимум 2 символа, только буквы и пробелы).");
@@ -148,6 +187,11 @@ const TestDetailPage = () => {
             return;
         }
         setEmailError("");
+
+        if (!isOtpVerified) {
+            setOtpError("Пожалуйста, подтвердите OTP.");
+            return;
+        }
 
         const correctCount = randomQuestions.reduce((acc, q) => acc + (userAnswers[q.id] === q.correct_answer ? 1 : 0), 0);
         setCorrectAnswersCount(correctCount);
@@ -285,6 +329,27 @@ const TestDetailPage = () => {
                             />
                             {emailError && <p className="error-message">{emailError}</p>}
                         </div>
+                        {!isOtpSent && (
+                            <button onClick={handleSendOtp} className="send-otp-button">
+                                Отправить OTP
+                            </button>
+                        )}
+                        {isOtpSent && !isOtpVerified && (
+                            <div>
+                                <h2>Введите OTP:</h2>
+                                <input
+                                    type="text"
+                                    placeholder="Введите OTP"
+                                    value={otp}
+                                    onChange={(e) => setOtp(e.target.value)}
+                                    disabled={isOtpVerified}
+                                />
+                                <button onClick={handleVerifyOtp} className="verify-otp-button">
+                                    Подтвердить OTP
+                                </button>
+                                {otpError && <p className="error-message">{otpError}</p>}
+                            </div>
+                        )}
                     </div>
 
                     <div className="test-button">
@@ -292,7 +357,7 @@ const TestDetailPage = () => {
                             <button
                                 onClick={handleFinishTest}
                                 className="finish-button"
-                                disabled={!isTestComplete()}
+                                disabled={!isTestComplete() || !isOtpVerified}
                             >
                                 Завершить тест
                             </button>
