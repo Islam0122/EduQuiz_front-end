@@ -23,11 +23,7 @@ const QuestionItem = ({ randomQuestion, handleAnswerChange, userAnswers, isTestF
     const getAnswerClass = (answer) => {
         if (!isTestFinished) return "";
         const isSelected = userAnswer === answer;
-
-        if (isSelected) {
-            return isAnswerCorrect(answer) ? "correct-answer" : "incorrect-answer";
-        }
-        return "";
+        return isSelected ? (isAnswerCorrect(answer) ? "correct-answer" : "incorrect-answer") : "";
     };
 
     return (
@@ -90,8 +86,7 @@ const TestDetailPage = () => {
 
     useEffect(() => {
         if (question?.questions) {
-            const questions = getRandomQuestions(question.questions, 10);
-            setRandomQuestions(questions);
+            setRandomQuestions(getRandomQuestions(question.questions, 10));
         }
     }, [question]);
 
@@ -100,21 +95,11 @@ const TestDetailPage = () => {
         localStorage.setItem('name', name);
     }, [email, name]);
 
-    const validateEmail = (email) => {
-        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return re.test(String(email).toLowerCase());
-    };
-
-    const validateName = (name) => {
-        const re = /^[a-zA-Zа-яА-Я\s]{2,}$/; // Минимум 2 символа, только буквы и пробелы
-        return re.test(String(name));
-    };
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).toLowerCase());
+    const validateName = (name) => /^[a-zA-Zа-яА-Я\s]{2,}$/.test(String(name));
 
     const handleAnswerChange = (questionId, answer) => {
-        setUserAnswers((prevAnswers) => ({
-            ...prevAnswers,
-            [questionId]: answer,
-        }));
+        setUserAnswers((prevAnswers) => ({ ...prevAnswers, [questionId]: answer }));
     };
 
     const sendTestResultToTelegram = async (name, email, correctAnswersCount, totalQuestions) => {
@@ -137,67 +122,43 @@ const TestDetailPage = () => {
 🚀 Поздравляем с завершением теста!
 `;
 
-        const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
-
-        const payload = {
-            chat_id: chatId,
-            text: message,
-        };
-
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ chat_id: chatId, text: message }),
             });
-
             const result = await response.json();
-            if (result.ok) {
-                console.log("Результат успешно отправлен!");
-            } else {
-                console.log("Ошибка при отправке результата.");
-            }
+            if (result.ok) console.log("Результат успешно отправлен!");
+            else console.log("Ошибка при отправке результата.");
         } catch (error) {
             console.log("Произошла ошибка при отправке: " + error.message);
         }
     };
 
     const handleFinishTest = async () => {
-        // Проверка имени
         if (!validateName(name)) {
             setNameError("Пожалуйста, введите корректное имя (минимум 2 символа, только буквы и пробелы).");
             return;
         }
         setNameError("");
 
-        // Проверка email
         if (!validateEmail(email)) {
             setEmailError("Пожалуйста, введите корректный email.");
             return;
         }
         setEmailError("");
 
-        let correctCount = 0;
-        randomQuestions.forEach((q) => {
-            if (userAnswers[q.id] === q.correct_answer) {
-                correctCount++;
-            }
-        });
-
+        const correctCount = randomQuestions.reduce((acc, q) => acc + (userAnswers[q.id] === q.correct_answer ? 1 : 0), 0);
         setCorrectAnswersCount(correctCount);
         setTestFinished(true);
 
-        // Сохраняем результаты в localStorage
         localStorage.setItem("testFinished", true);
         localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
         localStorage.setItem("correctAnswersCount", correctCount);
 
-        // Отправляем результат в Telegram
         sendTestResultToTelegram(name, email, correctCount, randomQuestions.length);
 
-        // Сохраняем результат на сервере
         setIsSaving(true);
         setSaveError(null);
 
@@ -212,7 +173,6 @@ const TestDetailPage = () => {
                 wrong_answers: randomQuestions.length - correctCount,
                 percentage: ((correctCount / randomQuestions.length) * 100).toFixed(2),
             }).unwrap();
-
             console.log("Результат успешно сохранен:", result);
         } catch (error) {
             console.error("Ошибка при сохранении результата:", error);
@@ -248,8 +208,7 @@ const TestDetailPage = () => {
 
     const handleNewTest = () => {
         if (question?.questions) {
-            const questions = getRandomQuestions(question.questions, 10);
-            setRandomQuestions(questions);
+            setRandomQuestions(getRandomQuestions(question.questions, 10));
         }
         setUserAnswers({});
         setTestFinished(false);
@@ -261,13 +220,9 @@ const TestDetailPage = () => {
         localStorage.removeItem('correctAnswersCount');
     };
 
-    const handleGoBack = () => {
-        navigate('/test');
-    };
+    const handleGoBack = () => navigate('/test');
 
-    const isTestComplete = () => {
-        return name && email && randomQuestions.every((q) => userAnswers[q.id]);
-    };
+    const isTestComplete = () => name && email && randomQuestions.every((q) => userAnswers[q.id]);
 
     if (isLoading) return <p>⏳ Загрузка...</p>;
 
@@ -328,9 +283,8 @@ const TestDetailPage = () => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={testFinished}
                             />
-                            {emailError && <p className="error-message">{emailError}</p>
-                            }
-                            </div>
+                            {emailError && <p className="error-message">{emailError}</p>}
+                        </div>
                     </div>
 
                     <div className="test-button">
@@ -360,10 +314,10 @@ const TestDetailPage = () => {
                                 )}
                             </div>
                         )}
-                        
-                        <button onClick={handleClearEverything} className="clear-everything">Очистить все</button>
+
+                        <button onClick={handleClearEverything} className="clear-everything">Начать заново</button>
                         <button onClick={handleNewTest} className="new-test">Новый тест</button>
-                        <button onClick={handleGoBack} className="back">Назад</button>
+                        <button onClick={handleGoBack} className="back">Вернуться к списку</button>
                     </div>
 
                     {testFinished && (
@@ -386,11 +340,10 @@ const TestDetailPage = () => {
                                         ? <span><FaRegSmileBeam /> Хорошо! Есть к чему стремиться. <FaRegSmileBeam /></span>
                                         : <span><FaExclamationCircle /> Не расстраивайся! Ты можешь лучше, продолжай учиться! <FaExclamationCircle /></span>}
                             </p>
-                            {/* Кнопка перезапуска */}
                             <button
                                 onClick={handleRestartTest}
                                 className="restart"
-                                disabled={!testFinished} // Делаем кнопку активной только после завершения теста
+                                disabled={!testFinished}
                             >
                                 Перезапустить
                             </button>
