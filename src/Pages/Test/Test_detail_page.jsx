@@ -121,26 +121,34 @@ const OtpVerification = ({ email, isOtpVerified, setIsOtpVerified, timeLeft, set
     };
 
     return (
-        <div>
+        <div >
             <h2>Введите OTP:</h2>
-            <input
-                type="text"
-                placeholder="Введите 6-значный код"
-                value={otp}
-                onChange={(e) => setOtp(e.target.value)}
-                maxLength={6}
-            />
-            <button onClick={handleVerifyOtp} className="verify-otp-button">
-                Подтвердить OTP
-            </button>
-            <button
-                onClick={handleSendOtp}
-                className="resend-otp-button"
-                disabled={timeLeft > 0}
-            >
-                Отправить повторно {timeLeft > 0 && `(${timeLeft} сек)`}
-            </button>
-            {otpError && <p className="error-message">{otpError}</p>}
+            <div>
+                <input
+                    type="text"
+                    placeholder="Введите 6-значный код"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    maxLength={6}
+                    style={{ width: "600px"}}
+                />
+                <button
+                    onClick={handleVerifyOtp}
+                    className="verify-otp-button"
+                    style={{ width: "250px"}}
+                >
+                    Подтвердить OTP
+                </button>
+                <button
+                    onClick={handleSendOtp}
+                    className="resend-otp-button"
+                    disabled={timeLeft > 0}
+                    style={{ width: "250px"}}
+                >
+                    Отправить повторно {timeLeft > 0 && `(${timeLeft} сек)`}
+                </button>
+            </div>
+        {otpError && <p className="error-message">{otpError}</p>}
         </div>
     );
 };
