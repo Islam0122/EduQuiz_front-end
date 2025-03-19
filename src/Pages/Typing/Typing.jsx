@@ -6,7 +6,7 @@ import {
     useGetTypingCategoriesQuery
 } from '../../redux/TypingApi';
 import "./Typing.scss";
-import { FiClock, FiTag, FiZap, FiCheckCircle } from 'react-icons/fi';
+import { FiClock, FiTag, FiZap, FiCheckCircle, FiPlay, FiPause, FiRefreshCcw } from 'react-icons/fi';
 import Select from 'react-select';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -18,29 +18,6 @@ const GlobalCodeStyles = createGlobalStyle`
         border-radius: 28px;
         padding: 20px;
         position: relative;
-    }
-
-    .syntax-highlighter .token.keyword {
-        color: #9b59b6 !important;
-    }
-
-    .syntax-highlighter .token.string {
-        color: #8e44ad !important;
-    }
-
-    .syntax-highlighter .token.variable {
-        color: #f39c12 !important;
-    }
-
-    .syntax-highlighter .token.comment {
-        color: #7f8c8d !important;
-    }
-
-    .syntax-highlighter .linenumber {
-        color: #6e7681 !important;
-        user-select: none;
-        padding-right: 20px !important;
-        text-align: right !important;
     }
 
     .current-char {
@@ -144,12 +121,12 @@ const Typing = () => {
     const [startTime, setStartTime] = useState(null);
     const [wpm, setWpm] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
-    const [isKeyHandled, setIsKeyHandled] = useState(false); // Флаг для блокировки множественных нажатий
+    const [isKeyHandled, setIsKeyHandled] = useState(false);
+    const [mode, setMode] = useState('practice'); // 'practice' или 'test'
 
-    const inputRef = useRef(null); // Добавлено определение inputRef
-    const timeoutRef = useRef(null); // Реф для хранения таймаута
+    const inputRef = useRef(null);
+    const timeoutRef = useRef(null);
 
-    // Загрузка случайного текста при изменении категории или таймера
     useEffect(() => {
         if (texts?.length > 0) {
             const randomText = texts[Math.floor(Math.random() * texts.length)];
@@ -166,21 +143,24 @@ const Typing = () => {
         }
     }, [texts, selectedTimer]);
 
-    // Таймер обратного отсчета
     useEffect(() => {
-        if (isTyping && timeLeft > 0) {
+        if (isTyping && timeLeft > 0 && mode === 'test') {
             const timerId = setInterval(() => {
                 setTimeLeft((prev) => prev - 1);
             }, 1000);
             return () => clearInterval(timerId);
-        } else if (timeLeft === 0) {
+        } else if (timeLeft === 0 && mode === 'test') {
             setIsTyping(false);
         }
-    }, [isTyping, timeLeft]);
+    }, [isTyping, timeLeft, mode]);
 
-    // Обработка нажатия клавиш
     const handleKeyDown = useCallback((e) => {
-        if (isKeyHandled) return; // Если клавиша уже обрабатывается, игнорируем новое нажатие
+        if (isKeyHandled) return;
+
+        // Отключаем стандартное поведение пробела (скролл вниз)
+        if (e.key === ' ') {
+            e.preventDefault();
+        }
 
         // Игнорируем специальные клавиши
         if (e.key.length > 1 || e.ctrlKey || e.altKey || e.metaKey) {
@@ -193,7 +173,7 @@ const Typing = () => {
         const expectedChar = currentText[cursorPosition];
         const pressedChar = e.key;
 
-        setIsKeyHandled(true); // Блокируем обработку новых нажатий
+        setIsKeyHandled(true);
 
         if (pressedChar === expectedChar) {
             setCurrentText((prev) => prev.slice(0, cursorPosition) + prev.slice(cursorPosition + 1));
@@ -202,49 +182,38 @@ const Typing = () => {
             setErrors((prev) => prev + 1);
         }
 
-        // Рассчитываем WPM
         const timeElapsed = (Date.now() - startTime) / 60000;
         const wordsTyped = (cursorPosition + 1) / 5;
         setWpm(Math.floor(wordsTyped / timeElapsed));
 
-        // Очищаем предыдущий таймаут, если он есть
         if (timeoutRef.current) {
             clearTimeout(timeoutRef.current);
         }
 
-        // Устанавливаем новый таймаут
         timeoutRef.current = setTimeout(() => setIsKeyHandled(false), 50);
     }, [currentText, cursorPosition, startTime, isTyping, isKeyHandled]);
 
-    // Фокусировка на поле ввода и добавление обработчика событий
     useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
-
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
+        const handleKeyPress = (e) => handleKeyDown(e);
+        window.addEventListener('keydown', handleKeyPress);
+        return () => window.removeEventListener('keydown', handleKeyPress);
     }, [handleKeyDown]);
 
-    // Форматирование времени
     const formatTime = useCallback((seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }, []);
 
-    // Обработка изменения таймера
     const handleTimerChange = useCallback((selectedOption) => {
         setSelectedTimer(selectedOption.value);
         setTimeLeft(selectedOption.value);
     }, []);
 
-    // Обработка изменения категории
     const handleCategoryChange = useCallback((selectedOption) => {
         setSelectedCategory(selectedOption.value);
     }, []);
 
-    // Перезапуск сессии
     const restartSession = () => {
         if (texts?.length > 0) {
             const randomText = texts[Math.floor(Math.random() * texts.length)];
@@ -257,28 +226,21 @@ const Typing = () => {
         setIsTyping(false);
     };
 
-    // Очистка таймаута при размонтировании компонента
-    useEffect(() => {
-        return () => {
-            if (timeoutRef.current) {
-                clearTimeout(timeoutRef.current);
-            }
-        };
-    }, []);
+    const toggleMode = () => {
+        setMode((prev) => (prev === 'practice' ? 'test' : 'practice'));
+        restartSession();
+    };
 
-    // Опции для выбора таймера
     const timerOptions = useMemo(() => timers?.map((timer) => ({
         value: timer.seconds,
         label: `${timer.seconds} секунд`,
     })) || [], [timers]);
 
-    // Опции для выбора категории
     const categoryOptions = useMemo(() => categories?.map((category) => ({
         value: category.id,
         label: category.name,
     })) || [], [categories]);
 
-    // Стили для Select
     const customStyles = useMemo(() => ({
         control: (provided, state) => ({
             ...provided,
@@ -410,8 +372,11 @@ const Typing = () => {
                 <div className="keyboard">
                     <div className="buttons">
                         <div>
-                            <button onClick={restartSession}>Перезапустить</button>
-                            <button onClick={() => setIsTyping(false)}>Стоп</button>
+                            <button onClick={restartSession}><FiRefreshCcw /> Перезапустить</button>
+                            <button onClick={toggleMode}>
+                                {mode === 'practice' ? <FiPlay /> : <FiPause />}
+                                {mode === 'practice' ? 'Тест' : 'Практика'}
+                            </button>
                             <h3>Ошибки: {errors}</h3>
                         </div>
                     </div>
@@ -422,7 +387,7 @@ const Typing = () => {
     );
 };
 
-const Keyboard = ({nextChar}) => {
+const Keyboard = ({ nextChar }) => {
     const keys = [
         ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '←'],
         ['TAB', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
