@@ -125,17 +125,16 @@ const OtpVerification = ({ email, isOtpVerified, setIsOtpVerified, timeLeft, set
             <h2>Введите OTP:</h2>
             <div>
                 <input
+                    className="input"
                     type="text"
                     placeholder="Введите 6-значный код"
                     value={otp}
                     onChange={(e) => setOtp(e.target.value)}
                     maxLength={6}
-                    style={{ width: "600px"}}
                 />
                 <button
                     onClick={handleVerifyOtp}
                     className="verify-otp-button"
-                    style={{ width: "250px"}}
                 >
                     Подтвердить OTP
                 </button>
@@ -143,7 +142,6 @@ const OtpVerification = ({ email, isOtpVerified, setIsOtpVerified, timeLeft, set
                     onClick={handleSendOtp}
                     className="resend-otp-button"
                     disabled={timeLeft > 0}
-                    style={{ width: "250px"}}
                 >
                     Отправить повторно {timeLeft > 0 && `(${timeLeft} сек)`}
                 </button>
@@ -170,6 +168,7 @@ const TestDetailPage = () => {
     const [isOtpVerified, setIsOtpVerified] = useState(localStorage.getItem('isOtpVerified') === 'true' || false);
     const [showOtpInput, setShowOtpInput] = useState(false);
     const [timeLeft, setTimeLeft] = useState(0);
+    const [isTestSubmitted, setIsTestSubmitted] = useState(false); // Новое состояние
 
     const [createResult] = useCreateResultMutation();
 
@@ -253,6 +252,8 @@ const TestDetailPage = () => {
             return;
         }
 
+        setIsTestSubmitted(true); // Блокируем кнопку "Завершить тест"
+
         const correctCount = randomQuestions.reduce((acc, q) => acc + (userAnswers[q.id] === q.correct_answer ? 1 : 0), 0);
         setCorrectAnswersCount(correctCount);
         setTestFinished(true);
@@ -284,6 +285,9 @@ const TestDetailPage = () => {
         } finally {
             setIsSaving(false);
         }
+
+        // Запуск таймера
+        setTimeLeft(60); // Установите нужное значение таймера
     };
 
     const handleRestartTest = () => {
@@ -405,7 +409,7 @@ const TestDetailPage = () => {
                         <button
                             onClick={handleFinishTest}
                             className="finish-button"
-                            disabled={!isTestComplete()}
+                            disabled={!isTestComplete() || isTestSubmitted}
                         >
                             Завершить тест
                         </button>
@@ -445,6 +449,7 @@ const TestDetailPage = () => {
                                 <FaCheckCircle style={{ color: 'green' }} /> Процент правильных
                                 ответов: {(correctAnswersCount / randomQuestions.length) * 100}%
                             </p>
+
                             <p className="motivation-message">
                                 {correctAnswersCount / randomQuestions.length >= 0.8
                                     ? <span><FaCheckCircle /> Отлично! Ты настоящий эксперт! <FaCheckCircle /></span>
@@ -452,13 +457,10 @@ const TestDetailPage = () => {
                                         ? <span><FaRegSmileBeam /> Хорошо! Есть к чему стремиться. <FaRegSmileBeam /></span>
                                         : <span><FaExclamationCircle /> Не расстраивайся! Ты можешь лучше, продолжай учиться! <FaExclamationCircle /></span>}
                             </p>
-                            <button
-                                onClick={handleRestartTest}
-                                className="restart"
-                                disabled={!testFinished}
-                            >
-                                Перезапустить
-                            </button>
+
+                            <p>
+                                <FaEnvelope style={{ color: 'green' }} /> Вам отправлен сертификат на вашу почту, которую вы указали.
+                            </p>
                         </div>
                     )}
 

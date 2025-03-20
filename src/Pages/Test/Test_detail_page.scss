@@ -43,6 +43,7 @@ $button-border-radius: 12px;
   display: flex;
   justify-content: center;
   gap: 20px;
+
   .restart {
     font-size: $button-font-size;
     font-weight: $button-font-weight;
@@ -55,23 +56,24 @@ $button-border-radius: 12px;
     color: $primary-color;
     background-color: inherit;
     margin-right: 27px;
-  
+
     &:hover {
       background-color: $primary-color;
       color: $white-color;
       transform: scale(1.05);
     }
-  
+
     &:active {
       background-color: $primary-color;
       transform: scale(0.95);
     }
-  
+
     &.active {
       background-color: $primary-color;
       color: $white-color;
     }
   }
+
   .clear-everything {
     font-size: $button-font-size;
     font-weight: $button-font-weight;
@@ -84,23 +86,24 @@ $button-border-radius: 12px;
     color: $primary-color;
     background-color: inherit;
     margin-right: 27px;
-  
+
     &:hover {
       background-color: $primary-color;
       color: $white-color;
       transform: scale(1.05);
     }
-  
+
     &:active {
       background-color: $primary-color;
       transform: scale(0.95);
     }
-  
+
     &.active {
       background-color: $primary-color;
       color: $white-color;
     }
   }
+
   .new-test {
     font-size: $button-font-size;
     font-weight: $button-font-weight;
@@ -113,23 +116,24 @@ $button-border-radius: 12px;
     color: $primary-color;
     background-color: inherit;
     margin-right: 27px;
-  
+
     &:hover {
       background-color: $primary-color;
       color: $white-color;
       transform: scale(1.05);
     }
-  
+
     &:active {
       background-color: $primary-color;
       transform: scale(0.95);
     }
-  
+
     &.active {
       background-color: $primary-color;
       color: $white-color;
     }
   }
+
   .back {
     font-size: $button-font-size;
     font-weight: $button-font-weight;
@@ -142,18 +146,18 @@ $button-border-radius: 12px;
     color: $primary-color;
     background-color: inherit;
     margin-right: 27px;
-  
+
     &:hover {
       background-color: $primary-color;
       color: $white-color;
       transform: scale(1.05);
     }
-  
+
     &:active {
       background-color: $primary-color;
       transform: scale(0.95);
     }
-  
+
     &.active {
       background-color: $primary-color;
       color: $white-color;
@@ -351,7 +355,7 @@ $button-border-radius: 12px;
     div {
       display: flex;
       // flex-direction: column;
-      gap: 30px;
+      justify-content: space-between;
     }
   }
 
@@ -366,7 +370,6 @@ $button-border-radius: 12px;
   }
 
   input {
-    display: block;
     width: 100%;
     height: 46px;
     border-radius: 10px;
@@ -380,50 +383,58 @@ $button-border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 10px;
     transition: border-color 0.3s ease;
+    margin-right: 30px;
   }
-  button {
-    background-color: #561493;
-    color: white;
+  .input{
+    width: 60%;
     height: 46px;
     border-radius: 10px;
+    padding: 10px 20px;
+    border: 1px solid #FFFFFF;
+    background: #0D1117;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 18px;
+    color: #909090;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+    margin-right: 30px;
+  }
+  button:first-child{
+    margin-right: 10px;
+  }
+
+  button {
+    font-size: 16px;
+    border-radius: 10px;
+    height: 46px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+    border: 2px solid $primary-color;
+    color: $primary-color;
+    background-color: inherit;
+    padding: 10px 20px;
+
+
 
     &:hover {
-      transform: scale(1.1);
+      background-color: $primary-color;
+      color: $white-color;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      background-color: $primary-color;
+      transform: scale(0.95);
+    }
+
+    &.active {
+      background-color: $primary-color;
+      color: $white-color;
     }
   }
-  .verify-otp-button,
-    .resend-otp-button {
-        font-size: 20px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
 
-        &:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    }
-
-    .verify-otp-button {
-        background-color: #0D1117;
-        color: #561493;
-        border: 2px solid #561493;
-        
-        &:hover:not(:disabled) {
-            background-color:rgb(55, 6, 99);
-        }
-      }
-      
-      .resend-otp-button {
-        background-color: #0D1117;
-        color: #561493;
-        border: 2px solid #561493;
-
-        &:hover:not(:disabled) {
-            background-color:rgb(50, 6, 99);
-        }
-    }
 
   // input:focus {
   //   outline: none;
@@ -440,6 +451,7 @@ $button-border-radius: 12px;
   margin: 20px auto;
   transition: all 0.3s ease-in-out;
   padding-top: 10px;
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 255, 153, 0.4);
@@ -470,28 +482,30 @@ $button-border-radius: 12px;
     color: #333;
     text-align: center;
 
-    span{
-       display: flex;
-       align-items: center;
+    span {
+      display: flex;
+      align-items: center;
     }
+
     svg {
       margin-right: 10px;
       font-size: 24px;
     }
-    svg:last-child{
+
+    svg:last-child {
       margin-left: 10px;
     }
   }
 }
 
 .user-info {
-    margin-top: 20px;
-    padding: 20px;
-    border-radius: 10px;
-  
-    .error-message {
-        color: #dc3545;
-        font-size: 0.9em;
-        margin-top: 10px;
-    }
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
+
+  .error-message {
+    color: #dc3545;
+    font-size: 0.9em;
+    margin-top: 10px;
+  }
 }
