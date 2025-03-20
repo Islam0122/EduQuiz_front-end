@@ -331,11 +331,7 @@ $button-border-radius: 12px;
       animation: fade-in-text 0.3s ease-out forwards;
       animation-delay: 0.5s; /* Ждёт, пока стрелка дойдет */
     }
-
-
   }
-
-
 }
 
 .user-info {
@@ -350,9 +346,15 @@ $button-border-radius: 12px;
   align-content: center;
 
   div {
-    display: flex;
-    flex-direction: column;
+    // display: flex;
+    // flex-direction: column;
+    div {
+      display: flex;
+      // flex-direction: column;
+      gap: 30px;
+    }
   }
+
 
   h2 {
     display: flex;
@@ -379,11 +381,54 @@ $button-border-radius: 12px;
     margin-bottom: 10px;
     transition: border-color 0.3s ease;
   }
+  button {
+    background-color: #561493;
+    color: white;
+    height: 46px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 
-  input:focus {
-    outline: none;
-    border-color: #00ff99;
+    &:hover {
+      transform: scale(1.1);
+    }
   }
+  .verify-otp-button,
+    .resend-otp-button {
+        font-size: 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        &:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    }
+
+    .verify-otp-button {
+        background-color: #0D1117;
+        color: #561493;
+        border: 2px solid #561493;
+        
+        &:hover:not(:disabled) {
+            background-color:rgb(55, 6, 99);
+        }
+      }
+      
+      .resend-otp-button {
+        background-color: #0D1117;
+        color: #561493;
+        border: 2px solid #561493;
+
+        &:hover:not(:disabled) {
+            background-color:rgb(50, 6, 99);
+        }
+    }
+
+  // input:focus {
+  //   outline: none;
+  //   border-color: #00ff99;
+  // }
 }
 
 .test-result {
@@ -439,53 +484,14 @@ $button-border-radius: 12px;
   }
 }
 
-
-
-
 .user-info {
     margin-top: 20px;
     padding: 20px;
     border-radius: 10px;
-    .verify-otp-button,
-    .resend-otp-button {
-        padding: 10px 15px;
-        margin-right: 10px;
-        border: none;
-        border-radius: 5px;
-        font-size: 1em;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    }
-
-    .verify-otp-button {
-        background-color: #007bff;
-        color: white;
-
-        &:hover:not(:disabled) {
-            background-color: #0056b3;
-        }
-    }
-
-    .resend-otp-button {
-        background-color: #28a745;
-        color: white;
-
-        &:hover:not(:disabled) {
-            background-color: #218838;
-        }
-    }
-
+  
     .error-message {
         color: #dc3545;
         font-size: 0.9em;
         margin-top: 10px;
     }
 }
-
-
-
