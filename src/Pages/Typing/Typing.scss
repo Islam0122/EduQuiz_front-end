@@ -102,48 +102,41 @@
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
-    padding: 15px;
-    border-radius: 15px;
-}
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 10px;
 
-.keyboard-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 8px;
-}
+    .keyboard-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 5px;
+    }
 
-.key {
-    color: white;
-    padding: 12px 16px;
-    margin: 4px;
-    border: 1px solid rgb(220, 217, 217); /* Светлая граница */
-    border-radius: 8px;
-    background-color:rgb(77, 254, 98); /* Белый фон для клавиш */
-    color: #333; /* Темный текст */
-    font-size: 16px;
-    font-weight: 500;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
+    .key {
+        padding: 10px 15px;
+        height: 20px;
+        font-size: 15px;
+        margin: 2px;
+        border: 1px solid #4CAF50;
+        border-radius: 5px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease, transform 0.1s ease;
 
-.key:hover {
-    background-color: rgb(241, 35, 35); /* Светло-серый при наведении */
-}
+        &.highlight {
+            background-color: #4CAF50;
+            color: white;
+        }
 
-.key:active {
-    transform: scale(0.95); /* Эффект нажатия */
-}
+        &.incorrect {
+            background-color: #FF5252; // Красный цвет для неправильной клавиши
+            color: white;
+        }
 
-.key.highlight {
-    background-color: rgb(60, 255, 0); /* Зеленый для текущего символа */
-    color: white;
-}
-
-.key.space-key {
-    width: 300px; /* Ширина пробела */
-    padding: 12px 0;
-    text-align: center;
+        &.space-key {
+            width: 300px;
+        }
+    }
 }
 
   .buttons {

@@ -63,6 +63,11 @@ const GlobalCodeStyles = createGlobalStyle`
         color: white;
     }
 
+    .key.incorrect {
+        background-color: #FF5252;
+        color: white;
+    }
+
     .buttons {
         width: 100%;
         display: flex;
@@ -121,10 +126,9 @@ const Typing = () => {
     const [startTime, setStartTime] = useState(null);
     const [wpm, setWpm] = useState(0);
     const [isTyping, setIsTyping] = useState(false);
-    const [isKeyHandled, setIsKeyHandled] = useState(false);
     const [mode, setMode] = useState('practice'); // 'practice' или 'test'
 
-    const inputRef = useRef(null);
+    const pressedKeys = useRef(new Set());
     const timeoutRef = useRef(null);
 
     useEffect(() => {
@@ -155,14 +159,13 @@ const Typing = () => {
     }, [isTyping, timeLeft, mode]);
 
     const handleKeyDown = useCallback((e) => {
-        if (isKeyHandled) return;
+        if (pressedKeys.current.has(e.key)) return;
+        pressedKeys.current.add(e.key);
 
-        // Отключаем стандартное поведение пробела (скролл вниз)
         if (e.key === ' ') {
             e.preventDefault();
         }
 
-        // Игнорируем специальные клавиши
         if (e.key.length > 1 || e.ctrlKey || e.altKey || e.metaKey) {
             return;
         }
@@ -173,10 +176,7 @@ const Typing = () => {
         const expectedChar = currentText[cursorPosition];
         const pressedChar = e.key;
 
-        setIsKeyHandled(true);
-
         if (pressedChar === expectedChar) {
-            setCurrentText((prev) => prev.slice(0, cursorPosition) + prev.slice(cursorPosition + 1));
             setCursorPosition((prev) => prev + 1);
         } else {
             setErrors((prev) => prev + 1);
@@ -185,19 +185,20 @@ const Typing = () => {
         const timeElapsed = (Date.now() - startTime) / 60000;
         const wordsTyped = (cursorPosition + 1) / 5;
         setWpm(Math.floor(wordsTyped / timeElapsed));
+    }, [currentText, cursorPosition, startTime, isTyping]);
 
-        if (timeoutRef.current) {
-            clearTimeout(timeoutRef.current);
-        }
-
-        timeoutRef.current = setTimeout(() => setIsKeyHandled(false), 50);
-    }, [currentText, cursorPosition, startTime, isTyping, isKeyHandled]);
+    const handleKeyUp = useCallback((e) => {
+        pressedKeys.current.delete(e.key);
+    }, []);
 
     useEffect(() => {
-        const handleKeyPress = (e) => handleKeyDown(e);
-        window.addEventListener('keydown', handleKeyPress);
-        return () => window.removeEventListener('keydown', handleKeyPress);
-    }, [handleKeyDown]);
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
+    }, [handleKeyDown, handleKeyUp]);
 
     const formatTime = useCallback((seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -380,14 +381,14 @@ const Typing = () => {
                             <h3>Ошибки: {errors}</h3>
                         </div>
                     </div>
-                    <Keyboard nextChar={currentText[cursorPosition]}/>
+                    <Keyboard nextChar={currentText[cursorPosition]} onKeyPress={handleKeyDown}/>
                 </div>
             </div>
         </div>
     );
 };
 
-const Keyboard = ({ nextChar }) => {
+const Keyboard = ({ nextChar, onKeyPress }) => {
     const keys = [
         ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '←'],
         ['TAB', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
@@ -396,18 +397,61 @@ const Keyboard = ({ nextChar }) => {
         ['SPACE']
     ];
 
+    const [incorrectKey, setIncorrectKey] = useState(null);
+    const pressedKeys = useRef(new Set());
+
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (pressedKeys.current.has(e.key)) return;
+            pressedKeys.current.add(e.key);
+
+            const pressedKey = e.key.toLowerCase();
+            const expectedKey = nextChar?.toLowerCase();
+
+            if (pressedKey !== expectedKey) {
+                setIncorrectKey(pressedKey);
+            } else {
+                setIncorrectKey(null);
+            }
+
+            if (onKeyPress) {
+                onKeyPress(e);
+            }
+        };
+
+        const handleKeyUp = (e) => {
+            pressedKeys.current.delete(e.key);
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
+    }, [nextChar, onKeyPress]);
+
     return (
         <div className="keyboard">
             {keys.map((row, rowIndex) => (
                 <div key={rowIndex} className="keyboard-row">
-                    {row.map((key) => (
-                        <div
-                            key={key}
-                            className={`key ${key === nextChar ? 'highlight' : ''} ${key === 'SPACE' ? 'space-key' : ''}`}
-                        >
-                            {key === 'SPACE' ? ' ' : key}
-                        </div>
-                    ))}
+                    {row.map((key) => {
+                        const keyLower = key.toLowerCase();
+                        const isIncorrect = incorrectKey === keyLower;
+
+                        return (
+                            <div
+                                key={key}
+                                className={`key 
+                                    ${keyLower === nextChar?.toLowerCase() ? 'highlight' : ''} 
+                                    ${isIncorrect ? 'incorrect' : ''} 
+                                    ${key === 'SPACE' ? 'space-key' : ''}`}
+                            >
+                                {key === 'SPACE' ? ' ' : key}
+                            </div>
+                        );
+                    })}
                 </div>
             ))}
         </div>
