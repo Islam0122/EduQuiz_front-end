@@ -105,16 +105,16 @@ const GlobalCodeStyles = createGlobalStyle`
 `;
 
 const Typing = () => {
-    const { data: timers } = useGetTypingTimersQuery();
-    const { data: categories } = useGetTypingCategoriesQuery();
+    const { data: timers, isLoading: isTimersLoading, error: timersError } = useGetTypingTimersQuery();
+    const { data: categories, isLoading: isCategoriesLoading, error: categoriesError } = useGetTypingCategoriesQuery();
 
     const [selectedCategory, setSelectedCategory] = useState(categories?.[0]?.id || 1);
-    const { data: texts, isLoading, error } = useGetTypingTextQuery(selectedCategory, {
+    const { data: texts, isLoading: isTextsLoading, error: textsError } = useGetTypingTextQuery(selectedCategory, {
         skip: !selectedCategory,
     });
 
     const [selectedTextId, setSelectedTextId] = useState(null);
-    const { data: selectedText } = useGetTypingByIdQuery(selectedTextId, {
+    const { data: selectedText, isLoading: isSelectedTextLoading, error: selectedTextError } = useGetTypingByIdQuery(selectedTextId, {
         skip: !selectedTextId,
     });
 
@@ -129,8 +129,9 @@ const Typing = () => {
     const [mode, setMode] = useState('practice'); // 'practice' или 'test'
 
     const pressedKeys = useRef(new Set());
-    const timeoutRef = useRef(null);
+    const timerIdRef = useRef(null); // Используем useRef для хранения ID таймера
 
+    // Загрузка текста при изменении категории или таймера
     useEffect(() => {
         if (texts?.length > 0) {
             const randomText = texts[Math.floor(Math.random() * texts.length)];
@@ -145,19 +146,30 @@ const Typing = () => {
             setSelectedTextId(null);
             setCurrentText('');
         }
-    }, [texts, selectedTimer]);
+    }, [texts, selectedTimer, selectedCategory]);
 
+    // Логика таймера
     useEffect(() => {
-        if (isTyping && timeLeft > 0 && mode === 'test') {
-            const timerId = setInterval(() => {
-                setTimeLeft((prev) => prev - 1);
+        if (isTyping && timeLeft > 0 && mode === 'test' && currentText && cursorPosition < currentText.length) {
+            timerIdRef.current = setInterval(() => {
+                setTimeLeft((prev) => {
+                    if (prev <= 0) {
+                        clearInterval(timerIdRef.current);
+                        handleEndOfTest();
+                        return 0;
+                    }
+                    return prev - 1;
+                });
             }, 1000);
-            return () => clearInterval(timerId);
-        } else if (timeLeft === 0 && mode === 'test') {
-            setIsTyping(false);
         }
-    }, [isTyping, timeLeft, mode]);
 
+        // Очистка таймера при размонтировании компонента
+        return () => {
+            clearInterval(timerIdRef.current);
+        };
+    }, [isTyping, timeLeft, mode, cursorPosition, currentText]);
+
+    // Обработка нажатия клавиш
     const handleKeyDown = useCallback((e) => {
         if (pressedKeys.current.has(e.key)) return;
         pressedKeys.current.add(e.key);
@@ -166,11 +178,12 @@ const Typing = () => {
             e.preventDefault();
         }
 
-        if (e.key.length > 1 || e.ctrlKey || e.altKey || e.metaKey) {
-            return;
+        // Запуск таймера при первом нажатии клавиши в режиме "тест"
+        if (!isTyping && mode === 'test') {
+            setIsTyping(true);
+            setStartTime(Date.now());
         }
 
-        if (!isTyping) setIsTyping(true);
         if (cursorPosition >= currentText.length) return;
 
         const expectedChar = currentText[cursorPosition];
@@ -185,12 +198,14 @@ const Typing = () => {
         const timeElapsed = (Date.now() - startTime) / 60000;
         const wordsTyped = (cursorPosition + 1) / 5;
         setWpm(Math.floor(wordsTyped / timeElapsed));
-    }, [currentText, cursorPosition, startTime, isTyping]);
+    }, [currentText, cursorPosition, startTime, isTyping, mode]);
 
+    // Обработка отпускания клавиш
     const handleKeyUp = useCallback((e) => {
         pressedKeys.current.delete(e.key);
     }, []);
 
+    // Подписка на события клавиатуры
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('keyup', handleKeyUp);
@@ -200,21 +215,25 @@ const Typing = () => {
         };
     }, [handleKeyDown, handleKeyUp]);
 
+    // Форматирование времени
     const formatTime = useCallback((seconds) => {
         const minutes = Math.floor(seconds / 60);
         const remainingSeconds = seconds % 60;
         return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
     }, []);
 
+    // Обработка изменения таймера
     const handleTimerChange = useCallback((selectedOption) => {
         setSelectedTimer(selectedOption.value);
         setTimeLeft(selectedOption.value);
     }, []);
 
+    // Обработка изменения категории
     const handleCategoryChange = useCallback((selectedOption) => {
         setSelectedCategory(selectedOption.value);
     }, []);
 
+    // Перезапуск сессии
     const restartSession = () => {
         if (texts?.length > 0) {
             const randomText = texts[Math.floor(Math.random() * texts.length)];
@@ -227,21 +246,31 @@ const Typing = () => {
         setIsTyping(false);
     };
 
+    // Переключение режима
     const toggleMode = () => {
         setMode((prev) => (prev === 'practice' ? 'test' : 'practice'));
         restartSession();
     };
 
+    // Завершение теста
+    const handleEndOfTest = () => {
+        setIsTyping(false);
+        alert(`Тест завершен! Ваши результаты: Скорость: ${wpm} зн/мин. Ошибки: ${errors}`);
+    };
+
+    // Опции для таймера
     const timerOptions = useMemo(() => timers?.map((timer) => ({
         value: timer.seconds,
         label: `${timer.seconds} секунд`,
     })) || [], [timers]);
 
+    // Опции для категории
     const categoryOptions = useMemo(() => categories?.map((category) => ({
         value: category.id,
         label: category.name,
     })) || [], [categories]);
 
+    // Стили для Select
     const customStyles = useMemo(() => ({
         control: (provided, state) => ({
             ...provided,
@@ -302,8 +331,9 @@ const Typing = () => {
         }),
     }), []);
 
-    if (isLoading) return <p>Загрузка...</p>;
-    if (error) return <p>Ошибка: {error.message}</p>;
+    // Отображение загрузки или ошибки
+    if (isTextsLoading || isSelectedTextLoading || isTimersLoading || isCategoriesLoading) return <p>Загрузка...</p>;
+    if (textsError || selectedTextError || timersError || categoriesError) return <p>Ошибка: {textsError?.message || selectedTextError?.message || timersError?.message || categoriesError?.message}</p>;
 
     return (
         <div className="Typing">
@@ -355,33 +385,32 @@ const Typing = () => {
                             <h3>TEXT - {selectedText?.category?.name}</h3>
                             <div style={{ position: 'relative' }}>
                                 <SyntaxHighlighter
-                                language={(selectedText?.category?.name || "javascript").toLowerCase()}
-                                style={dracula}
-                                className="syntax-highlighter"
-                                showLineNumbers={true}
-                                lineNumberStyle={{ color: '#6e7681', marginRight: '20px' }}
-                            >
-                                {currentText.slice(cursorPosition)}
-                            </SyntaxHighlighter>
+                                    language={(selectedText?.category?.name || "javascript").toLowerCase()}
+                                    style={dracula}
+                                    className="syntax-highlighter"
+                                    showLineNumbers={true}
+                                    lineNumberStyle={{ color: '#6e7681', marginRight: '20px' }}
+                                >
+                                    {currentText.slice(cursorPosition)}
+                                </SyntaxHighlighter>
                             </div>
                         </>
                     ) : (
                         <p>Нет текстов для этой категории</p>
                     )}
-                </div>
-
-                <div className="keyboard">
-                    <div className="buttons">
-                        <div>
-                            <button onClick={restartSession}><FiRefreshCcw /> Перезапустить</button>
-                            <button onClick={toggleMode}>
-                                {mode === 'practice' ? <FiPlay /> : <FiPause />}
-                                {mode === 'practice' ? 'Тест' : 'Практика'}
-                            </button>
-                            <h3>Ошибки: {errors}</h3>
+                    <div className="keyboard">
+                        <div className="buttons">
+                            <div>
+                                <button className={"btn"} onClick={restartSession}><FiRefreshCcw /> Перезапустить</button>
+                                <button className={"btn"} onClick={toggleMode}>
+                                    {mode === 'practice' ? <FiPlay /> : <FiPause />}
+                                    {mode === 'practice' ? 'Тест' : 'Практика'}
+                                </button>
+                                <h3>Ошибки: {errors}</h3>
+                            </div>
                         </div>
+                        <Keyboard nextChar={currentText[cursorPosition]} onKeyPress={handleKeyDown}/>
                     </div>
-                    <Keyboard nextChar={currentText[cursorPosition]} onKeyPress={handleKeyDown}/>
                 </div>
             </div>
         </div>
@@ -393,7 +422,7 @@ const Keyboard = ({ nextChar, onKeyPress }) => {
         ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '←'],
         ['TAB', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\\'],
         ['CAPS', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', "'", 'ENTER'],
-        ['SHIFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',<', '.>', '/?', 'SHIFT'],
+        ['SHIFT_LEFT', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',<', '.>', '/?', 'SHIFT_RIGHT'],
         ['SPACE']
     ];
 
@@ -442,13 +471,13 @@ const Keyboard = ({ nextChar, onKeyPress }) => {
 
                         return (
                             <div
-                                key={key}
+                                key={key} // Уникальный ключ
                                 className={`key 
                                     ${keyLower === nextChar?.toLowerCase() ? 'highlight' : ''} 
                                     ${isIncorrect ? 'incorrect' : ''} 
                                     ${key === 'SPACE' ? 'space-key' : ''}`}
                             >
-                                {key === 'SPACE' ? ' ' : key}
+                                {key === 'SPACE' ? ' ' : key.replace('_LEFT', '').replace('_RIGHT', '')}
                             </div>
                         );
                     })}
